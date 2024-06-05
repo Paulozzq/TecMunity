@@ -137,6 +137,11 @@
     </div>
 </div>
 
+<div id="loading-screen" style="display: none;">
+    <div class="spinner"></div>
+    <p>Publicando, por favor espera...</p>
+</div>
+
 <script>
     function previewMedia(event) {
         var previewContainer = document.getElementById('media-preview');
@@ -169,4 +174,17 @@
         }
     }
 </script>
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        const forms = document.querySelectorAll("form");
+
+        forms.forEach(form => {
+            form.addEventListener("submit", function() {
+                // Mostrar la pantalla de carga
+                document.getElementById("loading-screen").style.display = "flex";
+            });
+        });
+    });
+</script>
+
 @endsection

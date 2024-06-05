@@ -35,10 +35,12 @@
                         <img id="profile_pic" src="{{ asset('img/default-avatar.jpg') }}" />
                     @endif
                     <span>{{ $perfil->nombre}}<br><p>150k followers / 50 follow</p></span>
-                    <form action="" method="POST">
-                        @csrf
-                        <button type="submit" class="follow-button">Seguir</button>
-                    </form>
+                    @if($perfil->id !== auth()->user()->id)
+                        <form action="" method="POST">
+                            @csrf
+                            <button type="submit" class="follow-button">Seguir</button>
+                        </form>
+                    @endif
                 </div>
             </div>
         </div> 

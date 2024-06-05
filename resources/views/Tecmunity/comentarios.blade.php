@@ -59,13 +59,29 @@
                 </div>
                 <div class="feed_footer">
                     <ul class="feed_footer_left">
-                        <li class="hover-orange selected-orange"><i class="fa fa-heart"></i> {{ $publicacion->nro_likes }}</li>
-                        <li><span><b>{{ $publicacion->usuario->nombre }}</b> y otros les gustó esto</span></li>
+                        <li class="hover-orange selected-orange">
+                        @if ($publicacion->likes->where('ID_usuario', Auth::id())->isEmpty())
+                            <form action="{{ route('like.publicacion', $publicacion->ID_publicacion) }}" method="POST">
+                                @csrf
+                                <button type="submit" class="btn btn-like"><i class="fa fa-heart-o"></i> 
+                            {{ $publicacion->likes->count() }}</button>
+                            </form>
+                        @else
+                            <form action="{{ route('unlike.publicacion', $publicacion->ID_publicacion) }}" method="POST">
+                                @csrf
+                                <button type="submit" class="btn btn-unlike"><i class="fa fa-heart"></i> 
+                            {{ $publicacion->likes->count() }}</button>
+                            </form>
+                        @endif
+                        </li>
                     </ul>
-                    <ul class="feed_footer_right">
-                        <li class="hover-orange selected-orange"><i class="fa fa-share"></i> 7k</li>
-                            <li class="hover-orange"><i class="fa fa-comments-o"></i> {{ $publicacion->comentarios->count() }} comentarios</li>
-                    </ul>
+    
+                        <ul class="feed_footer_right">
+                            <li class="hover-orange selected-orange"><i class="fa fa-share"></i> 7k</li>
+                            <a href="{{ route('comentario.show', ['id' => $publicacion->ID_publicacion]) }}" style="color:#515365;">
+                                <li class="hover-orange"><i class="fa fa-comments-o"></i> {{ $publicacion->comentarios->count() }} comentarios</li>
+                            </a>
+                        </ul>
                 </div>
             </div>
         </div>
@@ -138,8 +154,39 @@
                     </div>
                 @endif
             </div>
+            <div class="feed_footer">
+                <ul class="feed_footer_left">
+                    <li class="hover-orange selected-orange">
+                        @if ($comentario->likes->where('ID_usuario', Auth::id())->isEmpty())
+                            <form action="{{ route('like.comentario', $comentario->ID_comentario) }}" method="POST">
+                                @csrf
+                                <button type="submit" class="btn btn-like">
+                                    <i class="fa fa-heart-o"></i>
+                                    {{ $comentario->likes->count() }}
+                                </button>
+                            </form>
+                        @else
+                            <form action="{{ route('unlike.comentario', $comentario->ID_comentario) }}" method="POST">
+                                @csrf
+                                <button type="submit" class="btn btn-unlike">
+                                    <i class="fa fa-heart"></i>
+                                    {{ $comentario->likes->count() }}
+                                </button>
+                            </form>
+                        @endif
+                    </li>
+                </ul>
+
+                <ul class="feed_footer_right">
+                    <li class="hover-orange selected-orange"><i class="fa fa-share"></i> 7k</li>
+                    <a href="{{ route('comentario.show', ['id' => $publicacion->ID_publicacion]) }}" style="color:#515365;">
+                        <li class="hover-orange"><i class="fa fa-comments-o"></i> {{ $publicacion->comentarios->count() }} comentarios</li>
+                    </a>
+                </ul>
+            </div>
         </div>
     </div>
+    
 @endforeach
 
 
@@ -166,4 +213,40 @@
                 }
             }
         </script>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+$(document).ready(function() {
+    $(document).on('submit', '.like-form, .unlike-form', function(e) {
+        e.preventDefault();
+
+        var form = $(this);
+        var url = form.attr('action');
+        var method = form.attr('method');
+        var likeCountSpan = form.find('.like-count');
+        var likeIcon = form.find('i');
+
+        $.ajax({
+            type: method,
+            url: url,
+            data: form.serialize(),
+            success: function(response) {
+                if (response.success) {
+                    if (form.hasClass('like-form')) {
+                        likeIcon.removeClass('fa-heart-o').addClass('fa-heart');
+                        form.attr('action', form.attr('action').replace('like', 'unlike'));
+                        form.removeClass('like-form').addClass('unlike-form');
+                    } else {
+                        likeIcon.removeClass('fa-heart').addClass('fa-heart-o');
+                        form.attr('action', form.attr('action').replace('unlike', 'like'));
+                        form.removeClass('unlike-form').addClass('like-form');
+                    }
+                    likeCountSpan.text(response.likesCount);
+                }
+            }
+        });
+    });
+});
+</script>
+
 @endsection

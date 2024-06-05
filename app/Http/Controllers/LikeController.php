@@ -23,7 +23,6 @@ class LikeController extends Controller
         $like = Like::create([
             'ID_usuario' => Auth::id(),
             'ID_comentario' => $comentarioId,
-            'fecha' => now(),
         ]);
 
         return redirect()->back();

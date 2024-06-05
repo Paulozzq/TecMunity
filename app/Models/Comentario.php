@@ -31,10 +31,9 @@ class Comentario extends Model
         return $this->belongsTo(Usuario::class, 'ID_usuario', 'id');
     }
 
-    // Relación uno a muchos con la tabla Likes
     public function likes()
     {
-        return $this->hasMany(Like::class, 'ID_comentario', 'id');
+        return $this->hasMany(Like::class, 'ID_comentario');
     }
 
     public function isVideo()
