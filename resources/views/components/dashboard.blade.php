@@ -10,6 +10,8 @@
 
     <!-- Material Icons -->
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+
 
     <!-- Custom CSS -->
     <link rel="stylesheet" href="{{ asset('css/dashboard.css') }}">
@@ -22,14 +24,7 @@
         <div class="menu-icon" onclick="openSidebar()">
           <span class="material-icons-outlined">menu</span>
         </div>
-        <div class="header-left">
-          <span class="material-icons-outlined">search</span>
-        </div>
-        <div class="header-right">
-          <span class="material-icons-outlined">notifications</span>
-          <span class="material-icons-outlined">email</span>
-          <span class="material-icons-outlined">account_circle</span>
-        </div>
+
       </header>
       <!-- End Header -->
 
@@ -49,7 +44,7 @@
             </a>
           </li>
 
-            <a style="text-decoration:none;" href="{{ route('dashboard-usuarios') }}">
+            <a style="text-decoration:none;" href="{{ route('usuarios.index') }}">
                 <li class="sidebar-list-item">
                     <span class="material-icons-outlined">manage_accounts</span> Usuarios
                 </li>
@@ -76,10 +71,11 @@
       <!-- End Sidebar -->
 
       <!-- Content -->
-      {{$slot}}
-
-      </div>
-
+      <main class="main-container">
+        <div class="content-wrapper">
+          {{$slot}}
+        </div>
+      </main>
     <!-- Scripts -->
     <!-- ApexCharts -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/apexcharts/3.35.3/apexcharts.min.js"></script>
