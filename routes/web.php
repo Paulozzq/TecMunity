@@ -11,16 +11,15 @@ use App\Http\Controllers\{
     PerfilController,
     DashboardController,
     ComentarioController,
-    LikeController
+    LikeController,
+    PresentacionController
 };
 
 // Rutas de autenticación y registro
-Route::get('/', [RegisterController::class, 'index']);
 Route::post('/register', [RegisterController::class, 'register'])->name('register');
-
-Route::get('/login', [LoginController::class, 'index']);
+Route::get('/', [LoginController::class, 'index']);
 Route::post('/login', [LoginController::class, 'login']);
-Route::post('/logout', [LogoutController::class, 'logout'])->name('logout');
+Route::get('/logout', [LogoutController::class, 'logout'])->name('logout');
 
 // Verificación de email
 Route::get('/espera', function () {
@@ -47,6 +46,10 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::post('/publicacion/{publicacion}/unlike', [LikeController::class, 'unlikePublicacion'])->name('unlike.publicacion');
     Route::post('/comentario/{comentario}/like', [LikeController::class, 'likeComentario'])->name('like.comentario');
     Route::post('/comentario/{comentario}/unlike', [LikeController::class, 'unlikeComentario'])->name('unlike.comentario');
+    Route::get('/presentacion', [PresentacionController::class, 'index'])->name('presentacion.index');
+
+    // Ruta para procesar el formulario de presentación
+    Route::post('/presentacion', [PresentacionController::class, 'store'])->name('presentacion.store');
 });
 
 // Ruta de perfil de usuario

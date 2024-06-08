@@ -14,7 +14,7 @@ class HomeMiddleware
         if (Auth::check() && Auth::user()->email_verified_at) {
             return $next($request);
         }
-
+        
         // Si el usuario no está autenticado o su correo electrónico no está verificado, redirígelo a la página de espera
         return redirect()->route('espera');
     }

@@ -4,15 +4,16 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Http\Requests\LoginRequest;
 use Illuminate\Support\Facades\Auth;
+use App\Models\Usuario;
 
 class LoginController extends Controller
 {
-    public function index()
-    {
+    public function index(){  
         if (Auth::check()) {
             return redirect('/publicaciones');
+        }else {
+            return view('login');
         }
-        return view('login');
     }
 
     public function login(LoginRequest $request)
@@ -32,10 +33,28 @@ class LoginController extends Controller
 
         Auth::login($user);
         return $this->authenticated($request, $user);
+
     }
 
     public function authenticated(Request $request, $user)
     {
-        return redirect('/publicaciones');
+        if (empty($record->nombre) || empty($record->apellido))
+            $records = Usuario::all();
+            $isComplete = true;
+
+            foreach ($records as $record) {
+                // Verifica si los campos 'nombre' y 'apellido' están vacíos
+                if (empty($record->nombre) || empty($record->apellido)) {
+                    $isComplete = false;
+                    break; // Rompe el bucle si se encuentra un campo vacío
+                }
+            }
+
+            if ($isComplete) {
+                return redirect()->route('publicaciones.index'); // Ruta si los campos específicos están llenos
+            } else {
+                return redirect()->route('presentacion.index'); // Ruta si alguno de los campos está vacío
+            }
     }
+    
 }

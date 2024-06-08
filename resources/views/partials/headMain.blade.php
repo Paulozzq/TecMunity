@@ -7,7 +7,6 @@
 
     <title>@yield('title')</title>
     <link rel="shortcut icon" href="images/Tecmunity_Logo.png" type="image/x-icon">
-
     <!-- CSS -->
     <link rel="stylesheet" href="{{ asset('css/main.css') }}">
 
