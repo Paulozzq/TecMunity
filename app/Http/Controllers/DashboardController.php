@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use App\Models\Usuario;
 
 class DashboardController extends Controller
 {
@@ -49,15 +50,37 @@ class DashboardController extends Controller
         return view('dashboard-user');
     }
 
-    public function contarColumnasUsuarios()
+    public function index_list()
     {
-        // Obtener los nombres de las columnas de la tabla usuarios
-        $columnas = DB::select('SHOW COLUMNS FROM usuarios');
+        $usuarios = Usuario::all();
+        return view('dashboard.dashboard-user', compact('usuarios'));
+    }
 
-        // Contar el número de columnas
-        $conteoColumnas = count($columnas);
+    public function show($id)
+    {
+        $usuario = Usuario::findOrFail($id);
+        return view('dashboard.show', compact('usuario'));
+    }
 
-        // Pasar el conteo a la vista
-        return view('dashboard.usuarios', ['title' => 'Usuarios', 'conteoColumnas' => $conteoColumnas]);
+    public function edit($id)
+    {
+        $usuario = Usuario::findOrFail($id);
+        return view('dashboard.edit', compact('usuario'));
+    }
+
+    public function update(Request $request, $id)
+    {
+        $usuario = Usuario::findOrFail($id);
+        $usuario->update($request->all());
+
+        return redirect()->route('usuarios.index')->with('success', 'Usuario actualizado exitosamente');
+    }
+
+    public function destroy($id)
+    {
+        $usuario = Usuario::findOrFail($id);
+        $usuario->delete();
+
+        return redirect()->route('usuarios.index')->with('success', 'Usuario eliminado exitosamente');
     }
 }

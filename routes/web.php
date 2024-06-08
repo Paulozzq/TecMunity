@@ -39,13 +39,18 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::delete('/publicaciones/{publicacion}', [PublicacionController::class, 'destroy'])->name('publicaciones.destroy');
 
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
-    Route::get('/dashboard/control-usuarios', [DashboardController::class, 'controlUsuarios'])->name('dashboard-usuarios');
     Route::get('/publicacion/{id}', [ComentarioController::class, 'show'])->name('comentario.show');
     Route::post('/comentarios', [ComentarioController::class, 'store'])->name('comentarios.store');
     Route::post('/publicacion/{publicacion}/like', [LikeController::class, 'likePublicacion'])->name('like.publicacion');
     Route::post('/publicacion/{publicacion}/unlike', [LikeController::class, 'unlikePublicacion'])->name('unlike.publicacion');
     Route::post('/comentario/{comentario}/like', [LikeController::class, 'likeComentario'])->name('like.comentario');
     Route::post('/comentario/{comentario}/unlike', [LikeController::class, 'unlikeComentario'])->name('unlike.comentario');
+
+    Route::get('/usuarios', [DashboardController::class, 'index_list'])->name('usuarios.index');
+    Route::get('/usuarios/{id}', [DashboardController::class, 'show'])->name('usuarios.show');
+    Route::get('/usuarios/edit/{id}', [DashboardController::class, 'edit'])->name('usuarios.edit');
+    Route::put('/usuarios/{id}', [DashboardController::class, 'update'])->name('usuarios.update');
+    Route::delete('/usuarios/{id}', [DashboardController::class, 'destroy'])->name('usuarios.destroy');
     Route::get('/presentacion', [PresentacionController::class, 'index'])->name('presentacion.index');
 
     // Ruta para procesar el formulario de presentación
@@ -55,4 +60,3 @@ Route::middleware(['auth', 'verified'])->group(function () {
 // Ruta de perfil de usuario
 Route::get('perfil/{id}', [PerfilController::class, 'show'])->name('perfil.show');
 
-Route::get('/dashboard/contar-columnas-usuarios', [DashboardController::class, 'contarColumnasUsuarios']);
