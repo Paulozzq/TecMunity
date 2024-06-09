@@ -49,17 +49,11 @@
                     <span class="material-icons-outlined">manage_accounts</span> Usuarios
                 </li>
             </a>
-          
+          <a style="text-decoration:none;" href="{{ route('dashboard.denuncias.index') }}">
           <li class="sidebar-list-item">
-            <a href="#" target="_blank">
-              <span class="material-icons-outlined">person_off</span> Lista de baneos
-            </a>
+              <span class="material-icons-outlined">person_off</span> Lista de Denuncias
           </li>
-          <li class="sidebar-list-item">
-            <a href="#" target="_blank">
-              <span class="material-icons-outlined">report</span> Reportes
-            </a>
-          </li>
+          </a>
           <li class="sidebar-list-item">
             <a href="#" target="_blank">
               <span class="material-icons-outlined">logout</span> Volver a Tecmunity
