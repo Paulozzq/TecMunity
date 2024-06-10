@@ -12,7 +12,8 @@ use App\Http\Controllers\{
     DashboardController,
     ComentarioController,
     LikeController,
-    PresentacionController
+    PresentacionController,
+    AmistadController
 };
 
 // Rutas de autenticación y registro
@@ -55,6 +56,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
     // Ruta para procesar el formulario de presentación
     Route::post('/presentacion', [PresentacionController::class, 'store'])->name('presentacion.store');
+    Route::post('/amistad/{id}', [AmistadController::class, 'AmistadAction'])->name('amistad.enviar');
 });
 
 // Ruta de perfil de usuario

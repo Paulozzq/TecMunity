@@ -36,7 +36,7 @@
                     @endif
                     <span>{{ $perfil->nombre}}<br><p>150k followers / 50 follow</p></span>
                     @if($perfil->id !== auth()->user()->id)
-                        <form action="" method="POST">
+                        <form action="{{ route('amistad.enviar', ['id' => $perfil->id]) }}" method="POST">
                             @csrf
                             <button type="submit" class="follow-button">Seguir</button>
                         </form>

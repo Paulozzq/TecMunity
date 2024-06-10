@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Usuario;
 use App\Models\Publicacion;
+use App\Models\Amistad;
 
 class PerfilController extends Controller
 {
@@ -16,6 +17,10 @@ class PerfilController extends Controller
             ->orderBy('created_at', 'desc')
             ->get();
         $perfil = Usuario::findOrFail($id);
-        return view('Tecmunity.perfil', compact('perfil', 'publicaciones'));
+
+        $amistades = Amistad::where('ID_usuario', $id)
+            ->orWhere('ID_amigo', $id)
+            ->get();
+        return view('Tecmunity.perfil', compact('perfil', 'publicaciones', 'amistades'));
     }
 }
