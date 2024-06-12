@@ -18,9 +18,62 @@ class PerfilController extends Controller
             ->get();
         $perfil = Usuario::findOrFail($id);
 
-        $amistades = Amistad::where('ID_usuario', $id)
-            ->orWhere('ID_amigo', $id)
-            ->get();
-        return view('Tecmunity.perfil', compact('perfil', 'publicaciones', 'amistades'));
+        $amistadPendiente = Amistad::where(function ($query) use ($id) {
+            $query->where('ID_usuario', Auth::id())
+                  ->where('ID_amigo', $id)
+                  ->where('estado', 'pendiente');
+        })->orWhere(function ($query) use ($id) {
+            $query->where('ID_usuario', $id)
+                  ->where('ID_amigo', Auth::id())
+                  ->where('estado', 'pendiente');
+        })->exists();
+
+        $amistadExistente = Amistad::where(function ($query) use ($id) {
+            $query->where('ID_usuario', Auth::id())
+                  ->where('ID_amigo', $id)
+                  ->where('estado', 'amigos');
+        })->orWhere(function ($query) use ($id) {
+            $query->where('ID_usuario', $id)
+                  ->where('ID_amigo', Auth::id())
+                  ->where('estado', 'amigos');
+        })->exists();
+
+        $amigoUser = Amistad::where(function ($query) use ($id) {
+            $query->where('ID_usuario', Auth::id())
+                  ->where('ID_amigo', $id);
+        })->exists();
+
+        $amigo = Amistad::where(function ($query) use ($id) {
+            $query->where('ID_usuario', $id)
+                  ->where('ID_amigo', Auth::id());
+        })->exists();
+        
+        
+        // Verifica si no existe una relación de amistad en ambas direcciones
+    $noHayRelacion = !Amistad::where(function ($query) use ($id) {
+        $query->where('ID_usuario', Auth::id())
+              ->where('ID_amigo', $id);
+    })->orWhere(function ($query) use ($id) {
+        $query->where('ID_usuario', $id)
+              ->where('ID_amigo', Auth::id());
+    })->exists();
+
+    // Verifica si no hay una solicitud de amistad pendiente en ambas direcciones
+    $noHaySolicitudPendiente = !Amistad::where(function ($query) use ($id) {
+        $query->where('ID_usuario', Auth::id())
+              ->where('ID_amigo', $id)
+              ->where('estado', 'pendiente');
+    })->orWhere(function ($query) use ($id) {
+        $query->where('ID_usuario', $id)
+              ->where('ID_amigo', Auth::id())
+              ->where('estado', 'pendiente');
+    })->exists();
+
+    // Determina si no hay relación en absoluto
+    $noHayRelacionEntreEllos = $noHayRelacion && $noHaySolicitudPendiente;
+
+
+
+        return view('Tecmunity.perfil', compact('perfil', 'publicaciones', 'amistadPendiente', 'amistadExistente', 'amigoUser', 'amigo', 'noHayRelacionEntreEllos'));
     }
 }

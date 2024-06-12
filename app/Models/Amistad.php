@@ -11,6 +11,8 @@ class Amistad extends Model
 
     protected $table = 'amistades';
 
+    protected $primaryKey = 'ID_amistad';
+
     protected $fillable = [
         'ID_usuario', 'ID_amigo', 'fecha', 'estado'
     ];

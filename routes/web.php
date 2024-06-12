@@ -46,6 +46,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::post('/publicacion/{publicacion}/unlike', [LikeController::class, 'unlikePublicacion'])->name('unlike.publicacion');
     Route::post('/comentario/{comentario}/like', [LikeController::class, 'likeComentario'])->name('like.comentario');
     Route::post('/comentario/{comentario}/unlike', [LikeController::class, 'unlikeComentario'])->name('unlike.comentario');
+    Route::post('/comentarios/responder', [ComentarioController::class, 'reply'])->name('comentario.reply');
 
     Route::get('/usuarios', [DashboardController::class, 'index_list'])->name('usuarios.index');
     Route::get('/usuarios/{id}', [DashboardController::class, 'show'])->name('usuarios.show');
@@ -56,7 +57,9 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
     // Ruta para procesar el formulario de presentación
     Route::post('/presentacion', [PresentacionController::class, 'store'])->name('presentacion.store');
-    Route::post('/amistad/{id}', [AmistadController::class, 'AmistadAction'])->name('amistad.enviar');
+    Route::post('/amistad/{id}', [AmistadController::class, 'seguir'])->name('perfil.seguir');
+    Route::post('/seguirDeVuelta/{id}', [AmistadController::class, 'SeguirDeVuelta'])->name('perfil.seguirOtra');
+    Route::post('/dejar-de-seguir/{id}', [AmistadController::class, 'dejarDeSeguir'])->name('perfil.dejar-de-seguir');
 });
 
 // Ruta de perfil de usuario

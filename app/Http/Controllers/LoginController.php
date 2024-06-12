@@ -26,10 +26,10 @@ class LoginController extends Controller
 
         $user = Auth::getProvider()->retrieveByCredentials($credentials);
 
-        #if (!$user->email_verified_at) {
-            #Auth::logout();
-            #return redirect('/')->with('login_error', 'Debes verificar tu correo electrónico antes de iniciar sesión.');
-        #}
+        if (!$user->email_verified_at) {
+            Auth::logout();
+            return redirect('/')->with('login_error', 'Debes verificar tu correo electrónico antes de iniciar sesión.');
+        }
 
         Auth::login($user);
         return $this->authenticated($request, $user);

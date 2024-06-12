@@ -36,15 +36,38 @@
                     @endif
                     <span>{{ $perfil->nombre}}<br><p>150k followers / 50 follow</p></span>
                     @if($perfil->id !== auth()->user()->id)
-                        <form action="{{ route('amistad.enviar', ['id' => $perfil->id]) }}" method="POST">
-                            @csrf
-                            <button type="submit" class="follow-button">Seguir</button>
-                        </form>
+                        @if($noHayRelacionEntreEllos)
+                            <form action="{{ route('perfil.seguir', ['id' => $perfil->id]) }}" method="POST">
+                                @csrf
+                                <button type="submit" class="follow-button">Seguir</button>
+                            </form>
+                        @endif
+                        @if($amigoUser)
+                            @if($amistadPendiente)
+                                <form action="{{ route('perfil.dejar-de-seguir', ['id' => $perfil->id]) }}" method="POST">
+                                    @csrf
+                                    <button type="submit" class="follow-button">Dejar de seguir</button>
+                                </form>
+                            @endif
+                        @endif
+                        @if($amigo)
+                            @if($amistadPendiente)
+                                <form action="{{ route('perfil.seguirOtra', ['id' => $perfil->id]) }}" method="POST">
+                                    @csrf
+                                    <button type="submit" class="follow-button">Seguir Tambien</button>
+                                </form>
+                            @endif
+                        @endif
+                        @if($amistadExistente)
+                            <form action="{{ route('perfil.dejar-de-seguir', ['id' => $perfil->id]) }}" method="POST">
+                                @csrf
+                                <button type="submit" class="follow-button">Amigos</button>
+                            </form>
+                        @endif
                     @endif
                 </div>
             </div>
         </div> 
-
     @if($perfil->id == auth()->user()->id)
         <div class="row">
             <div class="publish">
