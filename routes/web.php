@@ -33,7 +33,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/account', [HomeController::class, 'account'])->name('account');
     Route::get('/informacion-Personal', [ProfileController::class, 'edit'])->name('infoPersonal');
     Route::post('/profile', [ProfileController::class, 'update'])->name('profile.update');
-    
+
     Route::get('/publicaciones', [PublicacionController::class, 'index'])->name('publicaciones.index');
     Route::post('/publicaciones', [PublicacionController::class, 'store'])->name('publicaciones.store');
     Route::post('/publicaciones/{publicacion}', [PublicacionController::class, 'update'])->name('publicaciones.update');
@@ -53,6 +53,13 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/usuarios/edit/{id}', [DashboardController::class, 'edit'])->name('usuarios.edit');
     Route::put('/usuarios/{id}', [DashboardController::class, 'update'])->name('usuarios.update');
     Route::delete('/usuarios/{id}', [DashboardController::class, 'destroy'])->name('usuarios.destroy');
+    //Denuncias
+    Route::get('/dashboard/denuncias', [DashboardController::class, 'index_tick'])->name('dashboard.denuncias.index');
+    Route::get('/dashboard/denuncias/{denuncia}', [DashboardController::class, 'show_tick'])->name('dashboard.denuncias.show');
+    Route::delete('/dashboard/denuncias/{denuncia}', [DashboardController::class, 'destroy_tick'])->name('dashboard.denuncias.destroy');
+    Route::patch('/dashboard/denuncias/{denuncia}/aprobado', [DashboardController::class, 'aprobado_tick'])->name('dashboard.denuncias.aprobado');
+    Route::patch('/dashboard/denuncias/{denuncia}/desaprobado', [DashboardController::class, 'desaprobado_tick'])->name('dashboard.denuncias.desaprobado');
+    //
     Route::get('/presentacion', [PresentacionController::class, 'index'])->name('presentacion.index');
 
     // Ruta para procesar el formulario de presentación
@@ -64,4 +71,3 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
 // Ruta de perfil de usuario
 Route::get('perfil/{id}', [PerfilController::class, 'show'])->name('perfil.show');
-
