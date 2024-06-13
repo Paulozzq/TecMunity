@@ -38,7 +38,20 @@
 <div class="all">
 
     <div class="rowfixed"></div>
-    <div class="left_row">
+    <div class="left_row"> 
+        <div class="rowmenu">
+            <ul>
+                <li><a href="index.html"><i class="fa fa-globe"></i>Home</a></li>
+                <li><a href="profile.html"><i class="fa fa-user"></i>Profile</a></li>
+                <li><a href="friends.html"><i class="fa fa-users"></i>Friends</a></li>
+                <li><a href="index.html"><i class="fa fa-globe"></i>Home</a></li>
+                <li><a href="profile.html"><i class="fa fa-user"></i>Profile</a></li>
+                <li><a href="friends.html"><i class="fa fa-users"></i>Friends</a></li>
+                <li><a href="index.html"><i class="fa fa-globe"></i>Home</a></li>
+                <li><a href="profile.html"><i class="fa fa-user"></i>Profile</a></li>
+                <li><a href="friends.html"><i class="fa fa-users"></i>Friends</a></li>
+            </ul>
+        </div>
         <div class="left_row_profile">
             @if(auth()->user()->portada)
                 <img id="portada" src="{{ auth()->user()->portada }}" />
@@ -53,29 +66,11 @@
                 @endif
                 <span>{{ auth()->user()->nombre}} {{ auth()->user()->apellido }}<br><p>150k followers / 50 follow</p></span>
             </div>
-        </div>  
-        <div class="rowmenu">
-            <ul>
-                <li><a href="index.html"><i class="fa fa-globe"></i>Newsfeed</a></li>
-                <li><a href="profile.html"><i class="fa fa-user"></i>Profile</a></li>
-                <li><a href="friends.html"><i class="fa fa-users"></i>Friends</a></li>
-                <li class="primarymenu"><i class="fa fa-compass"></i>Explore</li>
-                <ul>
-                    <li style="border:none"><a href="#A">Activity</a></li>
-                    <li style="border:none"><a href="#">Friends</a></li>
-                    <li style="border:none"><a href="#">Groups</a></li>
-                    <li style="border:none"><a href="#">Pages</a></li>
-                    <li style="border:none"><a href="#">Saves</a></li>
-                </ul>
-                <li class="primarymenu"><i class="fa fa-user"></i>Rapid Access</li>
-                <ul>
-                    <li style="border:none"><a href="#">Your-Page.html</a></li>
-                    <li style="border:none"><a href="#">Your-Group.html</a></li>
-                </ul>
-            </ul>
-        </div>
+        </div> 
     </div>
 
+
+    
  @yield('contenido')   
 
 <button onclick="topFunction()" id="myBtn" title="Go to top"><i class="fa fa-arrow-up"></i></button>

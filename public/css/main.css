@@ -75,9 +75,9 @@ html, body {background-color: #EDF2F6;font-family: 'Roboto', sans-serif;height:1
 .perfil2 button {border:none;cursor: pointer;padding: .8rem 2.1rem;font-size: .700rem;color: #fff;background-color: #1cdef0;border-radius: .3rem; position: relative; top: 105px; left:10px;}
 
 /* MENU */
-.rowmenu {width: 90%;margin: 0px auto;display: block;bottom: 0px;overflow-x: hidden;height: 26vw;}
-.rowmenu ul {padding-left: 20px;background}
-.rowmenu li {display: block; font-size: 19px;cursor: pointer;font-size: 12px;padding-bottom: 10px;padding-top: 10px;border-bottom: 1px solid #e6ecf5;cursor: inherit;}
+.rowmenu {width: 90%;margin: 0px auto;display: block;bottom: 0px;overflow-x: hidden;height: 26vw;font-family: 'Helvetica Neue', sans-serif;}
+.rowmenu ul {padding-left: 20px;}
+.rowmenu li {display: block;cursor: pointer;font-size: 24px;padding-bottom: 10px;padding-top: 10px;border-bottom: 1px solid #e6ecf5;cursor: inherit;}
 .rowmenu li a{color: #a3a3a3;cursor: pointer;}
 .rowmenu li i {padding-right: 10px}
 .rowmenu ul li a:hover{color: #1cdef0;}
@@ -363,3 +363,37 @@ html, body {background-color: #EDF2F6;font-family: 'Roboto', sans-serif;height:1
     font-size: 16px;
     color: #000;
 }
+
+
+.tab-navigation {
+    position: sticky;
+    top: 0;
+    width: 100%;
+    background-color: #fff;
+    border-bottom: 1px solid #e1e8ed;
+    padding: 10px 0;
+    z-index: 1000;
+    display: flex;
+    justify-content: center;
+}
+
+
+.tab-navigation a {
+    font-size: 18px;
+    color: #1da1f2;
+    text-decoration: none;
+    margin-right: 20px;
+    padding: 10px 20px;
+    transition: all 0.2s ease;
+}
+
+.tab-navigation a.active {
+    font-weight: bold;
+    border-bottom: 3px solid #1da1f2;
+}
+
+.tab-navigation a:hover {
+    color: #0d95e8;
+}
+
+/* Estilo para ajustar el contenido principal con margen superior */

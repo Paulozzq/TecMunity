@@ -37,14 +37,14 @@
                     <span>{{ $perfil->nombre}}<br><p>150k followers / 50 follow</p></span>
                     @if($perfil->id !== auth()->user()->id)
                         @if($noHayRelacionEntreEllos)
-                            <form action="{{ route('perfil.seguir', ['id' => $perfil->id]) }}" method="POST">
+                            <form class="ajax-form" action="{{ route('perfil.seguir', ['id' => $perfil->id]) }}" method="POST">
                                 @csrf
                                 <button type="submit" class="follow-button">Seguir</button>
                             </form>
                         @endif
                         @if($amigoUser)
                             @if($amistadPendiente)
-                                <form action="{{ route('perfil.dejar-de-seguir', ['id' => $perfil->id]) }}" method="POST">
+                                <form class="ajax-form" action="{{ route('perfil.dejar-de-seguir', ['id' => $perfil->id]) }}" method="POST">
                                     @csrf
                                     <button type="submit" class="follow-button">Dejar de seguir</button>
                                 </form>
@@ -52,14 +52,14 @@
                         @endif
                         @if($amigo)
                             @if($amistadPendiente)
-                                <form action="{{ route('perfil.seguirOtra', ['id' => $perfil->id]) }}" method="POST">
+                                <form class="ajax-form" action="{{ route('perfil.seguirOtra', ['id' => $perfil->id]) }}" method="POST">
                                     @csrf
-                                    <button type="submit" class="follow-button">Seguir Tambien</button>
+                                    <button type="submit" class="follow-button">Seguir También</button>
                                 </form>
                             @endif
                         @endif
                         @if($amistadExistente)
-                            <form action="{{ route('perfil.dejar-de-seguir', ['id' => $perfil->id]) }}" method="POST">
+                            <form class="ajax-form" action="{{ route('perfil.dejar-de-seguir', ['id' => $perfil->id]) }}" method="POST">
                                 @csrf
                                 <button type="submit" class="follow-button">Amigos</button>
                             </form>
@@ -166,4 +166,67 @@
         </div>
     @endforeach
 @endif
+
+<script type="text/javascript">
+    $(document).ready(function() {
+        $('.ajax-form').submit(function(e) {
+            e.preventDefault(); // Prevent the default form submission
+            
+            var form = $(this);
+            var actionUrl = form.attr('action');
+            var button = form.find('.follow-button'); // Find the button in the form
+
+            $.ajax({
+                url: actionUrl,
+                type: 'POST',
+                data: form.serialize(), // Serialize the form data
+                success: function(response) {
+                    $('#status-message').text(response.success).show().delay(3000).fadeOut();
+                    // Update the button text or disable it after successful follow/unfollow
+                    if (response.success.includes("sigues") || response.success.includes("Amigos")) {
+                        button.text('Dejar de seguir');
+                        button.closest('form').attr('action', '{{ route("perfil.dejar-de-seguir", ["id" => $perfil->id]) }}');
+                    } else if (response.success.includes("Has dejado")) {
+                        button.text('Seguir');
+                        button.closest('form').attr('action', '{{ route("perfil.seguir", ["id" => $perfil->id]) }}');
+                    } else if (response.success.includes("también")) {
+                        button.text('Amigos');
+                        button.closest('form').attr('action', '{{ route("perfil.dejar-de-seguir", ["id" => $perfil->id]) }}');
+                    }
+                },
+                error: function(xhr) {
+                    $('#status-message').text(xhr.responseJSON.error).show().delay(3000).fadeOut();
+                }
+            });
+        });
+
+        // Polling function to check friendship status
+        function checkFriendshipStatus() {
+            var userId = "{{ $perfil->id }}";
+            $.ajax({
+                url: '{{ route("perfil.checkFriendshipStatus", ["id" => $perfil->id]) }}',
+                type: 'GET',
+                success: function(response) {
+                    // Update the button text or disable it based on the friendship status
+                    if (response.amistadExistente) {
+                        $('.follow-button').text('Amigos');
+                    } else if (response.amistadPendiente) {
+                        $('.follow-button').text('Dejar de seguir');
+                    } else if (response.amistadPendienteParaAmigo) {
+                        $('.follow-button').text('Seguir También');
+                    } else {
+                        $('.follow-button').text('Seguir');
+                    }
+                },
+                error: function(xhr) {
+                    console.log('Error checking friendship status:', xhr.responseJSON.error);
+                }
+            });
+        }
+
+        // Call the function periodically (every 5 seconds)
+        setInterval(checkFriendshipStatus, 5000);
+    });
+</script>
+
 @endsection

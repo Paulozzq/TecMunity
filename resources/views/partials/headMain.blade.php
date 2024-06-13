@@ -9,7 +9,7 @@
     <link rel="shortcut icon" href="images/Tecmunity_Logo.png" type="image/x-icon">
     <!-- CSS -->
     <link rel="stylesheet" href="{{ asset('css/main.css') }}">
-
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <!-- Fonts -->
     <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
     <!-- Icons FontAwesome 4.7.0 -->

@@ -67,6 +67,8 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::post('/amistad/{id}', [AmistadController::class, 'seguir'])->name('perfil.seguir');
     Route::post('/seguirDeVuelta/{id}', [AmistadController::class, 'SeguirDeVuelta'])->name('perfil.seguirOtra');
     Route::post('/dejar-de-seguir/{id}', [AmistadController::class, 'dejarDeSeguir'])->name('perfil.dejar-de-seguir');
+    Route::get('/check-friendship-status/{id}', [AmistadController::class, 'checkFriendshipStatus'])->name('perfil.checkFriendshipStatus');
+
 });
 
 // Ruta de perfil de usuario
