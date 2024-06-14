@@ -18,6 +18,7 @@ class Comentario extends Model
         'nro_likes',
         'contenido',
         'url_media',
+        'reply',
         'fecha'
     ];
 

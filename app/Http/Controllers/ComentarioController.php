@@ -35,6 +35,20 @@ class ComentarioController extends Controller
 
         return redirect()->back();
     }
+
+    public function reply(){
+        $request->validate([
+            'contenido' => 'required|string|max:255',
+            'media' => 'nullable|file|mimes:jpg,jpeg,png,mp4,avi|max:20480',
+        ]);
+
+        $mediaUrl = null;
+        if ($request->hasFile('media')) {
+            $media = $request->file('media');
+            $uploadedFile = Cloudinary::upload($media->getRealPath(), ['folder' => 'comentarios']);
+            $mediaUrl = $uploadedFile->getSecurePath();
+        }
+    }
     
     public function show($id)
     {

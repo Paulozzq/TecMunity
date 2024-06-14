@@ -41,15 +41,11 @@
     <div class="left_row"> 
         <div class="rowmenu">
             <ul>
-                <li><a href="index.html"><i class="fa fa-globe"></i>Home</a></li>
+                <li><a href="{{route('publicaciones.index')}}"><i class="fa fa-home"></i>Home</a></li>
                 <li><a href="profile.html"><i class="fa fa-user"></i>Profile</a></li>
                 <li><a href="friends.html"><i class="fa fa-users"></i>Friends</a></li>
                 <li><a href="index.html"><i class="fa fa-globe"></i>Home</a></li>
                 <li><a href="profile.html"><i class="fa fa-user"></i>Profile</a></li>
-                <li><a href="friends.html"><i class="fa fa-users"></i>Friends</a></li>
-                <li><a href="index.html"><i class="fa fa-globe"></i>Home</a></li>
-                <li><a href="profile.html"><i class="fa fa-user"></i>Profile</a></li>
-                <li><a href="friends.html"><i class="fa fa-users"></i>Friends</a></li>
             </ul>
         </div>
         <div class="left_row_profile">
