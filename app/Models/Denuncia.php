@@ -16,23 +16,28 @@ class Denuncia extends Model
 
 
     protected $fillable = [
-      'denunciado',
-      'denunciante',
-      'publicaciones',
+      'ID_denunciado',
+      'ID_denunciante',
+      'ID_publicacion',
       'contenido',
-      'tipo',
-      'status',
-      'fecha_de_aprobacion',
+      'ID_tipodenuncia',
+      'ID_estadodenuncia',
     ];
 
     //relaciones
     public function denunciado(){
-      return $this->belongsTo(Usuario::class, 'denunciado');
+      return $this->belongsTo(Usuario::class, 'ID_denunciado', 'ID_usuario');
     }
     public function denunciante(){
-      return $this->belongsTo(Usuario::class, 'denunciante');
+      return $this->belongsTo(Usuario::class, 'ID_denunciante', 'ID_usuario');
     }
     public function publicacion(){
-      return $this->belongsTo(Publicacion::class, 'publicacion');
+      return $this->belongsTo(Publicacion::class, 'ID_publicacion', 'ID_publicacion');
+    }
+    public function Estadodenuncia(){
+      return $this->belongsTo(Estadodenuncia::class, 'ID_estadodenuncia', 'ID_estadodenuncia');
+    }
+    public function tipodenuncia(){
+      return $this->belongsTo(Tipodenuncia::class, 'ID_tipodenuncia', 'ID_tipodenuncia');
     }
 }

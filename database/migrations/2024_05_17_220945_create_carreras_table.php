@@ -14,9 +14,12 @@ class CreateCarrerasTable extends Migration
     public function up()
     {
         Schema::create('carreras', function (Blueprint $table) {
-            $table->id();
-            $table->string('nombre');
+            $table->bigIncrements('ID_carrera');
+            $table->unsignedBigInteger('ID_departamento');
+            $table->string('nombre', 500);
             $table->timestamps();
+
+            $table->foreign('ID_departamento')->references('ID_departamento')->on('departamentos')->ondelete('cascade');
         });
     }
 

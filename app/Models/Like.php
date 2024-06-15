@@ -18,7 +18,7 @@ class Like extends Model
     // Relación con el modelo Usuario
     public function usuario()
     {
-        return $this->belongsTo(Usuario::class, 'ID_usuario', 'id');
+        return $this->belongsTo(Usuario::class, 'ID_usuario', 'ID_usuario');
     }
 
     public function publicacion()

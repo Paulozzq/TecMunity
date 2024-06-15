@@ -14,15 +14,15 @@ class CreateMensajesTable extends Migration
     public function up()
     {
         Schema::create('mensajes', function (Blueprint $table) {
-            $table->id('ID_mensaje');
+            $table->bigIncrements('ID_mensaje');
             $table->unsignedBigInteger('ID_emisor');
             $table->unsignedBigInteger('ID_receptor');
             $table->text('contenido');
             $table->timestamp('fecha')->useCurrent();
 
             // Foreign keys
-            $table->foreign('ID_emisor')->references('id')->on('usuarios')->onDelete('cascade');
-            $table->foreign('ID_receptor')->references('id')->on('usuarios')->onDelete('cascade');
+            $table->foreign('ID_emisor')->references('ID_usuario')->on('usuarios')->onDelete('cascade');
+            $table->foreign('ID_receptor')->references('ID_usuario')->on('usuarios')->onDelete('cascade');
 
             $table->timestamps();
         });
@@ -38,4 +38,3 @@ class CreateMensajesTable extends Migration
         Schema::dropIfExists('mensajes');
     }
 }
-

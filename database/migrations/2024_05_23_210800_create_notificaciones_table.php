@@ -17,13 +17,15 @@ class CreateNotificacionesTable extends Migration
             $table->id('ID_notificacion');
             $table->unsignedBigInteger('user1');
             $table->unsignedBigInteger('user2')->nullable();
-            $table->string('tipo');
+            $table->unsignedBigInteger('ID_tipo')->default(0);
             $table->boolean('leido')->default(false);
             $table->timestamp('fecha')->useCurrent();
 
             // Foreign keys
-            $table->foreign('user1')->references('id')->on('usuarios')->onDelete('cascade');
-            $table->foreign('user2')->references('id')->on('usuarios')->onDelete('cascade');
+            $table->foreign('user1')->references('ID_usuario')->on('usuarios')->onDelete('cascade');
+            $table->foreign('user2')->references('ID_usuario')->on('usuarios')->onDelete('cascade');
+            $table->foreign('ID_tipo')->references('ID_tiponotificacion')->on('tiponotificaciones')->onDelete('cascade');
+
         });
     }
 

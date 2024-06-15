@@ -14,18 +14,19 @@ class Amistad extends Model
     protected $primaryKey = 'ID_amistad';
 
     protected $fillable = [
-        'ID_usuario', 'ID_amigo', 'fecha', 'estado'
+        'ID_emisor', 'ID_receptor', 'fecha', 'ID_estadoamistad'
     ];
 
-    // Relación muchos a uno con la tabla Usuario (para ID_usuario)
-    public function usuario()
+    //funciones dentro
+    public function emisor()
     {
-        return $this->belongsTo(Usuario::class, 'ID_usuario', 'id');
+        return $this->belongsTo(Usuario::class, 'ID_emisor', 'ID_usuario');
     }
-
-    // Relación muchos a uno con la tabla Usuario (para ID_amigo)
-    public function amigo()
+    public function receptor()
     {
-        return $this->belongsTo(Usuario::class, 'ID_amigo', 'id');
+        return $this->belongsTo(Usuario::class, 'ID_receptor', 'ID_usuario');
+    }
+    public function estadoamistad(){
+        return $this->belongsTo(Estadoamistad::class, 'ID_estadoamistad', 'ID_estadoamistad');
     }
 }

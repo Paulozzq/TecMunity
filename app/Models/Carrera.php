@@ -9,15 +9,26 @@ class Carrera extends Model
 {
     use HasFactory;
 
-    protected $table = 'carreras'; // Nombre de la tabla en la base de datos
+    protected $table = 'carreras';
+    protected $primaryKey = 'ID_carrera';
+    public $incrementing = true;
+    protected $keyType = 'bigint';
+    public $timestamps = true;
 
     protected $fillable = [
-        'nombre', // Lista de campos que pueden ser asignados masivamente
+      'ID_departamento', 'nombre',
     ];
 
     // Relación uno a muchos con la tabla Usuarios
     public function usuarios()
     {
-        return $this->hasMany(Usuario::class, 'carrera_id', 'id');
+        return $this->hasMany(Usuario::class, 'ID_carrera', 'ID_carrera');
     }
+
+    public function departamentos()
+    {
+      return $this->belongsTo(Departamento::class, 'ID_departamento', 'ID_departamento');
+    }
+
+
 }

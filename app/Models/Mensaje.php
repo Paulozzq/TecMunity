@@ -18,12 +18,12 @@ class Mensaje extends Model
     // Relación muchos a uno con la tabla Usuario (para ID_emisor)
     public function emisor()
     {
-        return $this->belongsTo(Usuario::class, 'ID_emisor', 'id');
+        return $this->belongsTo(Usuario::class, 'ID_emisor', 'ID_usuario');
     }
 
     // Relación muchos a uno con la tabla Usuario (para ID_receptor)
     public function receptor()
     {
-        return $this->belongsTo(Usuario::class, 'ID_receptor', 'id');
+        return $this->belongsTo(Usuario::class, 'ID_receptor', 'ID_usuario');
     }
 }

@@ -18,12 +18,12 @@ class CreateAmistadTable extends Migration
             $table->unsignedBigInteger('ID_usuario');
             $table->unsignedBigInteger('ID_amigo');
             $table->timestamp('fecha')->useCurrent();
-            $table->string('estado')->default('pendiente');
-            
+            $table->unsignedBigInteger('ID_estadoamistad')->default(0);
+
             // Foreign keys
-            $table->foreign('ID_usuario')->references('id')->on('usuarios')->onDelete('cascade');
-            $table->foreign('ID_amigo')->references('id')->on('usuarios')->onDelete('cascade');
-            
+            $table->foreign('ID_usuario')->references('ID_usuario')->on('usuarios')->onDelete('cascade');
+            $table->foreign('ID_amigo')->references('ID_usuario')->on('usuarios')->onDelete('cascade');
+
             $table->timestamps();
         });
     }
@@ -38,4 +38,3 @@ class CreateAmistadTable extends Migration
         Schema::dropIfExists('amistades');
     }
 }
-

@@ -15,7 +15,6 @@ class Comentario extends Model
     protected $fillable = [
         'ID_publicacion',
         'ID_usuario',
-        'nro_likes',
         'contenido',
         'url_media',
         'reply',
@@ -24,15 +23,15 @@ class Comentario extends Model
 
     public function publicacion()
     {
-        return $this->belongsTo(Publicacion::class, 'ID_publicacion');
+        return $this->belongsTo(Publicacion::class, 'ID_publicacion', 'ID_publicacion');
     }
 
     public function usuario()
     {
-        return $this->belongsTo(Usuario::class, 'ID_usuario', 'id');
+        return $this->belongsTo(Usuario::class, 'ID_usuario', 'ID_usuario');
     }
 
-    public function likes() 
+    public function likes()
     {
         return $this->hasMany(Like::class, 'ID_comentario');
     }

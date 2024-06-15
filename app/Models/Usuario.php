@@ -10,71 +10,83 @@ class Usuario extends Authenticatable
 {
     use HasFactory;
 
-    protected $table = 'usuarios'; // Nombre de la tabla en la base de datos
+    protected $table = 'usuarios';
+    protected $primaryKey = 'ID_usuario';
+    public $incrementing = true;
+    protected $keyType = 'bigint';
+    public $timestamp = true;
 
     protected $fillable = [
-        'nombre', 'apellido', 'email', 'username', 'password', 'fecha_nacimiento',
-        'fecha_registro', 'sexo', 'status', 'privado', 'admin', 'avatar', 'portada', 'carrera_id', 'biografia',
+      'nombre', 'apellido', 'email', 'username', 'password', 'fecha_nacimiento',
+      'sexo', 'ID_estadousuario', 'privado', 'ID_roles', 'avatar', 'portada',
+      'ID_carrera', 'biografia',
     ];
 
-    // Relación muchos a uno con la tabla Carreras
-    public function carrera()
-    {
-        return $this->belongsTo(Carrera::class, 'carrera_id', 'id');
+    //relaciones dentro
+    public function roles(){
+      return $this->belongsTo(Rol::class, 'ID_roles', "ID_roles");
+    }
+    public function carreras(){
+      return $this->belongsTo(Carrera::class, 'ID_carrera', 'ID_carrera');
+    }
+    public function estadosusuarios(){
+      return $this->belongsto(Estadousuario::class, 'ID_estadousuario', 'ID_estadousuario');
     }
 
-    // Relación uno a muchos con la tabla Publicaciones
-    public function publicaciones()
+    //relaciones fuera
+    public function amistadesEnviadas()
     {
-        return $this->hasMany(Publicacion::class, 'ID_usuario', 'id');
+        return $this->hasMany(Amistad::class, 'ID_emisor', 'ID_usuario');
+    }
+    public function amistadesRecibidas()
+    {
+        return $this->hasMany(Amistad::class, 'ID_receptor', 'ID_usuario');
     }
 
-    public function comentarios()
-    {
-        return $this->hasMany(Comentario::class, 'ID_usuario', 'id');
+    public function publicaciones(){
+      return $this->hasMany(Publicacion::class, 'ID_usuario', 'ID_usuario');
     }
 
-    // Relación uno a muchos con la tabla Likes
-    public function likes()
-    {
-        return $this->hasMany(Like::class, 'ID_usuario', 'id');
+    public function mensajesenviados(){
+      return $this->hasMany(Mensaje::class, 'ID_emisor', 'ID_usuario');
+    }
+    public function mensajesrecibidos(){
+      return $this->hasMany(Mensaje::class, 'ID_receptor', 'ID_usuario');
     }
 
-    // Relación muchos a muchos con la tabla Amistades (para amigos)
-    public function amigos()
-    {
-        return $this->hasMany(Amistad::class, 'ID_usuario', 'id');
+    public function denuncia1(){
+      return $this->hasMany(Denuncia::class, 'ID_denunciante', 'ID_usuario');
+    }
+    public function denuncia2(){
+      return $this->hasMany(Denuncia::class, 'ID_denunciado', 'ID_usuario')
     }
 
-    // Relación muchos a muchos con la tabla Amistades (para usuarios)
-    public function usuarios()
+    public function grupos()
     {
-        return $this->hasMany(Amistad::class, 'ID_amigo', 'id');
+        return $this->belongsToMany(Grupo::class, 'gruposusuarios', 'ID_usuario', 'ID_grupo')
+                    ->withTimestamps();
+    }
+    public function usuariocomentario()
+    {
+        return $this->hasMany(Usuario::class, 'ID_usuario', 'ID_usuario');
     }
 
-    // Relación uno a muchos con la tabla Mensajes (como emisor)
-    public function mensajesEnviados()
+    public function usuariolike()
     {
-        return $this->hasMany(Mensaje::class, 'ID_emisor', 'id');
-    }
- 
-    // Relación uno a muchos con la tabla Mensajes (como receptor)
-    public function mensajesRecibidos()
-    {
-        return $this->hasMany(Mensaje::class, 'ID_receptor', 'id');
+        return $this->hasMany(Usuario::class, 'ID_usuario', 'ID_usuario');
     }
 
-    // Relación uno a muchos con la tabla Notificaciones (para las notificaciones enviadas)
-    public function notificacionesEnviadas()
+    public function usuarionotificacion()
     {
-        return $this->hasMany(Notificacion::class, 'user1', 'id');
+        return $this->belongsTo(Notificacion::class, 'user1', 'ID_usuario');
     }
 
-    // Relación uno a muchos con la tabla Notificaciones (para las notificaciones recibidas)
-    public function notificacionesRecibidas()
+    public function usuarionotificacion2()
     {
-        return $this->hasMany(Notificacion::class, 'user2', 'id');
+        return $this->belongsTo(Notificacion::class, 'user2', 'ID_usuario');
     }
+
+
 
 
     public function setPasswordAttribute($value){

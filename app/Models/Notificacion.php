@@ -11,19 +11,24 @@ class Notificacion extends Model
 
     protected $table = 'notificaciones';
 
+    protected $primaryKey = 'ID_notificacion';
+
     protected $fillable = [
-        'user1', 'user2', 'tipo', 'leido', 'fecha'
+        'user1', 'user2', 'ID_tipo', 'leido', 'fecha',
     ];
 
-    // Relación muchos a uno con la tabla Usuario (para user1)
-    public function emisor()
+    public function usuario1()
     {
-        return $this->belongsTo(Usuario::class, 'user1', 'id');
+        return $this->belongsTo(Usuario::class, 'user1', 'ID_usuario');
     }
 
-    // Relación muchos a uno con la tabla Usuario (para user2)
-    public function receptor()
+    public function usuario2()
     {
-        return $this->belongsTo(Usuario::class, 'user2', 'id');
+        return $this->belongsTo(Usuario::class, 'user2', 'ID_usuario');
+    }
+
+    public function tipoNotificacion()
+    {
+        return $this->belongsTo(TipoNotificacion::class, 'ID_tipo', 'ID_tiponotificacion');
     }
 }
