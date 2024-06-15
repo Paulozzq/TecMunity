@@ -41,6 +41,8 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
     Route::get('/publicacion/{id}', [ComentarioController::class, 'show'])->name('comentario.show');
+    Route::get('/comentario/{id}', [ComentarioController::class, 'showReply'])->name('comentario.showReply');
+    Route::post('/reply', [ComentarioController::class, 'reply'])->name('comentarios.reply');
     Route::post('/comentarios', [ComentarioController::class, 'store'])->name('comentarios.store');
     Route::post('/publicacion/{publicacion}/like', [LikeController::class, 'likePublicacion'])->name('like.publicacion');
     Route::post('/publicacion/{publicacion}/unlike', [LikeController::class, 'unlikePublicacion'])->name('unlike.publicacion');

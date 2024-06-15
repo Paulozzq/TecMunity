@@ -79,7 +79,7 @@
                         <ul class="feed_footer_right">
                             <li class="hover-orange selected-orange"><i class="fa fa-share"></i> 7k</li>
                             <a href="{{ route('comentario.show', ['id' => $publicacion->ID_publicacion]) }}" style="color:#515365;">
-                                <li class="hover-orange"><i class="fa fa-comments-o"></i> {{ $publicacion->comentarios->count() }} comentarios</li>
+                                <li class="hover-orange"><i class="fa fa-comments-o"></i> {{ $publicacion->comentarios()->whereNull('reply')->count() }} comentarios</li>
                             </a>
                         </ul>
                 </div>
@@ -119,75 +119,74 @@
         </div>
 
         @foreach($comentarios as $comentario)
-    <div class="row border-radius">
-        <div class="feed">
-            <div class="feed_title">
-                <a href="{{ route('perfil.show', ['id' => $comentario->usuario->id]) }}">
-                    @if($comentario->usuario->avatar)
-                        <img src="{{ $comentario->usuario->avatar }}" />
-                    @else
-                        <img src="{{ asset('img/default-avatar.jpg') }}"/>
-                    @endif
-                </a>
-                <span>
-                    <a href="{{ route('perfil.show', ['id' => $comentario->usuario->id]) }}"><b>{{ $comentario->usuario->nombre }} {{ $comentario->usuario->apellido }}</b></a>
-                    <br>
-                    <p>{{ $comentario->created_at->format('d F \a\t h:i A') }}</p>
-                </span>
-            </div>
-            <div class="feed_content">
-                <div class="feed_content_image">
-                    <p>{{ $comentario->contenido }}</p>
-                </div>
-                @if($comentario->url_media)
-                    <div class="feed_content_image">
-                        @if($comentario->isVideo())
-                            <video controls style="max-width: 500px; max-height: 500px;">
-                                <source src="{{ $comentario->url_media }}" type="video/mp4">
-                                Tu navegador no soporta la etiqueta de video.
-                            </video>
-                        @else
-                            <a href="{{ $comentario->url_media }}" target="_blank">
-                                <img src="{{ $comentario->url_media }}" alt="" style="max-width: 500px; max-height: 500px; display: block; margin-top: 10px;" />
-                            </a>
+            <div class="row border-radius">
+                <div class="feed">
+                    <div class="feed_title">
+                        <a href="{{ route('perfil.show', ['id' => $comentario->usuario->id]) }}">
+                            @if($comentario->usuario->avatar)
+                                <img src="{{ $comentario->usuario->avatar }}" />
+                            @else
+                                <img src="{{ asset('img/default-avatar.jpg') }}"/>
+                            @endif
+                        </a>
+                        <span>
+                            <a href="{{ route('perfil.show', ['id' => $comentario->usuario->id]) }}"><b>{{ $comentario->usuario->nombre }} {{ $comentario->usuario->apellido }}</b></a>
+                            <br>
+                            <p>{{ $comentario->created_at->format('d F \a\t h:i A') }}</p>
+                        </span>
+                    </div>
+                    <div class="feed_content">
+                        <div class="feed_content_image">
+                            <p>{{ $comentario->contenido }}</p>
+                        </div>
+                        @if($comentario->url_media)
+                            <div class="feed_content_image">
+                                @if($comentario->isVideo())
+                                    <video controls style="max-width: 500px; max-height: 500px;">
+                                        <source src="{{ $comentario->url_media }}" type="video/mp4">
+                                        Tu navegador no soporta la etiqueta de video.
+                                    </video>
+                                @else
+                                    <a href="{{ $comentario->url_media }}" target="_blank">
+                                        <img src="{{ $comentario->url_media }}" alt="" style="max-width: 500px; max-height: 500px; display: block; margin-top: 10px;" />
+                                    </a>
+                                @endif
+                            </div>
                         @endif
                     </div>
-                @endif
-            </div>
-            <div class="feed_footer">
-                <ul class="feed_footer_left">
-                    <li class="hover-orange selected-orange">
-                        @if ($comentario->likes->where('ID_usuario', Auth::id())->isEmpty())
-                            <form action="{{ route('like.comentario', $comentario->ID_comentario) }}" method="POST">
-                                @csrf
-                                <button type="submit" class="btn btn-like">
-                                    <i class="fa fa-heart-o"></i>
-                                    {{ $comentario->likes->count() }}
-                                </button>
-                            </form>
-                        @else
-                            <form action="{{ route('unlike.comentario', $comentario->ID_comentario) }}" method="POST">
-                                @csrf
-                                <button type="submit" class="btn btn-unlike">
-                                    <i class="fa fa-heart"></i>
-                                    {{ $comentario->likes->count() }}
-                                </button>
-                            </form>
-                        @endif
-                    </li>
-                </ul>
+                    <div class="feed_footer">
+                        <ul class="feed_footer_left">
+                            <li class="hover-orange selected-orange">
+                                @if ($comentario->likes->where('ID_usuario', Auth::id())->isEmpty())
+                                    <form action="{{ route('like.comentario', $comentario->ID_comentario) }}" method="POST">
+                                        @csrf
+                                        <button type="submit" class="btn btn-like">
+                                            <i class="fa fa-heart-o"></i>
+                                            {{ $comentario->likes->count() }}
+                                        </button>
+                                    </form>
+                                @else
+                                    <form action="{{ route('unlike.comentario', $comentario->ID_comentario) }}" method="POST">
+                                        @csrf
+                                        <button type="submit" class="btn btn-unlike">
+                                            <i class="fa fa-heart"></i>
+                                            {{ $comentario->likes->count() }}
+                                        </button>
+                                    </form>
+                                @endif
+                            </li>
+                        </ul>
 
-                <ul class="feed_footer_right">
-                    <li class="hover-orange selected-orange"><i class="fa fa-share"></i> 7k</li>
-                    <a href="{{ route('comentario.show', ['id' => $publicacion->ID_publicacion]) }}" style="color:#515365;">
-                        <li class="hover-orange"><i class="fa fa-comments-o"></i> {{ $publicacion->comentarios()->whereNotNull('reply')->count() }} comentarios</li>
-                    </a>
-                </ul>
+                        <ul class="feed_footer_right">
+                            <li class="hover-orange selected-orange"><i class="fa fa-share"></i> 7k</li>
+                            <a href="{{ route('comentario.showReply', ['id' => $comentario->ID_comentario]) }}" style="color:#515365;">
+                                <li class="hover-orange"><i class="fa fa-comments-o"></i> {{ $publicacion->comentarios()->where('reply', $comentarios->ID_comentario)->whereNotNull('reply')->count() }} comentarios</li>
+                            </a>
+                        </ul>
+                    </div>
+                </div>
             </div>
-        </div>
-    </div>
-    
-@endforeach
+        @endforeach
 
 
         <script>

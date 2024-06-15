@@ -32,7 +32,7 @@ class Comentario extends Model
         return $this->belongsTo(Usuario::class, 'ID_usuario', 'id');
     }
 
-    public function likes()
+    public function likes() 
     {
         return $this->hasMany(Like::class, 'ID_comentario');
     }
@@ -45,5 +45,18 @@ class Comentario extends Model
         $extension = pathinfo($mediaUrl, PATHINFO_EXTENSION);
         $videoExtensions = ['mp4', 'avi', 'mov']; // Extensiones de video permitidas
         return in_array($extension, $videoExtensions);
+    }
+    public function parent()
+    {
+        return $this->belongsTo(Comentario::class, 'reply');
+    }
+
+    public function children()
+    {
+        return $this->hasMany(Comentario::class, 'reply');
+    }
+    public function reply()
+    {
+        return $this->hasMany(Comentario::class, 'reply');
     }
 }
