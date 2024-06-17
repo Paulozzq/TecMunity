@@ -14,7 +14,7 @@ class Amistad extends Model
     protected $primaryKey = 'ID_amistad';
 
     protected $fillable = [
-        'ID_usuario', 'ID_amigo', 'fecha', 'estado'
+        'ID_usuario', 'ID_amigo', 'fecha', 'ID_estadoamistad'
     ];
 
     // Relación muchos a uno con la tabla Usuario (para ID_usuario)
@@ -27,5 +27,9 @@ class Amistad extends Model
     public function amigo()
     {
         return $this->belongsTo(Usuario::class, 'ID_amigo', 'id');
+    }
+    public function estado()
+    {
+        return $this->belongsTo(Estadoamistad::class, 'ID_estadoamistad', 'ID_estadoamistad');
     }
 }

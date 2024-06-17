@@ -12,7 +12,7 @@ class Notificacion extends Model
     protected $table = 'notificaciones';
 
     protected $fillable = [
-        'user1', 'user2', 'tipo', 'leido', 'fecha'
+        'user1', 'user2', 'ID_tiponotificacion', 'leido', 'fecha'
     ];
 
     // Relación muchos a uno con la tabla Usuario (para user1)
@@ -25,5 +25,9 @@ class Notificacion extends Model
     public function receptor()
     {
         return $this->belongsTo(Usuario::class, 'user2', 'id');
+    }
+
+    public function tipo(){
+        return $this->belongsTo(Tiponotificacion::class, 'ID_tiponotificacion', 'ID_tiponotificacion');
     }
 }

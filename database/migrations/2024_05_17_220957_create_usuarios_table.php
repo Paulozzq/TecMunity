@@ -22,14 +22,18 @@ class CreateUsuariosTable extends Migration
             $table->string('password');
             $table->date('fecha_nacimiento')->nullable();
             $table->string('sexo')->nullable();
-            $table->boolean('status')->default(0); // Modificado para permitir valores nulos
+            $table->unsignedBigInteger('ID_estadousuario')->default(1);// llave foranea de estadosusuarios
             $table->boolean('privado')->default(0);
-            $table->boolean('admin')->default(0);;
+            $table->unsignedBigInteger('ID_roles')->default(1);// llave foranea de roles
             $table->string('avatar')->nullable();
             $table->string('portada')->nullable();
-            $table->foreignId('carrera_id')->nullable()->constrained('carreras')->onDelete('cascade');
+            $table->unsignedBigInteger('ID_carrera')->nullable();//llave foranea de carreras
             $table->text('biografia')->nullable();
             $table->timestamps();
+
+            $table->foreign('ID_carrera')->references('ID_carrera')->on('carreras')->onDelete('cascade');
+            $table->foreign('ID_estadousuario')->references('ID_estadousuario')->on('Estadosusuarios')->onDelete('cascade');
+            $table->foreign('ID_roles')->references('ID_roles')->on('roles')->onDelete('cascade');
 
         });
     }

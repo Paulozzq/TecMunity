@@ -158,7 +158,7 @@
                 </a>
             </li>
             <li>
-                <a href="login.html">
+                <a href="{{ route('logout') }}">
                     <i class="fa fa-power-off" aria-hidden="true"></i>
                     <span><b>Log Out</b><br>Close your session</span>
                 </a>
@@ -272,7 +272,7 @@
                 <li><a href="#">Terms & Conditions</a></li>
                 <li><a href="#">FAQ's</a></li>
                 <li><a href="#">Contact</a></li>
-                <li><a href="login.html">Logout</a></li>
+                <li><a href="{{ route('logout') }}">Logout</a></li>
             </ul>
         </div>
     </div>
