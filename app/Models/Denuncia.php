@@ -20,8 +20,8 @@ class Denuncia extends Model
       'denunciante',
       'publicaciones',
       'contenido',
-      'tipo',
-      'status',
+      'ID_tipodenuncia',
+      'ID_estadodenuncia',
       'fecha_de_aprobacion',
     ];
 
@@ -34,5 +34,9 @@ class Denuncia extends Model
     }
     public function publicacion(){
       return $this->belongsTo(Publicacion::class, 'publicacion');
+    }
+
+    public function estadodenuncia(){
+      return $this->belongsTo(EstadoDenuncia::class, 'ID_estadodenuncia', 'ID_estadodenuncia');
     }
 }

@@ -14,13 +14,13 @@ class Usuario extends Authenticatable
 
     protected $fillable = [
         'nombre', 'apellido', 'email', 'username', 'password', 'fecha_nacimiento',
-        'fecha_registro', 'sexo', 'status', 'privado', 'admin', 'avatar', 'portada', 'carrera_id', 'biografia',
+        'fecha_registro', 'sexo', 'ID_estadousuario', 'privado', 'ID_roles', 'avatar', 'portada', 'ID_carrera', 'biografia',
     ];
 
     // Relación muchos a uno con la tabla Carreras
     public function carrera()
     {
-        return $this->belongsTo(Carrera::class, 'carrera_id', 'id');
+        return $this->belongsTo(Carrera::class, 'ID_carrera', 'ID_carrera');
     }
 
     // Relación uno a muchos con la tabla Publicaciones
@@ -76,6 +76,26 @@ class Usuario extends Authenticatable
         return $this->hasMany(Notificacion::class, 'user2', 'id');
     }
 
+    // Relacion Roles 
+    public function roles(){
+        return $this->belongsTo(Rol::class, 'ID_roles', 'ID_roles');
+    }
+
+    public function estadousuario(){
+        return $this->belongsTo(Estadousuario::class, 'ID_estadousuario', 'ID_estadousuario');
+    }
+
+    public function creadorgrupo(){
+        return $this->hasMany(Grupo::class, 'ID_creador', 'id');
+    }
+
+    //muchos a muchos grupo
+    public function grupos()
+    {
+        return $this->belongsToMany(Grupo::class, 'usuariosgrupos', 'ID_usuario', 'ID_grupo')
+                    ->withPivot('fecha')
+                    ->withTimestamps();
+    }
 
     public function setPasswordAttribute($value){
         $this->attributes['password'] =  bcrypt($value);
