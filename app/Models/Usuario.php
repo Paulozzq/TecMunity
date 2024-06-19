@@ -92,9 +92,7 @@ class Usuario extends Authenticatable
     //muchos a muchos grupo
     public function grupos()
     {
-        return $this->belongsToMany(Grupo::class, 'usuariosgrupos', 'ID_usuario', 'ID_grupo')
-                    ->withPivot('fecha')
-                    ->withTimestamps();
+        return $this->hasMany(Grupousuario::class, 'ID_usuario', 'id');
     }
 
     public function setPasswordAttribute($value){

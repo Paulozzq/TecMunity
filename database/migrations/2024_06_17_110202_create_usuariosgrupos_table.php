@@ -12,16 +12,16 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('usuariosgrupos', function (Blueprint $table) {
-            $table->foreignId('ID_usuario')->constrained('usuarios'); // Foreign Key hacia la tabla 'usuarios'
-            $table->unsignedBigInteger('ID_grupo'); // Definir el tipo correcto de la columna ID_grupo
+            $table->id('ID_usuariogrupo');
+            $table->unsignedBigInteger('ID_usuario');
+            $table->unsignedBigInteger('ID_grupos');
 
-            // Establecer la restricción de llave foránea hacia la tabla 'grupos'
-            $table->foreign('ID_grupo')->references('ID_grupos')->on('grupos');
+            $table->foreign("ID_usuario")->references('id')->on('usuarios')->onDelete('cascade');
+            $table->foreign("ID_grupos")->references('ID_grupos')->on('grupos')->onDelete('cascade');
 
-            $table->date('fecha'); // Columna de fecha
-
-            // Definir la clave primaria compuesta
-            $table->primary(['ID_usuario', 'ID_grupo']);
+            $table->date('fecha_union');
+            
+            $table->timestamps(); // Add timestamps if needed
         });
     }
 

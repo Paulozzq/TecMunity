@@ -9,21 +9,21 @@ class Grupousuario extends Model
 {
     use HasFactory;
     protected $table = 'usuariosgrupos';
-    protected $primaryKey = ['ID_usuario', 'ID_grupos'];
+    protected $primaryKey = ['ID_usuariogrupo'];
 
     protected $fillable = [
         'ID_usuario',
-        'ID_grupo',
-        'fecha',
+        'ID_grupos',
+        'fecha_union',
     ];
 
     public function usuario()
     {
-        return $this->belongsTo(User::class, 'ID_usuario', 'id');
+        return $this->belongsTo(Usuario::class, 'ID_usuario', 'id');
     }
 
     public function grupo()
     {
-        return $this->belongsTo(Grupo::class, 'ID_grupo', 'ID_grupos');
+        return $this->belongsTo(Grupo::class, 'ID_grupos', 'ID_grupos');
     }
 }

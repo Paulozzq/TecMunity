@@ -28,8 +28,6 @@ class Grupo extends Model
 
     public function usuarios()
     {
-        return $this->belongsToMany(Usuario::class, 'usuariosgrupos', 'ID_grupos', 'ID_usuario')
-                    ->withPivot('fecha')
-                    ->withTimestamps();
+        return $this->hasMany(Grupousuario::class, 'ID_grupos', 'ID_grupos');
     }
 }
