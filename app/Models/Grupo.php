@@ -32,4 +32,12 @@ class Grupo extends Model
                     ->withPivot('fecha')
                     ->withTimestamps();
     }
+    public function infoGrupo()
+    {
+        return $this->hasOne(InfoGrupo::class, 'ID_grupo', 'ID_grupos');
+    }   
+    public function publicaciones()
+    {
+        return $this->hasMany(PublicacionGrupo::class, 'ID_grupo', 'ID_grupos');
+    }
 }

@@ -13,7 +13,8 @@ use App\Http\Controllers\{
     ComentarioController,
     LikeController,
     PresentacionController,
-    AmistadController
+    AmistadController,
+    GrupoController
 };
 
 // Rutas de autenticación y registro
@@ -48,6 +49,10 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::post('/publicacion/{publicacion}/unlike', [LikeController::class, 'unlikePublicacion'])->name('unlike.publicacion');
     Route::post('/comentario/{comentario}/like', [LikeController::class, 'likeComentario'])->name('like.comentario');
     Route::post('/comentario/{comentario}/unlike', [LikeController::class, 'unlikeComentario'])->name('unlike.comentario');
+    Route::post('publicacion/grupo/{publicacion}/like', [LikeGrupoController::class, 'likePublicacionGrupo'])->name('grupos.publicacion.like');
+    Route::delete('publicacion/grupo/{publicacion}/unlike', [LikeGrupoController::class, 'unlikePublicacionGrupo'])->name('grupos.publicacion.unlike');
+    Route::post('comentario/grupo/{comentario}/like', [LikeGrupoController::class, 'likeComentarioGrupo'])->name('grupos.comentario.like');
+    Route::delete('comentario/grupo/{comentario}/unlike', [LikeGrupoController::class, 'unlikeComentarioGrupo'])->name('grupos.comentario.unlike');
     Route::post('/comentarios/responder', [ComentarioController::class, 'reply'])->name('comentario.reply');
 
     Route::get('/usuarios', [DashboardController::class, 'index_list'])->name('usuarios.index');
@@ -70,6 +75,12 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::post('/seguirDeVuelta/{id}', [AmistadController::class, 'SeguirDeVuelta'])->name('perfil.seguirOtra');
     Route::post('/dejar-de-seguir/{id}', [AmistadController::class, 'dejarDeSeguir'])->name('perfil.dejar-de-seguir');
     Route::get('/check-friendship-status/{id}', [AmistadController::class, 'checkFriendshipStatus'])->name('perfil.checkFriendshipStatus');
+
+
+    Route::get('/grupos/create', [GrupoController::class, 'create'])->name('grupos.create');
+    Route::post('/grupos', [GrupoController::class, 'store'])->name('grupos.store');
+    Route::post('/grupos/join', [GrupoController::class, 'join'])->name('grupos.join'); // Acción de unirse a un grupo
+    Route::get('/grupos/{id}', [GrupoController::class, 'index'])->name('grupos.index');
 
 });
 

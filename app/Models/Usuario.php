@@ -100,4 +100,16 @@ class Usuario extends Authenticatable
     public function setPasswordAttribute($value){
         $this->attributes['password'] =  bcrypt($value);
     }
+    public function publicacionGrupo()
+    {
+        return $this->hasMany(PublicacionGrupo::class, 'ID_usuario', 'id');
+    }
+    public function comentariosGrupos()
+    {
+        return $this->hasMany(ComentarioGrupo::class, 'ID_usuario', 'id');
+    }
+    public function likesGrupo()
+    {
+        return $this->hasMany(LikeGrupo::class, 'ID_usuario');
+    }
 }

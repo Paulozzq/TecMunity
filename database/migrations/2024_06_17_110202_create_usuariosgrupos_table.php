@@ -22,6 +22,8 @@ return new class extends Migration
 
             // Definir la clave primaria compuesta
             $table->primary(['ID_usuario', 'ID_grupo']);
+            $table->timestamps();
+
         });
     }
 

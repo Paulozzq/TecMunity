@@ -5,23 +5,21 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Grupousuario extends Model
+class InfoGrupo extends Model
 {
     use HasFactory;
-    protected $table = 'usuariosgrupos';
-    protected $primaryKey = ['ID_usuario', 'ID_grupo'];
-    public $incrementing = false;
+
+    protected $table = 'info_grupo';
+    protected $primaryKey = 'ID_info';
 
     protected $fillable = [
-        'ID_usuario',
         'ID_grupo',
-        'fecha',
+        'descripcion',
+        'avatar',
+        'portada',
+        'tema',
+        'privado',
     ];
-
-    public function usuario()
-    {
-        return $this->belongsTo(User::class, 'ID_usuario', 'id');
-    }
 
     public function grupo()
     {
