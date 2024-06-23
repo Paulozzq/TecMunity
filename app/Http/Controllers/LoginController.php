@@ -8,10 +8,11 @@ use App\Models\Usuario;
 
 class LoginController extends Controller
 {
-    public function index(){  
+    public function index()
+    {  
         if (Auth::check()) {
-            return redirect('/publicaciones');
-        }else {
+            return redirect()->route('publicaciones.index');
+        } else {
             return view('login');
         }
     }
@@ -26,35 +27,33 @@ class LoginController extends Controller
 
         $user = Auth::getProvider()->retrieveByCredentials($credentials);
 
-       # if (!$user->email_verified_at) {
-            #Auth::logout();
-           # return redirect('/')->with('login_error', 'Debes verificar tu correo electrónico antes de iniciar sesión.');
-       # }
-
         Auth::login($user);
         return $this->authenticated($request, $user);
-
     }
 
     public function authenticated(Request $request, $user)
     {
-        if (empty($record->nombre) || empty($record->apellido))
-            $records = Usuario::all();
-            $isComplete = true;
+        
+        $records = auth::user();
+      
+        
+        $isComplete = true;
 
-            foreach ($records as $record) {
-                // Verifica si los campos 'nombre' y 'apellido' están vacíos
-                if (empty($record->nombre) || empty($record->apellido)) {
-                    $isComplete = false;
-                    break; // Rompe el bucle si se encuentra un campo vacío
-                }
+        
+        foreach ($records as $record) {
+           
+            // Verifica si los campos 'nombre' y 'apellido' están vacíos
+            if (empty($record->nombre) || empty($record->apellido)) {
+                $isComplete = false;
+                break; // Rompe el bucle si se encuentra un campo vacío
             }
+        }
+        
 
-            if ($isComplete) {
-                return redirect()->route('publicaciones.index'); // Ruta si los campos específicos están llenos
-            } else {
-                return redirect()->route('presentacion.index'); // Ruta si alguno de los campos está vacío
-            }
+        if (empty($user->nombre) || empty($user->apellido)) {
+            return redirect()->route('presentacion.index'); // Ruta si alguno de los campos está vacío
+        } else {
+            return redirect()->route('publicaciones.index'); // Ruta si los campos específicos están llenos
+        }
     }
-    
 }

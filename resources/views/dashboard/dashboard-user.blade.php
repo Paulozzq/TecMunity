@@ -4,12 +4,11 @@
         <h2 class="text-center">Lista de Usuarios</h2>
 
         @if(session('success'))
-            <div class="alert alert-success">
-                {{ session('success') }}
-            </div>
+        <div class="alert alert-success">
+            {{ session('success') }}
+        </div>
         @endif
 
-        
         <div class="table-responsive">
             <table class="table table-bordered">
                 <thead>
@@ -59,4 +58,3 @@
     </div>
 
 </x-dashboard>
-

@@ -21,21 +21,21 @@ class PerfilController extends Controller
             $amistadPendiente = Amistad::where(function ($query) use ($id) {
                 $query->where('ID_usuario', Auth::id())
                     ->where('ID_amigo', $id)
-                    ->where('estado', 'pendiente');
+                    ->where('ID_estadoamistad', '1');
             })->orWhere(function ($query) use ($id) {
                 $query->where('ID_usuario', $id)
                     ->where('ID_amigo', Auth::id())
-                    ->where('estado', 'pendiente');
+                    ->where('ID_estadoamistad', '1');
             })->exists();
 
             $amistadExistente = Amistad::where(function ($query) use ($id) {
                 $query->where('ID_usuario', Auth::id())
                     ->where('ID_amigo', $id)
-                    ->where('estado', 'amigos');
+                    ->where('ID_estadoamistad', '2');
             })->orWhere(function ($query) use ($id) {
                 $query->where('ID_usuario', $id)
                     ->where('ID_amigo', Auth::id())
-                    ->where('estado', 'amigos');
+                    ->where('ID_estadoamistad', '2');
             })->exists();
 
             $amigoUser = Amistad::where(function ($query) use ($id) {
@@ -62,11 +62,11 @@ class PerfilController extends Controller
         $noHaySolicitudPendiente = !Amistad::where(function ($query) use ($id) {
             $query->where('ID_usuario', Auth::id())
                 ->where('ID_amigo', $id)
-                ->where('estado', 'pendiente');
+                ->where('ID_estadoamistad', '1');
         })->orWhere(function ($query) use ($id) {
             $query->where('ID_usuario', $id)
                 ->where('ID_amigo', Auth::id())
-                ->where('estado', 'pendiente');
+                ->where('ID_estadoamistad', '1');
         })->exists();
 
         // Determina si no hay relación en absoluto

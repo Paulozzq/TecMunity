@@ -1,280 +1,159 @@
-@extends('layouts.layoutsMain')
+<!DOCTYPE html>
+<html lang="en" class="dark">
 
-@section('title', 'Tecmunity')
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@yield('title', 'TecMunity')</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.2/css/all.min.css"
+          integrity="sha512-1sCRPdkRXhBV2PBLUdRb4tMg1w2YPf37qatUFeS7zlBy7jJI8Lf4VHwWfZZfpXtYSLy85pkm9GaYVYMfw5BC1A=="
+          crossorigin="anonymous" referrerpolicy="no-referrer"/>
+    @vite('public/js/app.js')
+    @vite('public/css/dist.css')
+</head>
 
-@section('content')
-<div class="navbar">
-    <div class="navbar_menuicon" id="navicon">
-        <i class="fa fa-navicon"></i>
-    </div>
-    <div class="navbar_logo">
-        <a href="{{ route('publicaciones.index') }}">
-        <img src="{{ asset('img/logotec.png') }}" alt="" />
+<body class="bg-white dark:bg-dim-900">
+<!-- Container -->
+<div class="container mx-auto h-screen flex xl:max-w-[1200px]">
+    <!-- Left -->
+    <div class="xl:w-1/5 w-20 h-full flex flex-col xl:pr-4">
+        <!-- Logo -->
+        <a href="" class="link-active my-2">
+            <i class="fa-brands fa-twitter text-4xl"></i>
         </a>
-    </div>
-    <div class="navbar_search">
-        <form method="" action="/">
-            <input type="text" placeholder="  Search people.." />
-            <button><i class="fa fa-search"></i></button>
-        </form>
-    </div>
-    <div class="navbar_icons">
-        <ul>
-            <li id="friendsmodal"><i class="fa fa-user-o"></i><span id="notification">5</span></li>
-            <li id="messagesmodal"><i class="fa fa-comments-o"></i><span id="notification">2</span></li>
-            <a href="" style="color:white"><li><i class="fa fa-globe"></i></li></a>
-        </ul>
-    </div>
-    <div class="navbar_user" id="profilemodal" style="cursor:pointer">
-        @if(auth()->user()->avatar)
-            <img src="{{ auth()->user()->avatar }}" />
-        @else
-            <img src="{{ asset('img/default-avatar.jpg') }}" />
-        @endif
-        <span id="navbar_user_top">{{ auth()->user()->nombre}} {{ auth()->user()->apellido }}<br><p>User</p></span><i class="fa fa-angle-down"></i>
-    </div>
-</div>
-
-<div class="all">
-
-    <div class="rowfixed"></div>
-    <div class="left_row"> 
-        <div class="rowmenu">
-            <ul>
-                <li><a href="{{route('publicaciones.index')}}"><i class="fa fa-home"></i>Home</a></li>
-                <li><a href="profile.html"><i class="fa fa-user"></i>Profile</a></li>
-                <li><a href="{{route('grupos.create')}}"><i class="fa fa-users"></i>Groups</a></li>
-                <li><a href="index.html"><i class="fa fa-globe"></i>Home</a></li>
-                <li><a href="profile.html"><i class="fa fa-user"></i>Profile</a></li>
-            </ul>
-        </div>
-        <div class="left_row_profile">
-            @if(auth()->user()->portada)
-                <img id="portada" src="{{ auth()->user()->portada }}" />
+        <!-- Nav -->
+        <nav class="mt-5">
+            <a href="{{ route('publicaciones.index') }}" class="link-active mb-8">
+                <i class="fa-solid fa-house text-xl"></i>
+                <span class="icon">Inicio</span>
+            </a>
+            <a href="" class="link mb-8">
+                <i class="fa-solid fa-bell text-xl"></i>
+                <span class="icon">Notificaciones</span>
+            </a>
+            <a href="" class="link mb-8">
+                <i class="fa-solid fa-envelope text-xl"></i>
+                <span class="icon">Mensajeria</span>
+            </a>
+            <a href="" class="link mb-8">
+                <i class="fa-solid fa-list-ul text-xl"></i>
+                <span class="icon">Grupos</span>
+            </a>
+            <a href="" class="link mb-8">
+                <i class="fa-solid fa-user text-xl"></i>
+                <span class="icon">Perfil</span>
+            </a>
+            <a href="{{ route('logout') }}" class="link mb-8">
+                <i class="fa-solid fa-ellipsis text-xl"></i>
+                <span class="icon">Salir</span>
+            </a>
+        </nav>
+        <!-- Button -->
+        <a href=""
+           class="mx-auto w-11 h-11 xl:w-full flex items-center justify-center bg-blue-400 rounded-full text-white font-bold">
+            <i class="fa-solid fa-feather text-xl block xl:hidden"></i>
+            <span class="icon xl:ml-0">Post</span>
+        </a>
+        <br>
+        <!-- User -->
+        <div class="w-14 xl:w-full mx-auto mt-auto flex justify-between mb-2 rounded-full p-2 cursor-pointer">
+            @if(auth()->user()->avatar)
+                <img id="profile_pic" class="w-10 h-10 rounded-full"
+                     src="{{ auth()->user()->avatar }}"/>
             @else
-                <img id="portada" src="{{ asset('img/bl.jpg') }}" />
+                <img id="profile_pic" class="w-10 h-10 rounded-full"
+                     src="{{ asset('img/default-avatar.jpg') }}"/>
             @endif
-            <div class="left_row_profile">
-                @if(auth()->user()->avatar)
-                    <img id="profile_pic" src="{{ auth()->user()->avatar }}" />
-                @else
-                    <img id="profile_pic" src="{{ asset('img/default-avatar.jpg') }}" />
-                @endif
-                <span>{{ auth()->user()->nombre}} {{ auth()->user()->apellido }}<br><p>150k followers / 50 follow</p></span>
+            <div class="hidden xl:flex flex-col">
+                <h4 class="text-gray-800 dark:text-white font-bold text-sm">{{ auth()->user()->nombre }} {{ auth()->user()->apellido }}</h4>
+                <p class="text-gray-400 text-sm">@ {{ auth()->user()->username }}</p>
             </div>
-        </div> 
-    </div>
-
-
-    
- @yield('contenido')   
-
-<button onclick="topFunction()" id="myBtn" title="Go to top"><i class="fa fa-arrow-up"></i></button>
-
-
-
-<!-- Modal Messages -->
-<div class="modal modal-comments">
-    <div class="modal-icon-select"><i class="fa fa-sort-asc" aria-hidden="true"></i></div>
-    <div class="modal-title">
-        <span>CHAT / MESSAGES</span>
-         <a href="messages.html"><i class="fa fa-ellipsis-h"></i></a>
-    </div>
-    <div class="modal-content">
-        <ul>
-            <li>
-                <a href="#">
-                    <img src="images/user-7.jpg" alt="" />
-                    <span><b>Diana Jameson</b><br>Hi James! It’s Diana, I just wanted to let you know that we have to reschedule...<p>4 hours ago</p></span>
-                </a>
-            </li>
-            <li>
-                <a href="#">
-                    <img src="images/user-6.jpg" alt="" />
-                    <span><b>Elaine Dreyfuss</b><br>We’ll have to check that at the office and see if the client is on board with...<p>Yesterday at 9:56pm</p></span>
-                </a>
-            </li>
-            <li>
-                <a href="#">
-                    <img src="images/user-3.jpg" alt="" />
-                    <span><b>Jake Parker</b><br>Great, I’ll see you tomorrow!.<p>4 hours ago</p></span>
-                </a>
-            </li>
-        </ul>
-    </div>
-</div>
-<!-- Modal Friends -->
-<div class="modal modal-friends">
-    <div class="modal-icon-select"><i class="fa fa-sort-asc" aria-hidden="true"></i></div>
-    <div class="modal-title">
-        <span>FRIEND REQUESTS</span>
-         <a href="friends.html"><i class="fa fa-ellipsis-h"></i></a>
-    </div>
-    <div class="modal-content">
-        <ul>
-            <li>
-                <a href="#">
-                    <img src="images/user-2.jpg" alt="" />
-                    <span><b>Tony Stevens</b><br>4 Friends in Common</span>
-                    <button class="modal-content-accept">Accept</button><button class="modal-content-decline">Decline</button>
-                </a>
-            </li>
-            <li>
-                <a href="#">
-                    <img src="images/user-6.jpg" alt="" />
-                    <span><b>Tamara Romanoff</b><br>2 Friends in Common</span>
-                    <button class="modal-content-accept">Accept</button><button class="modal-content-decline">Decline</button>
-                </a>
-            </li>
-            <li>
-                <a href="#">
-                    <img src="images/user-4.jpg" alt="" />
-                    <span><b>Nicholas Grissom</b><br>1 Friend in Common</span>
-                    <button class="modal-content-accept">Accept</button><button class="modal-content-decline">Decline</button>
-                </a>
-            </li>
-        </ul>
-    </div>
-</div>
-<!-- Modal Profile -->
-<div class="modal modal-profile">
-    <div class="modal-icon-select"><i class="fa fa-sort-asc" aria-hidden="true"></i></div>
-    <div class="modal-title">
-        <span>YOUR ACCOUNT</span>
-         <a href="#"><i class="fa fa-cogs"></i></a>
-    </div>
-    <div class="modal-content">
-        <ul>
-            <li>
-                <a href="{{ route('account') }}">
-                    <i class="fa fa-tasks" aria-hidden="true"></i>
-                    <span><b>Profile Settings</b><br>Yours profile settings</span>
-                </a>
-            </li>
-            <li>
-                <a href="#">
-                    <i class="fa fa-star-o" aria-hidden="true"></i>
-                    <span><b>Create a page</b><br>Create your page</span>
-                </a>
-            </li>
-            <li>
-                <a href="{{ route('logout') }}">
-                    <i class="fa fa-power-off" aria-hidden="true"></i>
-                    <span><b>Log Out</b><br>Close your session</span>
-                </a>
-            </li>
-        </ul>
-    </div>
-</div>
-
-@yield('contentpublic')
-
-
-<button onclick="topFunction()" id="myBtn" title="Go to top"><i class="fa fa-arrow-up"></i></button>
-
-
-
-<!-- Modal Messages -->
-<div class="modal modal-comments">
-<div class="modal-icon-select"><i class="fa fa-sort-asc" aria-hidden="true"></i></div>
-<div class="modal-title">
-    <span>CHAT / MESSAGES</span>
-     <a href="messages.html"><i class="fa fa-ellipsis-h"></i></a>
-</div>
-<div class="modal-content">
-    <ul>
-        <li>
-            <a href="#">
-                <img src="images/user-7.jpg" alt="" />
-                <span><b>Diana Jameson</b><br>Hi James! It’s Diana, I just wanted to let you know that we have to reschedule...<p>4 hours ago</p></span>
-            </a>
-        </li>
-        <li>
-            <a href="#">
-                <img src="images/user-6.jpg" alt="" />
-                <span><b>Elaine Dreyfuss</b><br>We’ll have to check that at the office and see if the client is on board with...<p>Yesterday at 9:56pm</p></span>
-            </a>
-        </li>
-        <li>
-            <a href="#">
-                <img src="images/user-3.jpg" alt="" />
-                <span><b>Jake Parker</b><br>Great, I’ll see you tomorrow!.<p>4 hours ago</p></span>
-            </a>
-        </li>
-    </ul>
-</div>
-</div>
-<!-- Modal Friends -->
-<div class="modal modal-friends">
-<div class="modal-icon-select"><i class="fa fa-sort-asc" aria-hidden="true"></i></div>
-<div class="modal-title">
-    <span>FRIEND REQUESTS</span>
-     <a href="friends.html"><i class="fa fa-ellipsis-h"></i></a>
-</div>
-<div class="modal-content">
-    <ul>
-        <li>
-            <a href="#">
-                <img src="images/user-2.jpg" alt="" />
-                <span><b>Tony Stevens</b><br>4 Friends in Common</span>
-                <button class="modal-content-accept">Accept</button><button class="modal-content-decline">Decline</button>
-            </a>
-        </li>
-        <li>
-            <a href="#">
-                <img src="images/user-6.jpg" alt="" />
-                <span><b>Tamara Romanoff</b><br>2 Friends in Common</span>
-                <button class="modal-content-accept">Accept</button><button class="modal-content-decline">Decline</button>
-            </a>
-        </li>
-        <li>
-            <a href="#">
-                <img src="images/user-4.jpg" alt="" />
-                <span><b>Nicholas Grissom</b><br>1 Friend in Common</span>
-                <button class="modal-content-accept">Accept</button><button class="modal-content-decline">Decline</button>
-            </a>
-        </li>
-    </ul>
-</div>
-</div>
-
-<!-- NavMobile -->
-<div class="mobilemenu">
-    
-    <div class="mobilemenu_profile">
-        <img id="mobilemenu_portada" src="images/portada.jpg" />
-        <div class="mobilemenu_profile">
-            <img id="mobilemenu_profile_pic" src="{{ auth()->user()->avatar ? asset('storage/' . auth()->user()->avatar) : asset('img/default-avatar.jpg') }}" /><br>
-            <span>{{ auth()->user()->nombre}}<br><p>150k followers / 50 follow</p></span>
-        </div>
-        <div class="mobilemenu_menu">
-            <ul>
-                <li><a href="index.html"><i class="fa fa-globe"></i>Newsfeed</a></li>
-                <li><a href="profile.html"><i class="fa fa-user"></i>Profile</a></li>
-                <li><a href="friends.html"><i class="fa fa-users"></i>Friends</a></li>
-                <li><a href="messages.html"><i class="fa fa-comments-o"></i>messages</a></li>
-                <li class="primarymenu"><i class="fa fa-compass"></i>Explore</li>
-                <ul class="mobilemenu_child">
-                    <li style="border:none"><a href="#"><i class="fa fa-globe"></i>Activity</a></li>
-                    <li style="border:none"><a href="#"><i class="fa fa-file"></i>Friends</a></li>
-                    <li style="border:none"><a href="#"><i class="fa fa-file"></i>Groups</a></li>
-                    <li style="border:none"><a href="#"><i class="fa fa-file"></i>Pages</a></li>
-                    <li style="border:none"><a href="#"><i class="fa fa-file"></i>Saves</a></li>
-                </ul>
-                <li class="primarymenu"><i class="fa fa-user"></i>Rapid Access</li>
-                <ul class="mobilemenu_child">
-                    <li style="border:none"><a href="#"><i class="fa fa-star-o"></i>Your-Page.html</a></li>
-                    <li style="border:none"><a href="#"><i class="fa fa-star-o"></i>Your-Group.html</a></li>
-                </ul>
-            </ul>
-                <hr>
-            <ul>
-                <li><a href="#">Terms & Conditions</a></li>
-                <li><a href="#">FAQ's</a></li>
-                <li><a href="#">Contact</a></li>
-                <li><a href="{{ route('logout') }}">Logout</a></li>
-            </ul>
+            <i class="fa-solid fa-chevron-down text-xs hidden xl:flex items-center xl:ml-4 text-gray-800 dark:text-white"></i>
         </div>
     </div>
-</div
-@endsection
+    <!-- End Left -->
+    <!-- Middle -->
+    <div class="w-full xl:w-1/2 h-screen overflow-y-auto">
+        <!-- Sticky Header -->
+        @yield('contenido')
+        <!-- Spinner -->
+    </div>
+    <!-- Right -->
+    <div class="hidden w-[30%] xl:block ">
+        <!-- Search -->
+        <div class="relative m-2">
+            <i class="fa-solid fa-magnifying-glass text-gray-600 absolute left-4 top-1/2 -translate-y-1/2"></i>
+            <input type="text"
+                   class="w-full bg-gray-200 dark:bg-dim-400 border-gray-200 dark:border-dim-400 text-gray-100 focus:outline-none font-normal h-9 pl-12 text-sm rounded-full"
+                   placeholder="Buscar en TecMunity"/>
+        </div>
+        <div class="bg-gray-50 dark:bg-dim-700 rounded-2xl m-2">
+            <h3 class="text-gray-900 dark:text-white font-bold p-3 border-b border-gray-200 dark:border-dim-200">
+                Noticias Tecsup
+            </h3>
+            <div class="p-3 border-b border-gray-200 dark:border-dim-200">
+                <h4 class="font-bold text-gray-800 dark:text-white">
+                    Titulo de la noticia
+                </h4>
+                <p class="text-xs text-gray-400">Lorem ipsum dolor sit amet consectetur adipisicing elit. Alias a facilis sit voluptas odio magni accusamus assumenda consequatur at atque aspernatur quam obcaecati debitis quaerat cum quisquam similique, corporis qui.</p>
+                <img class="w-30 h-40 rounded-media"
+                     src="https://pbs.twimg.com/profile_images/1444753598328496128/hCCopfyz_400x400.jpg" alt=""/>
+            </div>
+            <div class="p-3 border-b border-gray-200 dark:border-dim-200">
+                <h4 class="font-bold text-gray-800 dark:text-white">
+                    #Palestine
+                </h4>
+                <p class="text-xs text-gray-400">29.7K Tweets</p>
+            </div>
+            <div class="p-3 border-b border-gray-200 dark:border-dim-200">
+                <h4 class="font-bold text-gray-800 dark:text-white">
+                    #Palestine
+                </h4>
+                <p class="text-xs text-gray-400">29.7K Tweets</p>
+            </div>
+            <div class="text-blue-400 p-3 cursor-pointer">
+                Mostrar mas
+            </div>
+        </div>
+        <!-- Who to follow  -->
+        <div class="bg-gray-50 dark:bg-dim-700 rounded-2xl m-2">
+            <h3 class="text-gray-900 dark:text-white font-bold p-3 border-b border-gray-200 dark:border-dim-200">
+                Solicitud de amistad
+            </h3>
+            <div class="p-5 border-b border-gray-200 dark:border-dim-200 flex justify-between items-center">
+                <div class="flex ">
+                    <img class="w-10 h-10 rounded-full"
+                         src="https://pbs.twimg.com/profile_images/1444753598328496128/hCCopfyz_400x400.jpg" alt=""/>
+                    <div class="ml-2 text-sm">
+                        <h5 class="text-gray-900 dark:text-white font-bold">
+                            abdoelazizgamal
+                        </h5>
+                        <p class="text-gray-400">@abdoelazizgamal</p>
+                    </div>
+                </div>
+                <a href="#" class="text-xs font-bold text-blue-400 px-4 py-1 rounded-full border-2 border-blue-400">Seguir</a>
+            </div>
+            <div class="p-5 border-b border-gray-200 dark:border-dim-200 flex justify-between items-center">
+                <div class="flex ">
+                    <img class="w-10 h-10 rounded-full"
+                         src="https://pbs.twimg.com/profile_images/1444753598328496128/hCCopfyz_400x400.jpg" alt=""/>
+                    <div class="ml-2 text-sm">
+                        <h5 class="text-gray-900 dark:text-white font-bold">
+                            abdoelazizgamal
+                        </h5>
+                        <p class="text-gray-400">@abdoelazizgamal</p>
+                    </div>
+                </div>
+                <a href="#" class="text-xs font-bold text-blue-400 px-4 py-1 rounded-full border-2 border-blue-400">Follow</a>
+            </div>
+            <div class="text-blue-400 p-3 cursor-pointer">
+                Mostrar mas
+            </div>
+        </div>
+    </div>
+</div>
+@stack('scripts')
+</body>
+
+</html>

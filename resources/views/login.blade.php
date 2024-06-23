@@ -1,193 +1,167 @@
-@extends('layouts.layout')
-
-@section('title', 'Ingresar')
-
-@section('content')
-<div class="container">
-    <div class="forms-container">
-        <div class="signin-signup">
-            <form action="/login" method="POST" class="sign-in-form">
-                <h2 class="title">Iniciar Sesion</h2>
-                @csrf
-                <div class="input-field">
-                    <i class="fas fa-user"></i>
-                    <input type="text" placeholder="Usuario o Correo" name="username" required />
-                    @error('username')
-                        <br>
-                        <small style="color: red">{{ $message }}</small>
-                        <br>
-                    @enderror
-                </div>
-                <div class="input-field password-field">
-                    <i class="fas fa-lock"></i>
-                    <input type="password" placeholder="Contraseña" name="password" required />
-                    @error('password')
-                        <br>
-                        <small style="color: red">{{ $message }}</small>
-                        <br>
-                    @enderror
-                    <i class="fas fa-eye toggle-password"></i>
-                </div>
-                <input type="submit" value="Iniciar Sesion" class="btn solid" />
-            </form>
-            <form action="/register" method="POST" class="sign-up-form">
-                <h2 class="title">Registrarse</h2>
-                @csrf
-                <div class="input-field">
-                    <i class="fas fa-user"></i>
-                    <input type="text" placeholder="Usuario" name="username" value="{{ old('username') }}" required />
-                    @error('username')
-                        <br>
-                        <small style="color: red">{{ $message }}</small>
-                        <br>
-                    @enderror
-                </div>
-                <div class="input-field">
-                    <i class="fas fa-envelope"></i>
-                    <input type="email" placeholder="Email" name="email" value="{{ old('email') }}" required />
-                    @error('email')
-                        <br>
-                        <small style="color: red">{{ $message }}</small>
-                        <br>
-                    @enderror
-                </div>
-                <div class="input-field password-field">
-                    <i class="fas fa-lock"></i>
-                    <input type="password" placeholder="Contraseña" name="password" required />
-                    @error('password')
-                        <br>
-                        <small style="color: red">{{ $message }}</small>
-                        <br>
-                    @enderror
-                    <i class="fas fa-eye toggle-password"></i>
-                </div>
-                <div class="input-field password-field">
-                    <i class="fas fa-lock"></i>
-                    <input type="password" placeholder="Confirmar Contraseña" name="password_confirmation" required />
-                    @error('password_confirmation')
-                        <br>
-                        <small style="color: red">{{ $message }}</small>
-                        <br>
-                    @enderror
-                    <i class="fas fa-eye toggle-password"></i>
-                </div>
-                <input type="submit" class="btn" value="Registrarse" />
-            </form>
-        </div>
-    </div>  
-
-    <div class="panels-container">
-        <div class="panel left-panel">
-            <div class="content">
-                <h3>
-                    <img style="width: 550px; height: 250px; border-radius: 15%" src="{{ asset('img/Tecmunity_Logo.png') }}" alt="Descripción de la imagen">
-                </h3>
-                <p>
-                    Registrarte en TecMunity, una red social <b style="text-decoration: underline">exclusiva</b> para Tecsup.
-                </p>
-                <button class="btn transparent" id="sign-up-btn">
-                    Registrarse
-                </button>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.16/dist/tailwind.min.css" rel="stylesheet">
+    <title>Document</title>
+</head>
+<body>
+    <div class="flex items-center justify-center min-h-screen bg-gray-100">
+        <div
+          class="relative flex flex-col m-6 space-y-8 bg-white shadow-2xl rounded-2xl md:flex-row md:space-y-0"
+        >
+       
+          <div class="flex flex-col justify-center p-8 md:p-14">
+            <span class="mb-3 text-4xl font-bold">TecMunity</span>
+            <span class="font-light text-gray-400 mb-8">
+              Bienvenido a TecMunity, por favor inicia sesion!
+            </span>
+            <div class="py-4">
+            <form action="/login" method="POST">
+              @csrf   
+              <span class="mb-2 text-md">Username o correo institucional</span>
+              <input
+                type="text"
+                class="w-full p-2 border border-gray-300 rounded-md placeholder:font-light placeholder:text-gray-500"
+                name="username"
+                id="email"
+              />
             </div>
-            <img src="img/log.svg" class="image" alt="" />
-        </div>
-        <div class="panel right-panel">
-            <div class="content">
-                <h3> Eres uno de nosotros?</h3>
-                <h3>
-                    <img style="width: 550px; height: 250px; border-radius: 15%" src="{{ asset('img/Tecmunity_Logo.png') }}" alt="Descripción de la imagen">
-                </h3>
-                <p>
-                    Inicia sesion en TecMunity aca
-                </p>
-                <button class="btn transparent" id="sign-in-btn">
-                    Iniciar Sesion
-                </button>
+            <div class="py-4">
+              <span class="mb-2 text-md">Contraseña</span>
+              <input
+                type="password"
+                name="password"
+                id="pass"
+                class="w-full p-2 border border-gray-300 rounded-md placeholder:font-light placeholder:text-gray-500"
+              />
             </div>
-            <img src="img/register.svg" class="image" alt="" />
+            <div class="flex justify-between w-full py-4">
+              <div class="mr-24">
+                <input type="checkbox" name="ch" id="ch" class="mr-2" />
+                <span class="text-md">Permanecer conectado</span>
+              </div>
+              <span class="font-bold text-md">Olvide mi contraseña</span>
+            </div>
+            <button
+              class="w-full bg-black text-white p-2 rounded-lg mb-6 hover:bg-white hover:text-black hover:border hover:border-gray-300"
+            >
+             Iniciar Sesion
+            </button>
+            </form>
+           
+            <div class="text-center text-gray-400">
+              No tienes una cuenta?
+              <a href="{{ route('registro') }}"><span class="font-bold text-black">Registrate gratis</span></a>
+          </div>
+          
+          </div>
+          <!-- {/* right side */} -->
+          <div class="relative">
+              <img src="{{ asset('img/Tecmunity_Logo.png') }}" alt="img" class="w-[400px] h-full hidden rounded-r-2xl md:block object-cover" />
+  
+            <!-- text on image  -->
+            <div
+              class="absolute hidden bottom-10 right-6 p-6 bg-white bg-opacity-30 backdrop-blur-sm rounded drop-shadow-lg md:block"
+            >
+             
+            </div>
+          </div>
         </div>
-    </div>
-</div>  
-
-@if(session('success') == 'ok')
-    <script>
-        Swal.fire("Registro con exito!");
-    </script>
-@endif
-@if(session('login_error'))
-    <script>
-        Swal.fire({
-            icon: 'error',
-            title: 'Error de inicio de sesión',
-            text: "{{ session('login_error') }}"
-        });
-    </script>
-@endif
-
-@if($errors->has('username') || $errors->has('password'))
-    <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            Swal.fire({
-                icon: 'error',
-                title: 'Error de inicio de sesión',
-                text: 'Sus credenciales son incorrectas. Por favor, vuelva a intentarlo.'
-            });
-        });
-    </script>
-@endif
-
-
-<script>
-
-    
-  document.addEventListener('DOMContentLoaded', function () {
-  const signUpForm = document.querySelector('.sign-up-form');
-  const signInForm = document.querySelector('.sign-in-form');
-  const emailPattern = /^[a-zA-Z0-9._%+-]+@tecsup\.edu\.pe$/;
-
-  signUpForm.addEventListener('submit', function (event) {
-      const emailInput = signUpForm.querySelector('input[name="email"]');
-      if (!emailPattern.test(emailInput.value)) {
-          event.preventDefault();
-          Swal.fire({
-              icon: 'error',
-              title: 'Correo inválido',
-              text: 'Por favor, ingresa un correo electrónico válido de @tecsup.edu.pe'
+      </div>
+    </body>
+  @if(session('success') == 'ok')
+  <script>
+      Swal.fire("Registro con exito!");
+  </script>
+  @endif
+  
+  @if(session('login_error'))
+  <script>
+      Swal.fire({
+          icon: 'error',
+          title: 'Error de inicio de sesión',
+          text: "{{ session('login_error') }}"
+      });
+  </script>
+  @endif
+  
+  <script>
+      document.addEventListener('DOMContentLoaded', function () {
+          const signInForm = document.querySelector('.sign-in-form');
+  
+          signInForm.addEventListener('submit', function (event) {
+              const usernameOrEmailInput = signInForm.querySelector('input[name="username"]');
+              const passwordInput = signInForm.querySelector('input[name="password"]');
+              const value = usernameOrEmailInput.value;
+              const isEmail = emailPattern.test(value);
+              const isUsername = value.length > 0 && !isEmail;
+  
+              if (!isEmail && !isUsername) {
+                  event.preventDefault();
+                  Swal.fire({
+                      icon: 'error',
+                      title: 'Error en el ingreso de usuario o correo',
+                      text: 'Por favor, ingresa un nombre de usuario o un correo electrónico válido de @tecsup.edu.pe'
+                  });
+              } else if (passwordInput.value.length < 8 || !validatePassword(passwordInput.value)) {
+                  event.preventDefault();
+                  Swal.fire({
+                      icon: 'error',
+                      title: 'Error en la contraseña',
+                      text: 'La contraseña debe tener al menos 8 caracteres y cumplir con los criterios de seguridad.'
+                  });
+              }
           });
+      });
+  
+      function validatePassword(password) {
+      // Al menos 8 caracteres de longitud
+      if (password.length < 8) {
+          return false;
       }
-  });
-
-  signInForm.addEventListener('submit', function (event) {
-      const usernameOrEmailInput = signInForm.querySelector('input[name="username"]');
-      const value = usernameOrEmailInput.value;
-      const isEmail = emailPattern.test(value);
-      const isUsername = value.length > 0 && !isEmail;
-
-      if (!isEmail && !isUsername) {
-          event.preventDefault();
-          Swal.fire({
-              icon: 'error',
-              title: 'Error en el ingreso de usuario o correo',
-              text: 'Por favor, ingresa un nombre de usuario o un correo electrónico válido de @tecsup.edu.pe'
+  
+      // Al menos una letra mayúscula
+      if (!/[A-Z]/.test(password)) {
+          return false;
+      }
+  
+      // Al menos una letra minúscula
+      if (!/[a-z]/.test(password)) {
+          return false;
+      }
+  
+      // Al menos un dígito
+      if (!/\d/.test(password)) {
+          return false;
+      }
+  
+      // Al menos un carácter especial (por ejemplo, !@#$%^&*)
+      if (!/[!@#$%^&*]/.test(password)) {
+          return false;
+      }
+  
+      // Cumple con todos los criterios
+      return true;
+  }
+  </script>
+  
+  <script>
+      document.addEventListener('DOMContentLoaded', function () {
+          const signUpButton = document.getElementById('sign-up-btn');
+          const signInButton = document.getElementById('sign-in-btn');
+          const container = document.querySelector('.container');
+  
+          signUpButton.addEventListener('click', () => {
+              container.classList.add('sign-up-mode');
           });
-      }
-  });
-
-  // Validación de username en el formulario de registro
-  signUpForm.addEventListener('submit', function(event) {
-      const usernameInput = signUpForm.querySelector('input[name="username"]');
-      const username = usernameInput.value;
-      const usernamePattern = /^[a-zA-Z0-9_]{1,10}$/; // Patrón para permitir solo letras, números y guiones bajos (_), con longitud de 1 a 10 caracteres
-      if (!usernamePattern.test(username)) {
-          event.preventDefault();
-          Swal.fire({
-              icon: 'error',
-              title: 'Usuario inválido',
-              text: 'Por favor, ingresa un nombre de usuario válido (máximo 10 caracteres, solo letras, números y guiones bajos)'
+  
+          signInButton.addEventListener('click', () => {
+              container.classList.remove('sign-up-mode');
           });
-      }
-  });
-});
-
-</script>
-@endsection
+      });
+  </script>
+  
+  </html>

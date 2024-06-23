@@ -54,7 +54,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::post('comentario/grupo/{comentario}/like', [LikeGrupoController::class, 'likeComentarioGrupo'])->name('grupos.comentario.like');
     Route::delete('comentario/grupo/{comentario}/unlike', [LikeGrupoController::class, 'unlikeComentarioGrupo'])->name('grupos.comentario.unlike');
     Route::post('/comentarios/responder', [ComentarioController::class, 'reply'])->name('comentario.reply');
-
+    Route::get('/registro',[RegisterController::class, 'index'])->name('registro');
     Route::get('/usuarios', [DashboardController::class, 'index_list'])->name('usuarios.index');
     Route::get('/usuarios/{id}', [DashboardController::class, 'show'])->name('usuarios.show');
     Route::get('/usuarios/edit/{id}', [DashboardController::class, 'edit'])->name('usuarios.edit');

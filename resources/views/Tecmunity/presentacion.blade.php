@@ -3,15 +3,18 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TecMinity - Registro</title>
+    <title>TecMunity - Registro</title>
     <style>
+        
         body {
             font-family: Arial, sans-serif;
             margin: 0;
             padding: 0;
+            background-color: black; /* Cambia el color de fondo a negro */
+            color: white; /* Cambia el color del texto a blanco */
         }
         .navbar {
-            background-color: #00c0ff;
+            background-color: gray;
             padding: 10px;
             text-align: center;
         }
@@ -25,23 +28,47 @@
             max-width: 600px;
             margin: 20px auto;
             overflow: hidden;
+            animation: slideAnimation 10s infinite; /* Agrega una animación al carrusel */
         }
         .carousel-slide {
             display: none;
             text-align: center;
+            opacity: 0;
+            transition: opacity 0.5s ease;
         }
         .carousel-slide.active {
             display: block;
+            opacity: 1;
         }
         .carousel-nav {
             margin-top: 20px;
             text-align: center;
         }
         .carousel-nav button {
-            padding: 10px 20px;
-            font-size: 16px;
-            margin: 5px;
-        }
+    padding: 10px 20px;
+    font-size: 16px;
+    margin: 5px;
+    background-color: black; /* Cambia el color de fondo de los botones */
+    color: white; /* Cambia el color del texto de los botones */
+    border-color: white;
+    cursor: pointer;
+    border-radius: 30px;
+    position: relative; /* Permite posicionar el contenido adicional */
+}
+
+.carousel-nav button:hover::after {
+    content: attr(data-tooltip); /* Agrega el contenido especificado en el atributo data-tooltip */
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: black;
+    color: white;
+    padding: 5px 10px;
+    font-size: 14px;
+    border-radius: 5px;
+}
+
         form {
             display: flex;
             flex-direction: column;
@@ -76,26 +103,122 @@
             padding: 10px 20px;
             font-size: 16px;
             margin-top: 10px;
+            background-color: aliceblue;
+            border-radius: 30px;
+        }
+
+        /* Define la animación del carrusel */
+        @keyframes slideAnimation {
+            0%, 100% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-20px);
+            }
+        }
+
+        button[type="submit"] {
+        padding: 10px 20px;
+        font-size: 16px;
+        margin-top: 10px;
+        background-color: black;
+        color: white;
+       
+        border-radius: 30px;
+        cursor: pointer;
+        transition: background-color 0.3s, transform 0.3s;
+        border-color:white;
+    }
+
+    button[type="submit"]:hover {
+        background-color: white; /* Cambia el color de fondo al pasar el cursor */
+        transform: scale(1.1); 
+        color:black/* Hace que el botón se agrande ligeramente */
+    }
+
+    /* Agrega estilos para la animación del botón al hacer clic */
+    @keyframes fire {
+        0% {
+            background-color: #ff5733; /* Rojo */
+        }
+        25% {
+            background-color: #ff8c00; /* Naranja */
+        }
+        50% {
+            background-color: #ffd700; /* Amarillo */
+        }
+        75% {
+            background-color: #32cd32; /* Verde Lima */
+        }
+        100% {
+            background-color: #20b2aa; /* Turquesa */
+        }
+    }
+
+    button[type="submit"]:active {
+        animation: fire 0.5s infinite alternate; /* Aplica la animación al hacer clic */
+    }
+
+    .hidden {
+            display: none;
         }
     </style>
 </head>
 <body>
-    <div class="navbar">
-        <h1>TecMinity</h1>
+    <div class="navbar" style="background-color: black">
+        <h1>TecMunity</h1>
+        <hr style="border-top: 1px solid white; margin-top: 5px;">
     </div>
+    
     <div class="carousel">
         <div class="carousel-slide active">
-            <h2>Bienvenido a TecMinity</h2>
-            <p>Conecta con otros estudiantes y profesionales de Tecsup.</p>
+            <h1>Bienvenido a TecMunity</h1>
+             <h2>Conecta con otros estudiantes y profesionales de Tecsup.</h2> <br>
+            <h3>En TecMinity, nuestra misión es proporcionar una plataforma dinámica donde puedas:</h3> <br>
+            <ul>
+                <li>Conectar con estudiantes y profesores de Tecsup de la sede central (pronto para todas las sedes !!)</li> <br><br>
+                <li>Compartir proyectos, ideas y colaborar en proyectos innovadores.</li><br><br>
+                <li>Acceder a grupos exclusivos para mejorar tus habilidades técnicas.</li><br><br>
+                <li>Participar en debates, eventos y competencias para potenciar tu desarrollo profesional.</li> <br>
+            </ul>
+            <p>Siendo estudiante, ¡TecMinity es tu comunidad!</p>
         </div>
+        
         <div class="carousel-slide">
-            <h2>Comparte tus conocimientos</h2>
-            <p>Publica tus proyectos, ideas y colabora con otros.</p>
+            <h1>Comparte tus conocimientos</h1> <br>
+            <h2>Publica tus proyectos, ideas y colabora con otros.</h2> <br>
+            <p>En TecMinity, te ofrecemos un espacio para compartir y colaborar en proyectos innovadores con estudiantes y profesionales de Tecsup.</p><br>
+            <h3>Beneficios de compartir en TecMunity:</h3> <br>
+            <ul>
+                <li>Obtén retroalimentación valiosa de la comunidad sobre tus proyectos.</li> <br>
+                <li>Encuentra socios y colaboradores para tus ideas y proyectos.</li><br>
+                <li>Participa en desafíos y competencias para destacar tu trabajo.</li><br>
+            </ul> <br>
+            <p>¡Aprovecha la oportunidad de mostrar tus conocimientos y contribuir al crecimiento de la comunidad!</p>
         </div>
+        
         <div class="carousel-slide">
-            <h2>Aprende y Crece</h2>
-            <p>Accede a recursos exclusivos y mejora tus habilidades.</p>
+            <h1>Aprende y Crece en TecMinity</h1>
+            <br>
+            <h2>Accede a recursos exclusivos</h2>
+            <br>
+            <h3>Descubre una variedad de recursos para potenciar tu aprendizaje:</h3>
+            <ul>
+                <li>Artículos y tutoriales sobre tecnología, programación, diseño, y más.</li>
+                <li>Videos educativos y conferencias de expertos en diferentes áreas.</li>
+                <li>Libros y documentos recomendados por la comunidad.</li>
+            </ul>
+            <br>
+            <h2>Mejora tus habilidades</h2>
+            <br>
+            <h3>Desarrolla nuevas habilidades y mejora las existentes con nuestras herramientas y actividades:</h3>
+            <ul>
+                <li>Participa en proyectos colaborativos para aplicar lo que aprendes.</li>
+                <li>Practica en nuestros laboratorios virtuales con ejercicios prácticos.</li>
+                <li>Obtén certificaciones reconocidas en el mundo laboral.</li>
+            </ul>
         </div>
+        
         <div class="carousel-slide">
             <h2>Regístrate ahora</h2>
             <div class="right_row">
@@ -109,7 +232,7 @@
                                 <form action="{{ route('profile.update') }}" method="POST" enctype="multipart/form-data">
                                     @csrf
                                     @method('POST')
-                                    <div class="pi-input pi-input-lg">
+                                      <div class="pi-input pi-input-lg">
                                         <span>Nombre</span>
                                         <input type="text" name="nombre" value="{{ old('nombre', auth()->user()->nombre) }}" required />
                                     </div>
@@ -175,32 +298,40 @@
             </div>
         </div>
     </div>
+   
+
     <div class="carousel-nav">
-        <button id="prevBtn" disabled>Anterior</button>
-        <button id="nextBtn">Siguiente</button>
+        <button id="prevBtn" data-tooltip="Anterior">&#10094;</button>
+        <button id="nextBtn" data-tooltip="Siguiente">&#10095;</button>
     </div>
+    
     <script>
         const slides = document.querySelectorAll('.carousel-slide');
         const prevBtn = document.getElementById('prevBtn');
         const nextBtn = document.getElementById('nextBtn');
+        const formCarousel = document.getElementById('formCarousel'); // Referencia al formulario
         let currentSlide = 0;
-
+    
         function showSlide(index) {
             slides.forEach((slide, i) => {
                 slide.classList.toggle('active', i === index);
             });
             prevBtn.disabled = index === 0;
             nextBtn.disabled = index === slides.length - 1;
-            nextBtn.innerText = index === slides.length - 1 ? 'Registrarse' : 'Siguiente';
+    
+            // Ocultar el botón de siguiente si el formulario es visible
+            if (isInViewport(formCarousel)) {
+                nextBtn.classList.add('hidden');
+            }
         }
-
+    
         prevBtn.addEventListener('click', () => {
             if (currentSlide > 0) {
                 currentSlide--;
                 showSlide(currentSlide);
             }
         });
-
+    
         nextBtn.addEventListener('click', () => {
             if (currentSlide < slides.length - 1) {
                 currentSlide++;
@@ -209,8 +340,21 @@
                 document.querySelector('form').submit();
             }
         });
-
+    
         showSlide(currentSlide);
+    
+        // Función para verificar si un elemento está dentro del viewport
+        function isInViewport(element) {
+            const rect = element.getBoundingClientRect();
+            return (
+                rect.top >= 0 &&
+                rect.left >= 0 &&
+                rect.bottom <= (window.innerHeight || document.documentElement.clientHeight) &&
+                rect.right <= (window.innerWidth || document.documentElement.clientWidth)
+            );
+        }
     </script>
+    
+    
 </body>
 </html>
