@@ -14,14 +14,19 @@ use App\Http\Controllers\{
     LikeController,
     PresentacionController,
     AmistadController,
-    GrupoController
+    GrupoController,
+    PasswordResetController,
+    NotificacionesController, 
+    MensajeriaController, 
 };
 
 // Rutas de autenticación y registro
 Route::post('/register', [RegisterController::class, 'register'])->name('register');
-Route::get('/', [LoginController::class, 'index']);
-Route::post('/login', [LoginController::class, 'login']);
+Route::get('/registro',[RegisterController::class, 'index'])->name('registro');
+Route::get('/', [LoginController::class, 'index'])->name('login');
+Route::post('/login', [LoginController::class, 'login'])->name('loginpost');
 Route::get('/logout', [LogoutController::class, 'logout'])->name('logout');
+
 
 // Verificación de email
 Route::get('/espera', function () {
@@ -54,7 +59,9 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::post('comentario/grupo/{comentario}/like', [LikeGrupoController::class, 'likeComentarioGrupo'])->name('grupos.comentario.like');
     Route::delete('comentario/grupo/{comentario}/unlike', [LikeGrupoController::class, 'unlikeComentarioGrupo'])->name('grupos.comentario.unlike');
     Route::post('/comentarios/responder', [ComentarioController::class, 'reply'])->name('comentario.reply');
-    Route::get('/registro',[RegisterController::class, 'index'])->name('registro');
+    Route::get('/notificaciones',[NotificacionesController::class,'show'])->name('notificaciones.index');
+    Route::get('/mensajes',[MensajeriaController::class,'show'])->name('mensajeria.index');
+   
     Route::get('/usuarios', [DashboardController::class, 'index_list'])->name('usuarios.index');
     Route::get('/usuarios/{id}', [DashboardController::class, 'show'])->name('usuarios.show');
     Route::get('/usuarios/edit/{id}', [DashboardController::class, 'edit'])->name('usuarios.edit');
@@ -81,8 +88,9 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::post('/grupos', [GrupoController::class, 'store'])->name('grupos.store');
     Route::post('/grupos/join', [GrupoController::class, 'join'])->name('grupos.join'); // Acción de unirse a un grupo
     Route::get('/grupos/{id}', [GrupoController::class, 'index'])->name('grupos.index');
-
+    
+    Route::get('perfil/{id}', [PerfilController::class, 'show'])->name('perfil.show');
+   
 });
 
-// Ruta de perfil de usuario
-Route::get('perfil/{id}', [PerfilController::class, 'show'])->name('perfil.show');
+

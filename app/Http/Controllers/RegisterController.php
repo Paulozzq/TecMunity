@@ -18,8 +18,10 @@ use Illuminate\Support\Facades\Session;
 class RegisterController extends Controller
 {
     public function index()
-    {
-        return view('login');
+         
+    {   
+        
+        return view('registro');
     }
 
     public function register(RegisterRequest $request)

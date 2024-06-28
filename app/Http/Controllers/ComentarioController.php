@@ -17,7 +17,9 @@ class ComentarioController extends Controller
         $request->validate([
             'contenido' => 'required|string|max:255',
             'media' => 'nullable|file|mimes:jpg,jpeg,png,mp4,avi|max:20480',
+            'publicacion_id' => 'required|exists:publicaciones,ID_publicacion',
         ]);
+       
 
         $mediaUrl = null;
         if ($request->hasFile('media')) {
@@ -65,18 +67,28 @@ class ComentarioController extends Controller
         // Aquí puedes cargar la publicación desde la base de datos usando el ID proporcionado
         $publicacion = Publicacion::findOrFail($id);
         $comentarios = $publicacion->comentarios()
+
+        
             ->whereNull('reply')
             ->latest()
             ->get(); // Obtener los comentarios asociados a la publicación
+
+      
         return view('Tecmunity.comentarios', compact('publicacion', 'comentarios'));
+        
     }
+   
+
     public function showReply($id)
     {
         // Cargar el comentario principal
         $comentarios = Comentario::findOrFail($id);
+      
+        
+        
         
         $user = $comentarios->usuario;
-        $publicacion = $comentarios->publicacion;
+        $publicacion = $comentarios->publicacion; 
         // Obtener las respuestas (subcomentarios) del comentario
         $reply = $comentarios->children()->latest()->get();
         return view('Tecmunity.reply', compact('comentarios','user', 'publicacion', 'reply'));

@@ -63,7 +63,7 @@
                 <br><div class="border-b border-gray-200 dark:border-dim-200"></div><br>
                 
                 <div class="pl-8 xl:pl-16 pr-4">
-                    <p class="font-medium text-gray-800 dark:text-white whitespace-pre-wrap">
+                    <p class="font-medium text-gray-800 dark:text-white" style="word-wrap: break-word; word-break: break-word;">
                         {{ $publicacion->contenido }}
                     </p>
                     

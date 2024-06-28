@@ -12,6 +12,7 @@ class PublicacionController extends Controller
     public function index()
     {
         $publicaciones = Publicacion::with('usuario')->latest()->get();
+       
         return view('Tecmunity.publicaciones', compact('publicaciones'));
     }
 
