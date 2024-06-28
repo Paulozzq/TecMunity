@@ -1,0 +1,30 @@
+@keyframes shake {
+    0% { transform: translateX(0); }
+    25% { transform: translateX(-5px); }
+    50% { transform: translateX(5px); }
+    75% { transform: translateX(-5px); }
+    100% { transform: translateX(0); }
+}
+
+.shake {
+    animation: shake 0.5s;
+}
+
+.error {
+    border-color: red;
+}
+
+.error-message {
+    color: red;
+    font-size: 0.875rem;
+    height: 1rem; /* Ajustar la altura para evitar la expansión del formulario */
+}
+
+.form-container {
+    max-width: 800px;
+    width: 100%;
+}
+
+.hidden {
+    display: none;
+}

@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Models\Usuario;
 use App\Models\Amistad;
 use Illuminate\Http\Request;
-use App\Models\Notificacion;
 use Illuminate\Support\Facades\Auth;
 
 class AmistadController extends Controller
@@ -17,6 +16,7 @@ class AmistadController extends Controller
         }
 
         $perfil = Usuario::find($id);
+
         if (!$perfil) {
             return response()->json(['error' => 'Usuario no encontrado'], 404);
         }
@@ -28,7 +28,7 @@ class AmistadController extends Controller
             $query->where('ID_usuario', $id)
                   ->where('ID_amigo', Auth::id());
         })->exists();
-        
+
         if ($seguimientoExistente) {
             return response()->json(['error' => 'Ya sigues a este usuario'], 400);
         }
@@ -37,7 +37,7 @@ class AmistadController extends Controller
             'ID_usuario' => Auth::id(),
             'ID_amigo' => $id,
             'fecha' => now(),
-            'estado' => 'pendiente'
+            'ID_estadoamistad' => 1,
         ]);
 
         return response()->json(['success' => 'Ahora sigues a este usuario'], 200);
@@ -47,16 +47,16 @@ class AmistadController extends Controller
     {
         $mutuoSeguidor = Amistad::where('ID_usuario', $id)
                                 ->where('ID_amigo', Auth::id())
-                                ->where('estado', 'pendiente')
+                                ->where('ID_estadoamistad', 1)
                                 ->exists();
 
         if ($mutuoSeguidor) {
             Amistad::where('ID_usuario', Auth::id())
                    ->where('ID_amigo', $id)
-                   ->update(['estado' => 'amigos']);
+                   ->update(['ID_estadoamistad' => 2]);
             Amistad::where('ID_usuario', $id)
                    ->where('ID_amigo', Auth::id())
-                   ->update(['estado' => 'amigos']);
+                   ->update(['ID_estadoamistad' => 2]);
         }
 
         return response()->json(['success' => 'Ahora sigues a este usuario'], 200);
@@ -73,28 +73,29 @@ class AmistadController extends Controller
 
         return response()->json(['success' => 'Has dejado de seguir a este usuario'], 200);
     }
+
     public function checkFriendshipStatus($id)
     {
         $amistadPendiente = Amistad::where(function ($query) use ($id) {
             $query->where('ID_usuario', Auth::id())
                 ->where('ID_amigo', $id)
-                ->where('estado', 'pendiente');
+                ->where('ID_estadoamistad', 1);
         })->exists();
 
         $amistadPendienteParaAmigo = Amistad::where(function ($query) use ($id) {
             $query->where('ID_usuario', $id)
                 ->where('ID_amigo', Auth::id())
-                ->where('estado', 'pendiente');
+                ->where('ID_estadoamistad', 1);
         })->exists();
 
         $amistadExistente = Amistad::where(function ($query) use ($id) {
             $query->where('ID_usuario', Auth::id())
                 ->where('ID_amigo', $id)
-                ->where('estado', 'amigos');
+                ->where('ID_estadoamistad', 2);
         })->orWhere(function ($query) use ($id) {
             $query->where('ID_usuario', $id)
                 ->where('ID_amigo', Auth::id())
-                ->where('estado', 'amigos');
+                ->where('ID_estadoamistad', 2);
         })->exists();
 
         return response()->json([
@@ -103,5 +104,4 @@ class AmistadController extends Controller
             'amistadExistente' => $amistadExistente
         ]);
     }
-
 }
