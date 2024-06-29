@@ -13,9 +13,9 @@
     @endif
 
     @if($perfil->avatar)
-        <img class="w-16 h-16 rounded-full border-4 border-black dark:border-gray-800" style="height: 140px; width: 140px; position: relative; top: -80px; margin-bottom: -90px; border-radius: 100%; left: 10px;" src="{{ $perfil->avatar }}" alt="Avatar">
+        <img class="w-16 h-16 rounded-full border-4 border-black dark:border-gray-800" style="height: 140px; width: 140px; position: relative; top: -80px; margin-bottom: -90px; border-radius: 100%; left: 10px;border: 4px solid grey;" src="{{ $perfil->avatar }}" alt="Avatar">
     @else
-        <img class="w-16 h-16 rounded-full border-4 border-black dark:border-gray-800" style="height: 140px; width: 140px; position: relative; top: -80px; margin-bottom: -90px; border-radius: 100%; left: 10px;" src="{{ asset('img/default-avatar.jpg') }}" alt="Avatar">
+        <img class="w-16 h-16 rounded-full border-4 border-black dark:border-gray-800" style="height: 140px; width: 140px; position: relative; top: -80px; margin-bottom: -90px; border-radius: 100%; left: 10px;border: 4px solid grey;" src="{{ asset('img/default-avatar.jpg') }}" alt="Avatar">
     @endif
 
     <div class="p-6 pt-14">
@@ -24,40 +24,42 @@
                 <h2 class="text-2xl font-bold text-white dark:text-white">{{ $perfil->nombre }} {{ $perfil->apellido }}</h2>
                 <p class="text-gray-400 dark:text-gray-400">@ {{ $perfil->username }}</p>
             </div>
-
             @if($perfil->id !== auth()->user()->id)
-                @if($noHayRelacionEntreEllos)
-                    <form id="seguirForm" action="{{ route('perfil.seguir', ['id' => $perfil->id]) }}" method="POST">
+                        @if($noHayRelacionEntreEllos)
+                            <form class="ajax-form" action="{{ route('perfil.seguir', ['id' => $perfil->id]) }}" method="POST">
+                                @csrf
+                                <button type="submit" class="follow-button bg-blue-500/20 border-2 border-blue-500 text-white hover:bg-blue-500 hover:text-white font-bold py-2 px-4 rounded-full shadow-lg transition duration-300 ease-in-out">Seguir</button>
+                            </form>
+                        @endif
+                        @if($amigoUser)
+                            @if($amistadPendiente)
+                                <form class="ajax-form" action="{{ route('perfil.dejar-de-seguir', ['id' => $perfil->id]) }}" method="POST">
+                                    @csrf
+                                    <button type="submit" class="follow-button bg-blue-500/20 border-2 border-blue-500 text-white hover:bg-blue-500 hover:text-white font-bold py-2 px-4 rounded-full shadow-lg transition duration-300 ease-in-out">Dejar de seguir</button>
+                                </form>
+                            @endif
+                        @endif
+                        @if($amigo)
+                            @if($amistadPendiente)
+                                <form class="ajax-form" action="{{ route('perfil.seguirOtra', ['id' => $perfil->id]) }}" method="POST">
+                                    @csrf
+                                    <button type="submit" class="follow-button bg-blue-500/20 border-2 border-blue-500 text-white hover:bg-blue-500 hover:text-white font-bold py-2 px-4 rounded-full shadow-lg transition duration-300 ease-in-out">Seguir También</button>
+                                </form>
+                            @endif
+                        @endif
+                        @if($amistadExistente)
+                            <form class="ajax-form" action="{{ route('perfil.dejar-de-seguir', ['id' => $perfil->id]) }}" method="POST">
+                                @csrf
+                                <button type="submit" class="follow-button bg-blue-500/20 border-2 border-blue-500 text-white hover:bg-blue-500 hover:text-white font-bold py-2 px-4 rounded-full shadow-lg transition duration-300 ease-in-out">Amigos</button>
+                            </form>
+                        @endif
+
+                    @else
+                    <form  action="#" method="POST">
                         @csrf
-                        <button type="submit" class="follow-button" id="seguirBtn">Seguir</button>
+                        <button type="submit" class="bg-blue-500/20 border-2 border-blue-500 text-white hover:bg-blue-500 hover:text-white font-bold py-2 px-4 rounded-full shadow-lg transition duration-300 ease-in-out">Editar Perfil</button>
                     </form>
-                @endif
-
-                @if($amigoUser)
-                    @if($amistadPendiente)
-                        <form id="dejarSeguirForm" action="{{ route('perfil.dejar-de-seguir', ['id' => $perfil->id]) }}" method="POST">
-                            @csrf
-                            <button type="submit" class="follow-button" id="dejarSeguirBtn">Dejar de seguir</button>
-                        </form>
                     @endif
-                @endif
-
-                @if($amigo)
-                    @if($amistadPendiente)
-                        <form id="seguirOtraForm" action="{{ route('perfil.seguirOtra', ['id' => $perfil->id]) }}" method="POST">
-                            @csrf
-                            <button type="submit" class="follow-button" id="seguirOtraBtn">Seguir También</button>
-                        </form>
-                    @endif
-                @endif
-
-                @if($amistadExistente)
-                    <form id="amigosForm" action="{{ route('perfil.dejar-de-seguir', ['id' => $perfil->id]) }}" method="POST">
-                        @csrf
-                        <button type="submit" class="follow-button" id="amigosBtn">Amigos</button>
-                    </form>
-                @endif
-            @endif
         </div>
         <p class="text-gray-400 dark:text-gray-200">{{ $perfil->biografia }}</p>
     </div>
@@ -102,7 +104,7 @@
         <div class="border-b border-gray-200 dark:border-dim-200"></div>
         <br>
         <div class="pl-8 xl:pl-16 pr-4">
-            <p class="font-medium text-gray-800 dark:text-white whitespace-pre-wrap">
+            <p class="font-medium text-gray-800 dark:text-white whitespace-pre-wrap" style="word-wrap: break-word; word-break: break-word;">
                 {{ $publicacion->contenido }}
             </p>
             @if($publicacion->video_url)
@@ -155,51 +157,75 @@
 @endforeach
 @endif
 
-<script>
-    document.addEventListener("DOMContentLoaded", function() {
-        // Función para manejar la acción de seguir/dejar de seguir usando AJAX
-        function handleSeguir(id, action) {
-            const formData = new FormData();
-            formData.append('_token', '{{ csrf_token() }}');
-
-            fetch(action, {
-                method: 'POST',
-                body: formData
-            })
-            .then(response => response.json())
-            .then(data => {
-                if (data.success) {
-                    // Actualizar interfaz según la acción realizada
-                    // Por ejemplo, cambiar el texto del botón o actualizar contadores
-                    console.log(data.success); // Mensaje de éxito recibido del servidor
-                } else if (data.error) {
-                    console.error(data.error); // Manejar el error según corresponda
+<script type="text/javascript">
+    $(document).ready(function() {
+        function handleAjaxFormSubmission(form, actionUrl, button) {
+            $.ajax({
+                url: actionUrl,
+                type: 'POST',
+                data: form.serialize(),
+                success: function(response) {
+                    $('#status-message').text(response.success).show().delay(3000).fadeOut();
+                    updateFollowButton(response.success, button, form);
+                },
+                error: function(xhr) {
+                    $('#status-message').text(xhr.responseJSON.error).show().delay(3000).fadeOut();
                 }
-            })
-            .catch(error => console.error('Error:', error));
+            });
         }
 
-        // Eventos de clic para los botones de seguir/dejar de seguir
-        document.getElementById('seguirBtn').addEventListener('click', function(event) {
-            event.preventDefault();
-            handleSeguir('{{ $perfil->id }}', '{{ route('perfil.seguir', ['id' => $perfil->id]) }}');
+        function updateFollowButton(successMessage, button, form) {
+            if (successMessage.includes("sigues") || successMessage.includes("Amigos")) {
+                button.text('Dejar de seguir');
+                form.attr('action', '{{ route("perfil.dejar-de-seguir", ["id" => $perfil->id]) }}');
+            } else if (successMessage.includes("Has dejado")) {
+                button.text('Seguir');
+                form.attr('action', '{{ route("perfil.seguir", ["id" => $perfil->id]) }}');
+            } else if (successMessage.includes("también")) {
+                button.text('Amigos');
+                form.attr('action', '{{ route("perfil.dejar-de-seguir", ["id" => $perfil->id]) }}');
+            }
+        }
+
+        $('.ajax-form').submit(function(e) {
+            e.preventDefault();
+            var form = $(this);
+            var actionUrl = form.attr('action');
+            var button = form.find('.follow-button');
+            handleAjaxFormSubmission(form, actionUrl, button);
         });
 
-        document.getElementById('dejarSeguirBtn').addEventListener('click', function(event) {
-            event.preventDefault();
-            handleSeguir('{{ $perfil->id }}', '{{ route('perfil.dejar-de-seguir', ['id' => $perfil->id]) }}');
-        });
+        function checkFriendshipStatus() {
+            $.ajax({
+                url: '{{ route("perfil.checkFriendshipStatus", ["id" => $perfil->id]) }}',
+                type: 'GET',
+                success: function(response) {
+                    var button = $('.follow-button');
+                    var form = button.closest('form');
 
-        document.getElementById('seguirOtraBtn').addEventListener('click', function(event) {
-            event.preventDefault();
-            handleSeguir('{{ $perfil->id }}', '{{ route('perfil.seguirOtra', ['id' => $perfil->id]) }}');
-        });
+                    if (response.amistadExistente) {
+                        button.text('Amigos');
+                        form.attr('action', '{{ route("perfil.dejar-de-seguir", ["id" => $perfil->id]) }}');
+                    } else if (response.amistadPendiente) {
+                        button.text('Dejar de seguir');
+                        form.attr('action', '{{ route("perfil.dejar-de-seguir", ["id" => $perfil->id]) }}');
+                    } else if (response.amistadPendienteParaAmigo) {
+                        button.text('Seguir También');
+                        form.attr('action', '{{ route("perfil.seguirOtra", ["id" => $perfil->id]) }}');
+                    } else {
+                        button.text('Seguir');
+                        form.attr('action', '{{ route("perfil.seguir", ["id" => $perfil->id]) }}');
+                    }
+                },
+                error: function(xhr) {
+                    console.log('Error checking friendship status:', xhr.responseJSON.error);
+                }
+            });
+        }
 
-        document.getElementById('amigosBtn').addEventListener('click', function(event) {
-            event.preventDefault();
-            handleSeguir('{{ $perfil->id }}', '{{ route('perfil.dejar-de-seguir', ['id' => $perfil->id]) }}');
-        });
+        setInterval(checkFriendshipStatus, 5000);
     });
 </script>
+
 
 @endsection

@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use CloudinaryLabs\CloudinaryLaravel\Facades\Cloudinary;
 use Illuminate\Support\Facades\Auth;
 
+use App\Models\Like;
 class PublicacionController extends Controller
 {
     public function index()
@@ -75,12 +76,24 @@ class PublicacionController extends Controller
 
         return redirect()->route('publicaciones.index');
     }
+    private function deleteComments($comentarios)
+    {
+        foreach ($comentarios as $comentario) {
+            // Elimina las respuestas recursivamente
+            $this->deleteComments($comentario->children);
 
+            // Elimina el comentario
+            $comentario->delete();
+        }
+    }
     public function destroy(Publicacion $publicacion)
     {
-        $this->authorize('delete', $publicacion);
-
-        Cloudinary::destroy($publicacion->public_id);
+        if (Auth::id() !== $publicacion->ID_usuario) {
+            return redirect()->route('publicaciones.index')->with('error', 'No tienes permiso para eliminar esta publicación');
+        }
+        $this->deleteComments($publicacion->comentarios);
+        Like::where('ID_publicacion', $publicacion->ID_publicacion)->delete();
+        
         $publicacion->delete();
 
         return redirect()->route('publicaciones.index');

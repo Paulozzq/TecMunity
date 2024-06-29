@@ -58,6 +58,15 @@
                                 @ {{ $publicacion->usuario->username }} .{{ $publicacion->created_at->format('d F') }}
                             </span>
                         </span>
+                        @if(auth()->user()->id == $publicacion->ID_usuario)
+                            <div class="ml-auto flex items-center dark:text-white text-xs text-gray-400 hover:text-blue-400 dark:hover:text-blue-400">
+                                <form action="{{ route('publicaciones.destroy', ['publicacion' => $publicacion->ID_publicacion]) }}" method="POST">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit"><i class="fa-solid fa-trash mr-2 text-lg"></i></button>
+                                </form>
+                            </div>
+                        @endif
                     </p>
                 </div>
                 <br><div class="border-b border-gray-200 dark:border-dim-200"></div><br>
@@ -88,7 +97,6 @@
                             <i class="fa-solid fa-comment mr-2 text-lg"></i>
                             <a href="{{ route('comentario.show', ['id' => $publicacion->ID_publicacion]) }}"> {{ $publicacion->comentarios->count() }} comentarios  </a>
                         </div>
-                        
                         <div class="flex items-center dark:text-white text-xs text-gray-400 hover:text-green-400 dark:hover:text-green-400">
                             @if ($publicacion->likes->where('ID_usuario', Auth::id())->isEmpty())
                                 <form action="{{ route('like.publicacion', $publicacion->ID_publicacion) }}" method="POST">

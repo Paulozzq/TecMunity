@@ -39,17 +39,16 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/informacion-personal', [ProfileController::class, 'edit'])->name('infoPersonal');
     Route::post('/profile', [ProfileController::class, 'update'])->name('profile.update');
 
-    Route::resource('publicaciones', PublicacionController::class)->except([
-        'index', 'show', 'edit'
-    ])->middleware('auth');
+    Route::get('/publicaciones', [PublicacionController::class, 'index'])->name('publicaciones.index');
+    Route::post('/publicaciones', [PublicacionController::class, 'store'])->name('publicaciones.store');
+    Route::post('/publicaciones/{publicacion}', [PublicacionController::class, 'update'])->name('publicaciones.update');
+    Route::delete('/publicaciones/{publicacion}', [PublicacionController::class, 'destroy'])->name('publicaciones.destroy');
     
-    Route::resource('comentarios', ComentarioController::class)->only([
-        'store'
-    ])->middleware('auth');
-    
+    Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
     Route::get('/publicacion/{id}', [ComentarioController::class, 'show'])->name('comentario.show');
+    Route::post('/comentarios', [ComentarioController::class, 'store'])->name('comentarios.store');
     Route::get('/comentario/{id}', [ComentarioController::class, 'showReply'])->name('comentario.showReply');
-    Route::post('/reply', [ComentarioController::class, 'reply'])->name('comentario.reply');
+    Route::post('/reply', [ComentarioController::class, 'reply'])->name('comentarios.reply');
     
     Route::post('/publicacion/{publicacion}/like', [LikeController::class, 'likePublicacion'])->name('like.publicacion');
     Route::post('/publicacion/{publicacion}/unlike', [LikeController::class, 'unlikePublicacion'])->name('unlike.publicacion');

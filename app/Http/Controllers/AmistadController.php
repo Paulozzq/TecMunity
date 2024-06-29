@@ -64,9 +64,15 @@ class AmistadController extends Controller
 
     public function dejarDeSeguir($id)
     {
-        $amistad = Amistad::where('ID_usuario', Auth::id())
-                          ->where('ID_amigo', $id)
-                          ->first();
+        $amistad = Amistad::where(function ($query) use ($id) {
+            $query->where('ID_usuario', Auth::id())
+                  ->where('ID_amigo', $id);
+        })->orWhere(function ($query) use ($id) {
+            $query->where('ID_usuario', $id)
+                  ->where('ID_amigo', Auth::id());
+        })->first();
+
+                          
         if ($amistad) {
             $amistad->delete();
         }

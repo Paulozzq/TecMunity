@@ -9,7 +9,7 @@
 </div>
 <div id="friendsList" class="w-1/4 bg-gray-100 dark:bg-gray-800 border-r border-gray-200 dark:border-gray-700 p-4 ml-64"> <!-- Increased ml-64 for a much larger left margin -->
     <h4 class="text-lg font-bold text-gray-800 dark:text-gray-100 mb-6 text-center">Amigos</h4>
-    @if($amigos->isEmpty())
+    @if($usuarios->isEmpty())
         <div class="flex flex-col items-center justify-center h-full">
             <p class="text-lg text-gray-600 dark:text-gray-400 text-center mb-6">No tienes amigos aún.</p>
             <div class="flex flex-col items-center mt-10" style="margin-top:250px"> <!-- Added mt-10 for more space above the button -->
@@ -22,10 +22,14 @@
     @else
         <!-- List of friends -->
         <ul class="divide-y divide-gray-200 dark:divide-gray-700">
-            @foreach($amigos as $amigo)
+            @foreach($usuarios as $amigo)
             <!-- Example friend item -->
             <li class="flex items-center space-x-4 py-4">
-                <img src="{{ $amigo->avatar }}" alt="Friend Avatar" class="w-10 h-10 rounded-full">
+                @if(isset($amigo->avatar))
+                    <img src="{{ $amigo->avatar }}" alt="Friend Avatar" class="w-10 h-10 rounded-full">
+                @else
+                    <img src="{{ asset('img/default-avatar.jpg') }}" alt="Friend Avatar" class="w-10 h-10 rounded-full">
+                @endif
                 <span class="text-lg text-gray-800 dark:text-gray-100">{{ $amigo->nombre }} {{ $amigo->apellido }}</span>
             </li>
             @endforeach

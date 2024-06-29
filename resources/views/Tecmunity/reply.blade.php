@@ -146,7 +146,7 @@
                     
                     <div class="flex items-center dark:text-white text-xs text-gray-400 hover:text-green-400 dark:hover:text-green-400">
                         @if ($replys->likes->where('ID_usuario', Auth::id())->isEmpty())
-                            <form action="{{ route('like.publicacion', $replys>ID_comentario) }}" method="POST">
+                            <form action="{{ route('like.publicacion', $replys->ID_comentario) }}" method="POST">
                                 @csrf
                                 <button type="submit" class="btn btn-like"><i class="fa-solid fa-heart mr-2 text-lg"></i>
                                     {{ $replys->likes->count() }}
