@@ -20,14 +20,16 @@ class LoginController extends Controller
     public function login(LoginRequest $request)
     {
         $credentials = $request->getCredentials();
-    
-        if (!Auth::attempt($credentials)) {
+
+        $remember = $request->filled('remember');
+
+        if (!Auth::attempt($credentials, $remember)) {
             return redirect()->back()->with('login_error', 'Credenciales incorrectas. Por favor, intenta nuevamente.');
         }
-    
+
         $user = Auth::getProvider()->retrieveByCredentials($credentials);
-    
-        Auth::login($user);
+
+        Auth::login($user, $remember);
         return $this->authenticated($request, $user);
     }
     
