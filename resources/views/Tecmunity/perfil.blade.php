@@ -1,6 +1,7 @@
 @extends('main')
 @section('title')
     Perfil de {{ $perfil->nombre }}
+    
 @endsection
 @section('contenido')
 
@@ -55,15 +56,135 @@
                         @endif
 
                     @else
-                    <form  action="#" method="POST">
+                    <form action="#" method="POST">
                         @csrf
-                        <button type="submit" class="bg-blue-500/20 border-2 border-blue-500 text-white hover:bg-blue-500 hover:text-white font-bold py-2 px-4 rounded-full shadow-lg transition duration-300 ease-in-out">Editar Perfil</button>
+                        <button type="button" onclick="openModal()" class="bg-blue-500/20 border-2 border-blue-500 text-white hover:bg-blue-500 hover:text-white font-bold py-2 px-4 rounded-full shadow-lg transition duration-300 ease-in-out">
+                            Editar Perfil
+                        </button>
                     </form>
                     @endif
+
+                     
         </div>
         <p class="text-gray-400 dark:text-gray-200">{{ $perfil->biografia }}</p>
     </div>
 </div>
+
+<div id="modal" class="modal">
+    <div class="modal-content">
+    <div class="modal-header">
+            <h2 style="color:aliceblue;font-size:26px">Editar Perfil</h2>
+            <div class="border-gray-300 border-t"></div>
+             <button onclick="closeModal()" class="modal-close" style="color:white"> X</button>
+        </div>
+        <div style="margin-top:-60px">
+            <form action="{{ route('profile.update') }}" method="POST" class="modal-content">
+                @csrf
+                @method('POST') <!-- Método POST para enviar datos -->
+            
+                <!-- Contenido del formulario para editar perfil -->
+                   <div class="mb-4">
+                <label for="nombre" style="color: aliceblue;" class="block text-sm font-medium">Nombre:</label>
+                <input type="text" id="nombre" name="nombre" placeholder="Nombre" style="background-color: transparent; margin: 0; padding: 0.5rem; color: aliceblue;" class="form-input mt-1 block w-full rounded-lg border-gray-300" value="{{ $perfil->nombre }}" required>
+                <span id="nombreError" class="error-message hidden text-red-500">El nombre no debe contener números ni signos especiales.</span>
+                <div class="border-gray-300 border-t"></div>
+            </div>
+
+            <div class="mb-4">
+                <label for="apellido" style="color: aliceblue;" class="block text-sm font-medium">Apellido:</label>
+                <input type="text" id="apellido" name="apellido" placeholder="Apellido" style="background-color: transparent; margin: 0; padding: 0.5rem; color: aliceblue;" class="form-input mt-1 block w-full rounded-lg border-gray-300" value="{{ $perfil->apellido }}" required>
+                <span id="apellidoError" class="error-message hidden text-red-500">El apellido no debe contener números ni signos especiales.</span>
+                <div class="border-gray-300 border-t"></div>
+            </div><br>
+                <label for="fecha_nacimiento" style="color: aliceblue;">Fecha de Nacimiento:</label>
+                <input type="date" id="fecha_nacimiento" name="fecha_nacimiento" style="background-color: transparent; margin: 0 !important; padding: 0.5rem;color:aliceblue" class=" mb-2 w-full" value="{{ $perfil->fecha_nacimiento }}">
+                <div class="border-gray-300 border-t"></div> <br>
+                <label for="sexo" style="color: aliceblue;">Sexo:</label>
+                <select id="sexo" name="sexo" style="background-color: transparent; margin: 0 !important; padding: 0.5rem;color:aliceblue" class=" mb-2 w-full">
+                    <option value="masculino" style="color:black" @if($perfil->sexo == 'masculino') selected @endif>Masculino</option>
+                    <option value="femenino" style="color:black" @if($perfil->sexo == 'femenino') selected @endif>Femenino</option>
+                </select>
+                <div class="border-gray-300 border-t"></div><br>
+                <div class="flex items-center mb-2">
+                    <input type="checkbox" id="privado" name="privado" class="form-checkbox h-5 w-5 text-blue-500 rounded mr-2" @if($perfil->privado) checked @endif>
+                    <label for="privado" class="text-gray-300" style="color:white">Perfil privado</label>
+                </div><div class="border-gray-300 border-t"></div><br>
+
+                <div class="flex items-center mb-2"><br>
+                      <label for="privado" class="text-gray-300" style="color:white">Correo electronico
+                    <input type="email" id="email" name="email" placeholder="Email" style="background-color: transparent; margin: 0; padding: 0.5rem; color: aliceblue;" class="form-input mt-1 block w-full rounded-lg border-gray-300"    value="{{ auth()->user()->email }}" readonly>
+                </div>
+               
+                <div class="border-gray-300 border-t"></div> <br>
+                <label for="biografia" style="color: aliceblue;">Biografía:</label>
+                <textarea id="biografia" name="biografia" placeholder="Biografía" style="background-color: transparent; margin: 0 !important; padding: 0.5rem;color:aliceblue" class=" mb-2 w-full">{{ $perfil->biografia }}</textarea>
+                <div class="border-gray-300 border-t"></div> <br>
+                
+                
+            
+                <label for="carrera_id" style="color: aliceblue;">ID de Carrera:</label>
+                <input type="number" id="ID_carrera" name="ID_carrera" placeholder="ID de Carrera"style="background-color: transparent; margin: 0 !important; padding: 0.5rem;color:aliceblue" class=" mb-2 w-full" value="{{ $perfil->ID_carrera }}">
+                <div class="border-gray-300 border-t"></div><br>
+                <label for="username" style="color: aliceblue;">Nombre de Usuario:</label>
+                <input type="text" id="username" name="username" placeholder="Nombre de Usuario" style="background-color: transparent; margin: 0 !important; padding: 0.5rem;color:aliceblue" class=" mb-2 w-full"value="{{ $perfil->username }}" required>
+                <div class="border-gray-300 border-t"></div> <br><br>
+                <div class="modal-footer flex justify-end mt-4">
+                    <button type="submit" class="bg-blue-500 text-white font-bold py-2 px-4 rounded-full shadow-lg hover:bg-blue-600 transition duration-300 ease-in-out focus:outline-none focus:ring-2 focus:ring-blue-500">
+                        Guardar Cambios
+                    </button>
+                </div>
+                
+                
+            </form>
+
+            <button onclick="closeModal()" class="modal-close" style="color:white"> Salir</button>
+        
+        
+        </div>
+        
+    </div>
+</div>
+<script>
+  
+    // Validación de caracteres permitidos en nombre y apellido
+    document.getElementById('profileForm').addEventListener('submit', function(event) {
+        const nombre = document.getElementById('nombre');
+        const apellido = document.getElementById('apellido');
+        const nombreError = document.getElementById('nombreError');
+        const apellidoError = document.getElementById('apellidoError');
+        const nombreRegex = /^[A-Za-z\s]+$/; // Expresión regular para solo letras y espacios
+        const apellidoRegex = /^[A-Za-z\s]+$/; // Expresión regular para solo letras y espacios
+
+        if (!nombreRegex.test(nombre.value)) {
+            nombre.classList.add('border-red-500');
+            nombreError.classList.remove('hidden');
+            event.preventDefault(); // Evita el envío del formulario si hay error
+        } else {
+            nombre.classList.remove('border-red-500');
+            nombreError.classList.add('hidden');
+        }
+
+        if (!apellidoRegex.test(apellido.value)) {
+            apellido.classList.add('border-red-500');
+            apellidoError.classList.remove('hidden');
+            event.preventDefault(); // Evita el envío del formulario si hay error
+        } else {
+            apellido.classList.remove('border-red-500');
+            apellidoError.classList.add('hidden');
+        }
+    });
+</script>
+<script>
+    // Función para abrir el modal
+    function openModal() {
+        document.getElementById('modal').style.display = 'block';
+    }
+
+    // Función para cerrar el modal
+    function closeModal() {
+        document.getElementById('modal').style.display = 'none';
+    }
+</script>
 
 @if($perfil->privado == 1 && $perfil->id !== auth()->user()->id)
 <div class="right_row">
@@ -78,7 +199,19 @@
         <div class="w-full border-t border-gray-300"></div>
     </div>
     <div class="relative flex justify-center">
-        <span class="bg-black dark:bg-gray-800 px-4 text-gray-500">Publicaciones de {{$perfil->nombre}}</span>
+    @if($sinnada == 0) 
+     @if(auth()->user()->id ==$perfil->id)
+        <div class="text-gray-100 dark:text-gray-100">No tienes publicaciones {{$perfil->nombre}}</div>
+
+          
+      @else
+        <div class="text-gray-100 dark:text-gray-100"> {{$perfil->nombre}}, no tiene publicaciones</div>
+      @endif
+    @else
+        <div class="text-gray-100 dark:text-gray-100">Publicaciones de {{$perfil->nombre}}</div>
+   
+    @endif
+   
     </div>
 </div>
 
@@ -97,7 +230,41 @@
                     <span class="ml-1 text-sm leading-5 text-gray-400">
                         @ {{ $publicacion->usuario->username }} .{{ $publicacion->created_at->format('d F') }}
                     </span>
-                </span>
+                </span> </a>
+               @if(auth()->user()->id == $publicacion->usuario->id)
+    <div class="ml-auto flex items-center dark:text-white text-xs text-gray-400 hover:text-blue-400 dark:hover:text-blue-400">
+        <form id="delete-form-{{ $publicacion->ID_publicacion }}" action="{{ route('publicaciones.destroy', ['publicacion' => $publicacion->ID_publicacion]) }}" method="POST">
+            @csrf
+            @method('DELETE')
+            <button type="button" onclick="confirmDelete({{ $publicacion->ID_publicacion }})">
+                <i class="fa-solid fa-trash mr-2 text-lg"></i>
+            </button>
+        </form>
+    </div>
+@endif
+
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script>
+    function confirmDelete(publicacionId) {
+        Swal.fire({
+            title: '¿Estás seguro?',
+            text: "Esta acción no se puede deshacer.",
+            icon: 'warning',
+            background: '#15202b',
+            color: '#fff',
+            showCancelButton: true,
+            confirmButtonColor: '#1DA1F2', // Azul claro
+            cancelButtonColor: '#FF4757', // Rojo claro
+            confirmButtonText: 'Sí, eliminar',
+            cancelButtonText: 'Cancelar'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                document.getElementById('delete-form-' + publicacionId).submit();
+            }
+        });
+    }
+</script>
+
             </p>
         </div>
         <br>
@@ -147,12 +314,15 @@
                     </form>
                     @endif
                 </div>
-                <div class="flex items-center dark:text-white text-xs text-gray-400 hover:text-blue-400 dark:hover:text-blue-400">
-                    <i class="fa-solid fa-flag mr-2 text-lg"></i>
-                </div>
+                @if($publicacion->usuario->id !== auth()->id())
+                     <div class="flex items-center dark:text-white text-xs text-gray-400 hover:text-blue-400 dark:hover:text-blue-400">
+                         <i class="fa-solid fa-flag mr-2 text-lg"></i>
+                     </div>
+                @endif
+
             </div>
         </div>
-    </a>
+   
 </div>
 @endforeach
 @endif

@@ -96,6 +96,7 @@ class Usuario extends Authenticatable
                     ->withPivot('fecha')
                     ->withTimestamps();
     }
+    
 
     public function setPasswordAttribute($value){
         $this->attributes['password'] =  bcrypt($value);

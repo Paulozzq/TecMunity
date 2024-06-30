@@ -7,17 +7,24 @@ use Illuminate\Support\Facades\Auth;
 use App\Models\Usuario;
 use App\Models\Publicacion;
 use App\Models\Amistad;
+use App\Models\Noticia;
 
 class PerfilController extends Controller
 {
     public function show($id)
-    {
+    {      
+
+          
+
+            
             $publicaciones = Publicacion::with('usuario')
                 ->where('ID_usuario', $id)
                 ->orderBy('created_at', 'desc')
                 ->get();
+                
             $perfil = Usuario::findOrFail($id);
-
+            $sinnada=Publicacion::where('ID_usuario', $perfil->id)->count();
+           
             $amistadPendiente = Amistad::where(function ($query) use ($id) {
                 $query->where('ID_usuario', Auth::id())
                     ->where('ID_amigo', $id)
@@ -72,8 +79,12 @@ class PerfilController extends Controller
         // Determina si no hay relación en absoluto
         $noHayRelacionEntreEllos = $noHayRelacion && $noHaySolicitudPendiente;
 
+        $noticias=Noticia::all();
+        $solicitudes = Amistad::where('ID_amigo', Auth::id())
+        ->where('ID_estadoamistad', 1) 
+        ->with('usuario')
+        ->get();
 
-
-        return view('Tecmunity.perfil', compact('perfil', 'publicaciones', 'amistadPendiente', 'amistadExistente', 'amigoUser', 'amigo', 'noHayRelacionEntreEllos'));
+        return view('Tecmunity.perfil', compact('solicitudes','noticias','perfil','sinnada', 'publicaciones', 'amistadPendiente', 'amistadExistente', 'amigoUser', 'amigo', 'noHayRelacionEntreEllos'));
     }
 }

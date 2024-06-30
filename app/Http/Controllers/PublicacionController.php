@@ -9,15 +9,27 @@ use App\Models\Amistad;
 use Illuminate\Http\Request;
 use CloudinaryLabs\CloudinaryLaravel\Facades\Cloudinary;
 use Illuminate\Support\Facades\Auth;
-
+use App\Models\TipoDenuncia;
+use App\Models\Noticia;
+use App\Models\Amistad;
 use App\Models\Like;
+use App\Models\Usuario;
 class PublicacionController extends Controller
-{
+{   
+    
     public function index()
-    {
+    {   
+        $reporte=Publicacion::with('usuario')->get();
         $publicaciones = Publicacion::with('usuario')->latest()->get();
-       
-        return view('Tecmunity.publicaciones', compact('publicaciones'));
+        $tiposDenuncias = TipoDenuncia::all();
+        $noticias = Noticia::all();
+        $solicitudes = Amistad::where('ID_amigo', Auth::id())
+        ->where('ID_estadoamistad', 1) 
+        ->with('usuario')
+        ->get();
+
+        $usuarios=Usuario::all();
+        return view('Tecmunity.publicaciones', compact('usuarios','solicitudes','noticias','reporte','tiposDenuncias','publicaciones'));
     }
 
     public function store(Request $request)
@@ -40,7 +52,7 @@ class PublicacionController extends Controller
 
         Publicacion::create([
             'contenido' => $request->contenido,
-            'url_media' => $url,
+            'url_media' => $url,    
             'public_id' => $public_id,
             'video_url' => $request->video_url,
             'ID_usuario' => Auth::id(), // Asegúrate de que se asigne el usuario autenticado
@@ -116,13 +128,13 @@ class PublicacionController extends Controller
     public function destroy(Publicacion $publicacion)
     {
         if (Auth::id() !== $publicacion->ID_usuario) {
-            return redirect()->route('publicaciones.index')->with('error', 'No tienes permiso para eliminar esta publicación');
+            return redirect()->back()->with('error', 'No tienes permiso para eliminar esta publicación');
         }
         $this->deleteComments($publicacion->comentarios);
         Like::where('ID_publicacion', $publicacion->ID_publicacion)->delete();
         
         $publicacion->delete();
 
-        return redirect()->route('publicaciones.index');
+        return redirect()->back();
     }
 }

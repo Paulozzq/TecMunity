@@ -7,7 +7,12 @@
         <h4 class="text-gray-800 dark:text-gray-100 font-bold">
             Inicio
         </h4>
-        <i class="fa-brands fa-twitter text-lg text-blue-400"></i>
+        <span class="relative inline-block text-blue-500 text-lg font-bold">
+            <!-- Cambiado solo el nombre de la clase a 'iconT' -->
+            Tecmunity
+        </span>
+        
+        
     </div>
     <!-- Tweet Box -->
     <form method="POST" action="{{ route('publicaciones.store') }}" enctype="multipart/form-data">
@@ -54,20 +59,37 @@
                         <img id="profile_pic" class="w-10 h-10 rounded-full" src="{{ asset('img/default-avatar.jpg') }}" />
                     @endif
                     <p class="ml-2 flex flex-shrink-0 items-center font-medium text-gray-800 dark:text-white">
-                        <span>{{ $publicacion->usuario->nombre }} {{ $publicacion->usuario->apellido }}
+                        <span>{{ $publicacion->usuario->nombre }} 
                             <span class="ml-1 text-sm leading-5 text-gray-400">
-                                @ {{ $publicacion->usuario->username }} .{{ $publicacion->created_at->format('d F') }}
-                            </span>
+                                @ {{ $publicacion->usuario->username }} .{{ $publicacion->created_at->format('F') }}
+                            </span> </a>
                         </span>
-                        @if(auth()->user()->id == $publicacion->ID_usuario)
-                            <div class="ml-auto flex items-center dark:text-white text-xs text-gray-400 hover:text-blue-400 dark:hover:text-blue-400">
-                                <form action="{{ route('publicaciones.destroy', ['publicacion' => $publicacion->ID_publicacion]) }}" method="POST">
-                                    @csrf
-                                    @method('DELETE')
-                                    <button type="submit"><i class="fa-solid fa-trash mr-2 text-lg"></i></button>
-                                </form>
-                            </div>
-                        @endif
+                       
+
+                        
+
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script>
+    function confirmDelete(publicacionId) {
+        Swal.fire({
+            title: '¿En verdad deseas eliminar la publicación?',
+            text: "Esta acción no se puede deshacer.",
+            icon: 'warning',
+            background: '#15202b',
+            color: '#fff',
+            showCancelButton: true,
+            confirmButtonColor: '#1DA1F2', // Azul claro
+            cancelButtonColor: '#FF4757', // Rojo claro
+            confirmButtonText: 'Sí, eliminar',
+            cancelButtonText: 'Cancelar'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                document.getElementById('delete-form-' + publicacionId).submit();
+            }
+        });
+    }
+</script>
+
                     </p>
                 </div>
                 <br><div class="border-b border-gray-200 dark:border-dim-200"></div><br>
@@ -115,13 +137,117 @@
                                 </form>
                             @endif
                         </div>
-                        <div class="flex items-center dark:text-white text-xs text-gray-400 hover:text-blue-400 dark:hover:text-blue-400">
-                            <i class="fa-solid fa-flag mr-2 text-lg"></i>
+                        <div class="flex items-center dark:text-white text-xs text-gray-400 hover:text-blue-400 dark:hover:text-blue-400 cursor-pointer" onclick="openReportModal()">
+                            <i class="fa-solid fa-flag mr-2 text-lg"></i> Reportar 
                         </div>
+                        @if(auth()->user()->id == $publicacion->ID_usuario)
+                        <div class="flex items-center dark:text-white text-xs text-gray-400 hover:text-blue-400 dark:hover:text-blue-400 cursor-pointer">
+                         <form id="delete-form-{{ $publicacion->ID_publicacion }}" action="{{ route('publicaciones.destroy', ['publicacion' => $publicacion->ID_publicacion]) }}" method="POST">
+                             @csrf
+                             @method('DELETE')
+                            <button type="button" onclick="confirmDelete({{ $publicacion->ID_publicacion }})">
+                            <i class="fa-solid fa-trash mr-2 text-lg"></i>
+                             </button>
+                        </form>
+                        </div>
+                        @endif
+                      
+                        <div id="reportModal" class="modal">
+                            <div class="modal-content">
+                                <div class="modal-header flex items-center justify-between">
+                                    <span class="modal-close cursor-pointer text-white text-2xl" onclick="closeReportModal()">X</span>
+                                    <h2 class="text-xl font-bold text-white">Reportar Contenido</h2>
+
+                                </div> <br>
+                                <hr class="border-2 border-white"><br>
+                                <div class="modal-body">
+                                    
+                                    <!-- Contenido del formulario de denuncia -->
+                                    <form action="{{ route('denuncias.store') }}" method="POST">
+                                        @csrf
+                                        <div class="mb-4">
+                                            <label for="denunciado" class="block text-lg font-medium text-white">Usuario a denunciar:</label>
+                                           
+                                            <select id="denunciado"  name="denunciado" class="form-select w-full mt-1 border-gray-300 rounded-lg bg-transparent text-white" required>
+                                                <option value="">Selecciona a quién deseas denunciar</option>
+                                                @foreach($usuarios as $usuario)
+                                                    <option style="background-color: transparent;color:black" value="{{ $usuario->id }}">{{ $usuario->nombre }} {{$usuario->apellido}}  </option>
+                                                    <!-- Ajusta 'id' y 'nombre' según la estructura de tu modelo Usuario -->
+                                                @endforeach
+                                            </select>
+                                            @error('denunciado')
+                                                <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+                                            @enderror
+                                        </div> <hr class="border-gray-400 my-2"> 
+                                        
+                                        <div class="mb-4">
+                                            <label for="denunciado" class="block text-lg font-medium text-white">Publicacion que deseas denunciar :</label>
+                                            
+                                            <select id="publicacion"    name="publicacion" class="form-select w-full mt-1 border-gray-300 rounded-lg bg-transparent text-white" required>
+                                                <option value="">Selecciona la publicación que deseas denunciar</option>
+                                                @foreach($publicaciones as $publicacion)
+                                                    <option  style="color:black" value="{{ $publicacion->ID_publicacion }}">{{ $publicacion->contenido }}</option>
+                                                    <!-- Aquí asumo que tienes un atributo 'titulo' en tu modelo de publicaciones -->
+                                                @endforeach
+                                            </select>
+                                            @error('publicacion')
+                                                <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+                                            @enderror
+                                        </div>  <hr class="border-gray-400 my-2">
+                                        <div class="mb-4">
+                                            <label for="denunciado" class="block text-lg font-medium text-white">Tipos de denuncias:</label>
+                                            <select id="ID_tipodenuncia" name="ID_tipodenuncia" class="form-select w-full mt-1 border-gray-300 rounded-lg bg-transparent text-white" required>
+                                                <option value="">Selecciona el tipo de denuncia</option>
+                                                @foreach($tiposDenuncias as $tipoDenuncia)
+                                                    <option style="color:black" value="{{ $tipoDenuncia->ID_tipodenuncia }}">{{ $tipoDenuncia->nombre_tipo }}</option>
+                                                @endforeach
+                                            </select>
+                                            @error('ID_tipodenuncia')
+                                                <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+                                            @enderror
+                                        </div>  <hr class="border-gray-400 my-2">
+                                        <div class="mb-4">
+                                            <label for="denunciado" class="block text-lg font-medium text-white">Motivo de la denuncia:</label>
+                                            <textarea id="contenido" name="contenido" rows="4" class="form-textarea w-full mt-1 border-gray-300 rounded-lg bg-transparent text-white" placeholder="Describe brevemente el motivo de tu denuncia..." required></textarea>
+                                            @error('contenido')
+                                                <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+                                            @enderror
+                                        </div>  <hr class="border-gray-400 my-2">
+                                        <div class="flex justify-end">
+                                            <button type="submit" class="bg-blue-500 text-white font-bold py-2 px-4 rounded-full shadow-lg hover:bg-blue-600 transition duration-300 ease-in-out">
+                                                Enviar Denuncia
+                                            </button>
+                                        </div>
+                                    </form>
+                                    
+                                    
+                                </div>
+                            </div>
+                        </div>
+                        
                     </div>
                 </div>
-            </a>
+               
         </div>
+        <script>
+            // Función para abrir el modal de denuncia
+            function openReportModal() {
+                document.getElementById('reportModal').style.display = 'block';
+            }
+        
+            // Función para cerrar el modal de denuncia
+            function closeReportModal() {
+                document.getElementById('reportModal').style.display = 'none';
+            }
+        
+            // Cerrar el modal si se hace clic fuera de él (opcional)
+            window.onclick = function(event) {
+                const reportModal = document.getElementById('reportModal');
+                if (event.target === reportModal) {
+                    reportModal.style.display = 'none';
+                }
+            }
+        </script>
     @endforeach
 
 <script>

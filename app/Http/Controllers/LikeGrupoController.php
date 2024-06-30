@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\LikeGrupo;
+use Illuminate\Support\Facades\Auth;
 
 class LikeGrupoController extends Controller
 {

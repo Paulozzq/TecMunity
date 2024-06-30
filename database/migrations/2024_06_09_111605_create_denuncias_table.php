@@ -15,13 +15,13 @@ return new class extends Migration
             $table->id('ID_denuncias');
             $table->unsignedBigInteger('denunciado');
             $table->unsignedBigInteger('denunciante');
-            $table->unsignedBigInteger('publicacion');
+            $table->unsignedBigInteger('publicacion')->nullable(); // Permitir valores nulos
             $table->text('contenido');
             $table->unsignedBigInteger('ID_tipodenuncia')->default(1);
             $table->unsignedBigInteger('ID_estadodenuncia')->default(1);
             $table->timestamp('fecha_de_aprobacion')->nullable();
             $table->timestamps();
-
+        
             // claves foraneas
             $table->foreign('denunciado')->references('id')->on('usuarios')->onDelete('cascade');
             $table->foreign('denunciante')->references('id')->on('usuarios')->onDelete('cascade');
@@ -29,6 +29,7 @@ return new class extends Migration
             $table->foreign('ID_estadodenuncia')->references('ID_estadodenuncia')->on('estadosdenuncias')->onDelete('cascade');
             $table->foreign('ID_tipodenuncia')->references('ID_tipodenuncia')->on('tiposdenuncias')->onDelete('cascade');
         });
+        
     }
 
     /**

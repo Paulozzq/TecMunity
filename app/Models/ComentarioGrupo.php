@@ -9,7 +9,7 @@ class ComentarioGrupo extends Model
 {
     use HasFactory;
 
-    protected $table = 'comentarios_grupos'; // Nombre de la tabla en la base de datos
+    protected $table = 'comentario_grupo'; // Nombre de la tabla en la base de datos
 
     protected $primaryKey = 'ID_comentario'; // Nombre de la clave primaria
 
@@ -40,6 +40,8 @@ class ComentarioGrupo extends Model
     {
         return $this->hasMany(ComentarioGrupo::class, 'reply', 'ID_comentario');
     }
+
+    // Relación para obtener los likes del comentario
     public function likes()
     {
         return $this->hasMany(LikeGrupo::class, 'ID_comentario_grupo');
