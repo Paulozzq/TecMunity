@@ -12,7 +12,6 @@
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
 
-
     <!-- Custom CSS -->
     <link rel="icon" href="{{ asset('img/favicon.ico') }}" type="image/x-icon">
     <link rel="stylesheet" href="{{ asset('css/dashboard.css') }}">
@@ -26,13 +25,8 @@
         <div class="menu-icon" onclick="openSidebar()">
             <span class="material-icons-outlined">menu</span>
         </div>
-
     </header>
-
-
-      </header>
-      <!-- End Header -->
-
+    <!-- End Header -->
 
     <!-- Sidebar -->
     <aside id="sidebar">
@@ -44,7 +38,6 @@
         </div>
 
         <ul class="sidebar-list">
-
             <li class="sidebar-list-item">
                 <a href="{{ route('dashboard') }}" class="sidebar-link">
                     <span class="material-icons-outlined">dashboard</span> Dashboard
@@ -65,10 +58,6 @@
                     <span class="material-icons-outlined">logout</span> Volver a Tecmunity
                 </a>
             </li>
-
-        
-
-
         </ul>
     </aside>
     <!-- End Sidebar -->
@@ -82,12 +71,10 @@
     <!-- End Content -->
 </div>
 
-
-
 <!-- Scripts -->
 <!-- ApexCharts -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/apexcharts/3.35.3/apexcharts.min.js"></script>
 <!-- Custom JS -->
 <script src="{{ asset('js/dashboard.js') }}"></script>
-
+</body>
 </html>

@@ -12,8 +12,6 @@ use Illuminate\Support\Facades\Auth;
 use App\Models\Noticia;
 use App\Models\Amistad;
 
-
-
 class ComentarioController extends Controller
 {
     public function store(Request $request)
@@ -37,7 +35,8 @@ class ComentarioController extends Controller
             'ID_publicacion' => $request->publicacion_id,
             'url_media' => $mediaUrl,
         ]);
-        $idusua = Publicacion::findOrfail($request->publicacion_id);
+
+        $idusua = Publicacion::findOrFail($request->publicacion_id);
         Notificacion::create([
             'user1' => Auth::id(),
             'user2' => $idusua->ID_usuario,
@@ -45,30 +44,34 @@ class ComentarioController extends Controller
             'leido' => false,
             'fecha' => now(),
         ]);
+
         return redirect()->back();
     }
 
-    public function reply(Request $request){
+    public function reply(Request $request)
+    {
         $request->validate([
             'contenido' => 'required|string|max:255',
             'media' => 'nullable|file|mimes:jpg,jpeg,png,mp4,avi|max:20480',
             'reply' => 'required|exists:comentarios,ID_comentario',
         ]);
-        
+
         $mediaUrl = null;
         if ($request->hasFile('media')) {
             $media = $request->file('media');
             $uploadedFile = Cloudinary::upload($media->getRealPath(), ['folder' => 'comentarios']);
             $mediaUrl = $uploadedFile->getSecurePath();
         }
+
         Comentario::create([
             'contenido' => $request->contenido,
             'ID_usuario' => Auth::id(),
             'ID_publicacion' => $request->publicacion_id,
-            'reply'=>$request->reply,
+            'reply' => $request->reply,
             'url_media' => $mediaUrl,
         ]);
-        $idusua = Publicacion::findOrfail($request->publicacion_id);
+
+        $idusua = Publicacion::findOrFail($request->publicacion_id);
         Notificacion::create([
             'user1' => Auth::id(),
             'user2' => $idusua->ID_usuario,
@@ -79,47 +82,41 @@ class ComentarioController extends Controller
 
         return redirect()->back();
     }
-    
+
     public function show($id)
     {
-        // Aquí puedes cargar la publicación desde la base de datos usando el ID proporcionado
         $publicacion = Publicacion::findOrFail($id);
         $comentarios = $publicacion->comentarios()
-        
-        
             ->whereNull('reply')
             ->latest()
-            ->get(); 
-        $noticias=Noticia::all();
-        $solicitudes = Amistad::where('ID_amigo', Auth::id())
-        ->where('ID_estadoamistad', 1) 
-        ->with('usuario')
-        ->get();
-        $total= Notificacion::where('user2', Auth::user()->id)
-        ->where('leido', false) // Filtrar solo las no leídas
-        ->count();
+            ->get();
 
-      
-        return view('Tecmunity.comentarios', compact('total','solicitudes','noticias','publicacion', 'comentarios'));
-        
+        $noticias = Noticia::all();
+        $solicitudes = Amistad::where('ID_amigo', Auth::id())
+            ->where('ID_estadoamistad', 1)
+            ->with('usuario')
+            ->get();
+
+        $total = Notificacion::where('user2', Auth::id())
+            ->where('leido', false)
+            ->count();
+
+        return view('Tecmunity.comentarios', compact('total', 'solicitudes', 'noticias', 'publicacion', 'comentarios'));
     }
-   
 
     public function showReply($id)
     {
-        // Cargar el comentario principal
-        $comentarios = Comentario::findOrFail($id);
-        $noticias=Noticia::all();
-        
-        
-        
-        $user = $comentarios->usuario;
-        $publicacion = $comentarios->publicacion; 
-        // Obtener las respuestas (subcomentarios) del comentario
-        $reply = $comentarios->children()->latest()->get();
-        $total= Notificacion::where('user2', Auth::user()->id)
-        ->where('leido', false) // Filtrar solo las no leídas
-        ->count();
-        return view('Tecmunity.reply', compact( 'total','noticias','comentarios','user', 'publicacion', 'reply'));
+        $comentario = Comentario::findOrFail($id);
+        $noticias = Noticia::all();
+        $user = $comentario->usuario;
+        $publicacion = $comentario->publicacion;
+        $reply = $comentario->children()->latest()->get();
+
+        $total = Notificacion::where('user2', Auth::id())
+            ->where('leido', false)
+            ->count();
+
+        return view('Tecmunity.reply', compact('total', 'noticias', 'comentario', 'user', 'publicacion', 'reply'));
     }
 }
+

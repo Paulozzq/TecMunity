@@ -9,6 +9,7 @@
         "cloudinary-labs/cloudinary-laravel": "^2.1",
         "laravel/framework": "^11.0",
         "laravel/tinker": "^2.9",
+        "livewire/livewire": "^3.5",
         "sendgrid/sendgrid": "^8.1"
     },
     "require-dev": {

@@ -95,15 +95,14 @@
                 <br><div class="border-b border-gray-200 dark:border-dim-200"></div><br>
                 
                 <div class="pl-8 xl:pl-16 pr-4">
+                   @if($publicacion->url_media == null)
                     <p class="font-medium text-gray-800 dark:text-white" style="word-wrap: break-word; word-break: break-word;">
                         {{ $publicacion->contenido }}
                     </p>
-                    
-                    @if($publicacion->video_url)
-                        <div class="feed_content_video">
-                            <a href="{{ $publicacion->video_url }}" target="_blank">{{ $publicacion->video_url }}</a>
-                        </div>
-                    @endif
+                   @else
+                    <p class="font-medium text-gray-800 dark:text-white" style="word-wrap: break-word; word-break: break-word;">
+                        {{ $publicacion->contenido }}
+                    </p>
                     @if($publicacion->isVideo())
                         <video controls>
                             <source src="{{ $publicacion->url_media }}" type="video/mp4">
@@ -111,10 +110,11 @@
                         </video>
                     @else
                         <a href="{{ $publicacion->url_media }}" target="_blank">
-                            <img src="{{ $publicacion->url_media }}" alt="" />
+                            <img src="{{ $publicacion->url_media }}" alt="" class="w-full h-full object-cover" />
                         </a>
                     @endif
-                <br><br><br> <div class="border-b border-gray-200 dark:border-dim-200"></div><br>
+                   @endif
+                <br> <div class="border-b border-gray-200 dark:border-dim-200"></div><br>
                     <div class="flex items-center w-full justify-between">
                         <div class="flex items-center dark:text-white text-xs text-gray-400 hover:text-blue-400 dark:hover:text-blue-400">
                             <i class="fa-solid fa-comment mr-2 text-lg"></i>
