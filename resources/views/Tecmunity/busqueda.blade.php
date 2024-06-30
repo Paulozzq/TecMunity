@@ -11,12 +11,12 @@
         Tecmunity
     </span>
 </div>
-<br><br><br><br>
+<br>
 <div class="flex items-center justify-center mt-8">
-    <div class="relative m-2">
-        <i class="fa-solid fa-magnifying-glass text-gray-600 absolute left-4 top-1/2 -translate-y-1/2"></i>
-        <input  style="width:300px" type="text" id="searchInput" class="w-full lg:w-96 xl:w-120 bg-gray-200 dark:bg-dim-400 border-gray-200 dark:border-dim-400 text-gray-100 focus:outline-none font-normal h-9 pl-12 text-sm rounded-full" placeholder="Buscar usuarios en Tecmunity"/>
+    <i class="fa-solid fa-magnifying-glass text-gray-600 absolute left-4 top-1/2 -translate-y-1/2"></i>
 
+    <div class="relative m-2">
+        @livewire('search-usuario')
     </div>
 </div>
 
