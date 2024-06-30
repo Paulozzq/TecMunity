@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Usuario;
 use App\Models\Noticia; // Asegúrate de importar el modelo Noticia
 use App\Models\Amistad;
+use App\Models\Notificacion; // Asegúrate de importar el modelo Notificacion
 
 class HomeController extends Controller
 {
@@ -17,8 +18,11 @@ class HomeController extends Controller
         ->where('ID_estadoamistad', 1) 
         ->with('usuario')
         ->get(); // Cargar la relación 'roles' de usuarios
-      
-        return view('main', compact('solicitudes','noticias', 'usuarios'));
+        $total= Notificacion::where('user2', Auth::user()->id)
+        ->where('leido', false) // Filtrar solo las no leídas
+        ->count();
+
+        return view('main', compact('total','solicitudes','noticias', 'usuarios'));
     }
     
 }

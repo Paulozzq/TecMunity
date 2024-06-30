@@ -7,6 +7,7 @@ use App\Models\Usuario; // Assuming Usuario is your model for users/friends
 use Illuminate\Support\Facades\Auth;
 use App\Models\Amistad;
 use App\Models\Noticia;
+use App\Models\Notificacion;
 
 class MensajeriaController extends Controller
 {
@@ -29,7 +30,10 @@ class MensajeriaController extends Controller
         ->where('ID_estadoamistad', 1) 
         ->with('usuario')
         ->get();
+        $total= Notificacion::where('user2', Auth::user()->id)
+        ->where('leido', false) // Filtrar solo las no leídas
+        ->count();
 
-        return view('Tecmunity.mensajeria', compact('solicitudes','noticias','usuarios'));
+        return view('Tecmunity.mensajeria', compact('total','solicitudes','noticias','usuarios'));
     }
 }

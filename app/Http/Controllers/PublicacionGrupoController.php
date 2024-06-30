@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Auth;
 use CloudinaryLabs\CloudinaryLaravel\Facades\Cloudinary;
 use App\Models\Usuario;
 use App\Models\Amistad;
-
+use App\Models\Notificacion;
 class PublicacionGrupoController extends Controller
 {
     public function index(Grupo $grupo)
@@ -22,8 +22,12 @@ class PublicacionGrupoController extends Controller
         ->where('ID_estadoamistad', 1) 
         ->with('usuario')
         ->get();
+        $total= Notificacion::where('user2', Auth::user()->id)
+        ->where('leido', false) // Filtrar solo las no leídas
+        ->count();
+
         
-        return view('Tecmunity.gruposVista', compact('solicitudes','grupo', 'publicaciones', 'usuarios'));
+        return view('Tecmunity.gruposVista', compact('total','solicitudes','grupo', 'publicaciones', 'usuarios'));
     }
 
 

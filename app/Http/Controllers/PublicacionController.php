@@ -27,7 +27,10 @@ class PublicacionController extends Controller
         ->get();
 
         $usuarios=Usuario::all();
-        return view('Tecmunity.publicaciones', compact('usuarios','solicitudes','noticias','reporte','tiposDenuncias','publicaciones'));
+        $total= Notificacion::where('user2', Auth::user()->id)
+        ->where('leido', false) // Filtrar solo las no leídas
+        ->count();
+        return view('Tecmunity.publicaciones', compact('total','usuarios','solicitudes','noticias','reporte','tiposDenuncias','publicaciones'));
     }
 
     public function store(Request $request)

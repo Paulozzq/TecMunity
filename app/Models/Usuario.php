@@ -65,16 +65,20 @@ class Usuario extends Authenticatable
     }
 
     // Relación uno a muchos con la tabla Notificaciones (para las notificaciones enviadas)
+    // Relación uno a muchos con la tabla Notificaciones (notificaciones enviadas por el usuario)
     public function notificacionesEnviadas()
-    {
+    {   
         return $this->hasMany(Notificacion::class, 'user1', 'id');
     }
 
+
     // Relación uno a muchos con la tabla Notificaciones (para las notificaciones recibidas)
+    // Relación uno a muchos con la tabla Notificaciones (notificaciones recibidas por el usuario)
     public function notificacionesRecibidas()
     {
-        return $this->hasMany(Notificacion::class, 'user2', 'id');
+        return $this->hasMany(Notificacion::class, 'user2', 'id');  
     }
+
 
     // Relacion Roles 
     public function roles(){
