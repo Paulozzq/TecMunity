@@ -10,7 +10,7 @@ class Notificacion extends Model
     use HasFactory;
 
     protected $table = 'notificaciones';
-
+    public $timestamps = false;
     protected $fillable = [
         'user1', 'user2', 'ID_tiponotificacion', 'leido', 'fecha'
     ];

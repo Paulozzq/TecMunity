@@ -36,6 +36,7 @@
                     Postear
                 </button>
             </div>
+            <div id="media-preview" class="flex p-4 w-full"></div>
         </div>
     </form>
     <!-- Show tweets -->
@@ -122,4 +123,36 @@
             </a>
         </div>
     @endforeach
+
+<script>
+        function previewMedia(event) {
+            const previewContainer = document.getElementById('media-preview');
+            previewContainer.innerHTML = '';
+
+            const file = event.target.files[0];
+            if (file) {
+                const fileType = file.type;
+                const fileURL = URL.createObjectURL(file);
+
+                let mediaElement;
+
+                if (fileType.startsWith('image/')) {
+                    mediaElement = document.createElement('img');
+                    mediaElement.src = fileURL;
+                    mediaElement.classList.add('w-full', 'h-auto', 'rounded-lg', 'mt-4');
+                } else if (fileType.startsWith('video/')) {
+                    mediaElement = document.createElement('video');
+                    mediaElement.src = fileURL;
+                    mediaElement.classList.add('w-full', 'h-auto', 'rounded-lg', 'mt-4');
+                    mediaElement.controls = true;
+                }
+
+                if (mediaElement) {
+                    previewContainer.appendChild(mediaElement);
+                }
+            }
+        }
+
+        document.getElementById('input-media').addEventListener('change', previewMedia);
+    </script>
 @endsection

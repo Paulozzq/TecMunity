@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Comentario;
 use App\Models\Publicacion;
+use App\Models\Notificacion;
 use App\Models\Usuario;
 use Illuminate\Http\Request;
 use CloudinaryLabs\CloudinaryLaravel\Facades\Cloudinary;
@@ -19,7 +20,6 @@ class ComentarioController extends Controller
             'media' => 'nullable|file|mimes:jpg,jpeg,png,mp4,avi|max:20480',
             'publicacion_id' => 'required|exists:publicaciones,ID_publicacion',
         ]);
-       
 
         $mediaUrl = null;
         if ($request->hasFile('media')) {
@@ -28,13 +28,20 @@ class ComentarioController extends Controller
             $mediaUrl = $uploadedFile->getSecurePath();
         }
 
-        Comentario::create([
+        $info = Comentario::create([
             'contenido' => $request->contenido,
             'ID_usuario' => Auth::id(),
             'ID_publicacion' => $request->publicacion_id,
             'url_media' => $mediaUrl,
         ]);
-
+        $idusua = Publicacion::findOrfail($request->publicacion_id);
+        Notificacion::create([
+            'user1' => Auth::id(),
+            'user2' => $idusua->ID_usuario,
+            'ID_tiponotificacion' => 1,
+            'leido' => false,
+            'fecha' => now(),
+        ]);
         return redirect()->back();
     }
 
@@ -57,6 +64,14 @@ class ComentarioController extends Controller
             'ID_publicacion' => $request->publicacion_id,
             'reply'=>$request->reply,
             'url_media' => $mediaUrl,
+        ]);
+        $idusua = Publicacion::findOrfail($request->publicacion_id);
+        Notificacion::create([
+            'user1' => Auth::id(),
+            'user2' => $idusua->ID_usuario,
+            'ID_tiponotificacion' => 5,
+            'leido' => false,
+            'fecha' => now(),
         ]);
 
         return redirect()->back();

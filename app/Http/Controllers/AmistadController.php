@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Usuario;
 use App\Models\Amistad;
+use App\Models\Notificacion;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -39,6 +40,13 @@ class AmistadController extends Controller
             'fecha' => now(),
             'ID_estadoamistad' => 1,
         ]);
+        Notificacion::create([
+            'user1' => Auth::id(),
+            'user2' => $id,
+            'ID_tiponotificacion' => 2,
+            'leido' => false,
+            'fecha' => now(),
+        ]);
 
         return response()->json(['success' => 'Ahora sigues a este usuario'], 200);
     }
@@ -58,6 +66,14 @@ class AmistadController extends Controller
                    ->where('ID_amigo', Auth::id())
                    ->update(['ID_estadoamistad' => 2]);
         }
+
+        Notificacion::create([
+            'user1' => Auth::id(),
+            'user2' => $id,
+            'ID_tiponotificacion' => 3,
+            'leido' => false,
+            'fecha' => now(),
+        ]);
 
         return response()->json(['success' => 'Ahora sigues a este usuario'], 200);
     }

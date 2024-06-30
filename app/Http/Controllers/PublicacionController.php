@@ -3,6 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\Publicacion;
+use App\Models\Notificacion;
+use App\Models\Usuario;
+use App\Models\Amistad;
 use Illuminate\Http\Request;
 use CloudinaryLabs\CloudinaryLaravel\Facades\Cloudinary;
 use Illuminate\Support\Facades\Auth;
@@ -43,6 +46,30 @@ class PublicacionController extends Controller
             'ID_usuario' => Auth::id(), // Asegúrate de que se asigne el usuario autenticado
         ]);
 
+        $userId = Auth::id();
+
+        $ids1 = Amistad::where('ID_usuario', $userId)
+            ->where('ID_estadoamistad', 2)
+            ->pluck('ID_amigo');
+
+        $ids2 = Amistad::where('ID_amigo', $userId)
+            ->where('ID_estadoamistad', 2)
+            ->pluck('ID_usuario');
+
+        $allIds = $ids1->merge($ids2)->unique()->toArray();
+
+        $usuarios = Usuario::whereIn('id', $allIds)->get();
+        
+        foreach ($usuarios as $usuario) {
+            Notificacion::create([
+                'user1' => Auth::id(),
+                'user2' => $usuario->id,
+                'ID_tiponotificacion' => 4,
+                'leido' => false,
+                'fecha' => now(),
+            ]);
+        }
+
         return redirect()->route('publicaciones.index');
     }
 
@@ -74,7 +101,7 @@ class PublicacionController extends Controller
             'video_url' => $request->video_url
         ]);
 
-        return redirect()->route('publicaciones.index');
+        return response()->json(['html' => $html]);
     }
     private function deleteComments($comentarios)
     {

@@ -10,7 +10,7 @@ class NotificacionesController extends Controller
 {
     public function show()
     {
-        $notificaciones = Notificacion::where('user1', Auth::user()->id)
+        $notificaciones = Notificacion::where('user2', Auth::user()->id)
             ->orderBy('fecha', 'desc')
             ->paginate(5);
 

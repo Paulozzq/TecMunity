@@ -20,7 +20,7 @@
                         <div class="flex-1">
                             <div>
                                 <span class="font-medium text-gray-800 dark:text-gray-100">{{ $notificacion->emisor->name }}</span>
-                                <span class="text-gray-600 dark:text-gray-400">{{ $notificacion->created_at->diffForHumans() }}</span>
+                                <span class="text-gray-600 dark:text-gray-400"></span>
                             </div>
                             <p class="text-sm text-gray-700 dark:text-gray-300">{{ $notificacion->tipo->descripcion }}</p>
                         </div>

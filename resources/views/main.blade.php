@@ -120,15 +120,6 @@
                                       placeholder=" ¿Algo que decir, {{ auth()->user()->nombre }}?" name="contenido"></textarea>
                         </div>
                         <div class="flex p-4 w-full">
-                            <a href="#" class="text-blue-400 rounded-full p-2">
-                                <input type="file" name="media" accept="image/*,video/*" style="display: none;" id="input-media" onchange="previewMedia(event)">
-                                <label for="input-media">
-                                    <i class="fa-solid fa-image text-lg"></i>
-                                </label>
-                            </a>
-                            <a href="#" class="text-blue-400 rounded-full p-2">
-                                <i class="fa-solid fa-video text-lg"></i>
-                            </a>
                             <button class="font-bold bg-blue-400 text-white rounded-full px-6 ml-auto mr-1 flex items-center" type="submit">
                                 Postear
                             </button>
@@ -149,7 +140,7 @@
         <!-- Spinner -->
     </div>
     <!-- Right -->
-    <div class="hidden w-[30%] xl:block ">
+    <div class="hidden w-[30%] xl:block overflow-y-auto">
         <!-- Search -->
         <div class="relative m-2">
             <i class="fa-solid fa-magnifying-glass text-gray-600 absolute left-4 top-1/2 -translate-y-1/2"></i>
