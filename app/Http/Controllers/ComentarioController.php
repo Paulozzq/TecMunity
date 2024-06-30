@@ -10,6 +10,7 @@ use Illuminate\Http\Request;
 use CloudinaryLabs\CloudinaryLaravel\Facades\Cloudinary;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Noticia;
+use App\Models\Amistad;
 
 
 class ComentarioController extends Controller
@@ -89,9 +90,12 @@ class ComentarioController extends Controller
             ->latest()
             ->get(); 
         $noticias=Noticia::all();
-
+        $solicitudes = Amistad::where('ID_amigo', Auth::id())
+        ->where('ID_estadoamistad', 1) 
+        ->with('usuario')
+        ->get(); 
       
-        return view('Tecmunity.comentarios', compact('noticias','publicacion', 'comentarios'));
+        return view('Tecmunity.comentarios', compact('noticias','publicacion', 'comentarios', 'solicitudes'));
         
     }
    

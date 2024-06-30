@@ -90,18 +90,4 @@
 <!-- Custom JS -->
 <script src="{{ asset('js/dashboard.js') }}"></script>
 </body>
-
-      <!-- Content -->
-      <main class="main-container">
-        <div class="content-wrapper">
-          {{$slot}}
-        </div>
-      </main>
-    <!-- Scripts -->
-    <!-- ApexCharts -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/apexcharts/3.35.3/apexcharts.min.js"></script>
-    <!-- Custom JS -->
-    <script src="{{ asset('js/dashboard.js') }}"></script>
-  </body>
-
 </html>
