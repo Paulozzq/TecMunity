@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\DB;
 use App\Models\Usuario;
 use App\Models\Noticia;
 use App\Models\Amistad;
+use App\Models\Notificacion;
 
 class GrupoController extends Controller
 {
@@ -30,7 +31,10 @@ class GrupoController extends Controller
         ->where('ID_estadoamistad', 1) // Estado pendiente
         ->with('usuario')
         ->get();
-        return view('Tecmunity.grupos', compact('solicitudes','noticias','carreras','grupos'));
+        $total= Notificacion::where('user2', Auth::user()->id)
+        ->where('leido', false) // Filtrar solo las no leídas
+        ->count();
+        return view('Tecmunity.grupos', compact('total','solicitudes','noticias','carreras','grupos'));
     }
 
     /**
@@ -105,8 +109,11 @@ class GrupoController extends Controller
         ->where('ID_estadoamistad', 1) // Estado pendiente
         ->with('usuario')
         ->get();
+        $total= Notificacion::where('user2', Auth::user()->id)
+        ->where('leido', false) // Filtrar solo las no leídas
+        ->count();
     
-        return view('Tecmunity.gruposVista', compact('solicitudes','noticias','usuarios','grupo', 'infoGrupo', 'publicaciones'));
+        return view('Tecmunity.gruposVista', compact('total','solicitudes','noticias','usuarios','grupo', 'infoGrupo', 'publicaciones'));
     }
 
     public function guardarInfoGrupo(Request $request, $id)

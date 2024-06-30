@@ -10,6 +10,8 @@ use Illuminate\Http\Request;
 use CloudinaryLabs\CloudinaryLaravel\Facades\Cloudinary;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Noticia;
+use App\Models\Amistad;
+
 
 
 class ComentarioController extends Controller
@@ -83,15 +85,22 @@ class ComentarioController extends Controller
         // Aquí puedes cargar la publicación desde la base de datos usando el ID proporcionado
         $publicacion = Publicacion::findOrFail($id);
         $comentarios = $publicacion->comentarios()
-
+        
         
             ->whereNull('reply')
             ->latest()
             ->get(); 
         $noticias=Noticia::all();
+        $solicitudes = Amistad::where('ID_amigo', Auth::id())
+        ->where('ID_estadoamistad', 1) 
+        ->with('usuario')
+        ->get();
+        $total= Notificacion::where('user2', Auth::user()->id)
+        ->where('leido', false) // Filtrar solo las no leídas
+        ->count();
 
       
-        return view('Tecmunity.comentarios', compact('noticias','publicacion', 'comentarios'));
+        return view('Tecmunity.comentarios', compact('total','solicitudes','noticias','publicacion', 'comentarios'));
         
     }
    
@@ -108,6 +117,9 @@ class ComentarioController extends Controller
         $publicacion = $comentarios->publicacion; 
         // Obtener las respuestas (subcomentarios) del comentario
         $reply = $comentarios->children()->latest()->get();
-        return view('Tecmunity.reply', compact( 'noticias','comentarios','user', 'publicacion', 'reply'));
+        $total= Notificacion::where('user2', Auth::user()->id)
+        ->where('leido', false) // Filtrar solo las no leídas
+        ->count();
+        return view('Tecmunity.reply', compact( 'total','noticias','comentarios','user', 'publicacion', 'reply'));
     }
 }

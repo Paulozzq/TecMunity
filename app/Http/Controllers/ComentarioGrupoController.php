@@ -7,6 +7,7 @@ use App\Models\Grupo;
 use Illuminate\Http\Request;
 use CloudinaryLabs\CloudinaryLaravel\Facades\Cloudinary;
 use Illuminate\Support\Facades\Auth;
+use App\Models\Notificacion;
 
 class ComentarioGrupoController extends Controller
 {
@@ -67,9 +68,11 @@ class ComentarioGrupoController extends Controller
 
         // Obtener los comentarios asociados al grupo
         $comentarios = $grupo->comentarios()->whereNull('reply')->latest()->get();
+        $total= Notificacion::where('user2', Auth::user()->id)
+        ->where('leido', false) // Filtrar solo las no leídas
+        ->count();
 
-
-        return view('Tecmunity.comentariosgrupos', compact('grupo', 'comentarios'));
+        return view('Tecmunity.comentariosgrupos', compact('total','grupo', 'comentarios'));
     }
 
     public function showReply($id)
@@ -79,7 +82,9 @@ class ComentarioGrupoController extends Controller
 
         // Obtener las respuestas (subcomentarios) del comentario
         $respuestas = $comentario->respuestas()->latest()->get();
-
-        return view('Tecmunity.comentariosgrupos', compact('comentario', 'respuestas'));
+        $total= Notificacion::where('user2', Auth::user()->id)
+        ->where('leido', false) // Filtrar solo las no leídas
+        ->count();
+        return view('Tecmunity.comentariosgrupos', compact('total','comentario', 'respuestas'));
     }
 }

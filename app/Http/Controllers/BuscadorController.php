@@ -7,6 +7,7 @@ use App\Models\Usuario;
 use App\Models\Noticia;
 use App\Models\Amistad;
 use Illuminate\Support\Facades\Auth;
+use App\Models\Notificacion;
 
 class BuscadorController extends Controller
 {
@@ -18,7 +19,11 @@ class BuscadorController extends Controller
         ->where('ID_estadoamistad', 1) 
         ->with('usuario')
         ->get();
-        return view('Tecmunity.busqueda', compact('solicitudes','noticias'));
+
+        $total= Notificacion::where('user2', Auth::user()->id)
+        ->where('leido', false) // Filtrar solo las no leídas
+        ->count();
+        return view('Tecmunity.busqueda', compact('total','solicitudes','noticias'));
     }
     public function buscar(Request $request)
     {

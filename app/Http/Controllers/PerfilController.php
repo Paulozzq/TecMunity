@@ -8,7 +8,7 @@ use App\Models\Usuario;
 use App\Models\Publicacion;
 use App\Models\Amistad;
 use App\Models\Noticia;
-
+use App\Models\Notificacion;
 class PerfilController extends Controller
 {
     public function show($id)
@@ -84,7 +84,10 @@ class PerfilController extends Controller
         ->where('ID_estadoamistad', 1) 
         ->with('usuario')
         ->get();
+        $total= Notificacion::where('user2', Auth::user()->id)
+        ->where('leido', false) // Filtrar solo las no leídas
+        ->count();
 
-        return view('Tecmunity.perfil', compact('solicitudes','noticias','perfil','sinnada', 'publicaciones', 'amistadPendiente', 'amistadExistente', 'amigoUser', 'amigo', 'noHayRelacionEntreEllos'));
+        return view('Tecmunity.perfil', compact('total','solicitudes','noticias','perfil','sinnada', 'publicaciones', 'amistadPendiente', 'amistadExistente', 'amigoUser', 'amigo', 'noHayRelacionEntreEllos'));
     }
 }

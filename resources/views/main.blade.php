@@ -113,10 +113,15 @@
                 <i class="fa-solid fa-house text-xl"></i>
                 <h2 class="icon">Inicio</h2>
             </a>
-            <a href="{{route('notificaciones.index')}}" class="link mb-8">
+            <a href="{{ route('notificaciones.index') }}" class="link mb-8 relative">
                 <i class="fa-solid fa-bell text-xl"></i>
                 <span class="icon">Notificaciones</span>
+                @if ($total > 0)
+                   <strong><span style="color:rgb(247, 244, 244);margin-top:-15px;font-size:12px;margin-left:1px" class="absolute -top-1 right-0 bg-red-500 text-red rounded-full px-2 py-1 text-xs">{{ $total }}</span> </strong> 
+                @endif 
             </a>
+            
+            
             <a href="{{route('mensajeria.index')}}" class="link mb-8">
                 <i class="fa-solid fa-envelope text-xl"></i>
                 <span class="icon">Mensajeria</span>
