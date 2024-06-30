@@ -13,17 +13,19 @@ class ProfileController extends Controller
     public function edit()
     {
         $carreras = Carrera::all();
-        return view('Tecmunity.infoPersonal', compact('carreras'));
+        $noticias=Noticia::all();
+        return view('Tecmunity.infoPersonal', compact('noticias','carreras'));
     }
 
     public function update(UpdateProfileRequest $request)
     {
+        
         $user = Auth::user();
         $data = $request->only([
             'nombre', 'apellido', 'fecha_nacimiento', 'sexo', 
             'privado', 'biografia', 'carrera_id', 'username'
         ]);
-
+        
         if ($request->hasFile('avatar')) {
             $avatarPath = Cloudinary::upload($request->file('avatar')->getRealPath(), [
                 'folder' => 'avatars'
@@ -40,6 +42,6 @@ class ProfileController extends Controller
 
         $user->update($data);
 
-        return redirect()->route('publicaciones.index')->with('success', 'Perfil actualizado con éxito.');
+        return redirect()->back()->with('success', 'Perfil actualizado con éxito.');
     }
 }

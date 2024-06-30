@@ -8,6 +8,7 @@ use App\Models\Usuario;
 use Illuminate\Http\Request;
 use CloudinaryLabs\CloudinaryLaravel\Facades\Cloudinary;
 use Illuminate\Support\Facades\Auth;
+use App\Models\Noticia;
 
 
 class ComentarioController extends Controller
@@ -71,10 +72,11 @@ class ComentarioController extends Controller
         
             ->whereNull('reply')
             ->latest()
-            ->get(); // Obtener los comentarios asociados a la publicación
+            ->get(); 
+        $noticias=Noticia::all();
 
       
-        return view('Tecmunity.comentarios', compact('publicacion', 'comentarios'));
+        return view('Tecmunity.comentarios', compact('noticias','publicacion', 'comentarios'));
         
     }
    
@@ -83,7 +85,7 @@ class ComentarioController extends Controller
     {
         // Cargar el comentario principal
         $comentarios = Comentario::findOrFail($id);
-      
+        $noticias=Noticia::all();
         
         
         
@@ -91,6 +93,6 @@ class ComentarioController extends Controller
         $publicacion = $comentarios->publicacion; 
         // Obtener las respuestas (subcomentarios) del comentario
         $reply = $comentarios->children()->latest()->get();
-        return view('Tecmunity.reply', compact('comentarios','user', 'publicacion', 'reply'));
+        return view('Tecmunity.reply', compact( 'noticias','comentarios','user', 'publicacion', 'reply'));
     }
 }

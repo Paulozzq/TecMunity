@@ -5,7 +5,10 @@
     <h4 class="text-gray-800 dark:text-gray-100 font-bold">
         Notificaciones
     </h4>
-    <i class="fab fa-twitter text-lg text-blue-400"></i> <!-- Font Awesome Twitter icon -->
+    <span class="relative inline-block text-blue-500 text-lg font-bold">
+        <!-- Cambiado solo el nombre de la clase a 'iconT' -->
+        Tecmunity
+    </span><!-- Font Awesome Twitter icon -->
 </div>
 
 <div class="mt-4">

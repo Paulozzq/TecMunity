@@ -25,4 +25,10 @@ class InfoGrupo extends Model
     {
         return $this->belongsTo(Grupo::class, 'ID_grupo', 'ID_grupos');
     }
+
+    public function creador()
+{
+    return $this->belongsTo(Usuario::class, 'ID_creador');
+}
+
 }

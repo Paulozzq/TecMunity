@@ -46,6 +46,53 @@
     text-decoration: none;
     cursor: pointer;
 }
+
+
+.link-active {
+        /* Estilos de tu enlace */
+        text-decoration: none; /* Quitar subrayado por defecto */
+        color: #3b82f6; /* Color azul */
+    }
+
+    .link-active .iconT,
+    .link-active span {
+        position: relative;
+        display: inline-block;
+    }
+
+    .link-active .iconT::before,
+    .link-active span::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        border-radius: inherit;
+        animation: glow 2s ease-in-out infinite;
+        z-index: -1;
+    }
+
+    .link-active .iconT::before {
+        background-color: rgba(59, 130, 246, 0.2);
+    }
+
+    .link-active span::before {
+        background-color: rgba(59, 130, 246, 0.1);
+    }
+
+    @keyframes glow {
+        0% {
+            box-shadow: 0 0 8px rgba(59, 130, 246, 0.8), 0 0 12px rgba(59, 130, 246, 0.8);
+        }
+        50% {
+            box-shadow: 0 0 20px rgba(59, 130, 246, 0.8), 0 0 30px rgba(59, 130, 246, 0.8);
+        }
+        100% {
+            box-shadow: 0 0 8px rgba(59, 130, 246, 0.8), 0 0 12px rgba(59, 130, 246, 0.8);
+        }
+    }
+
     </style>
 </head>
 <body class="bg-white dark:bg-dim-900">
@@ -54,14 +101,17 @@
     <!-- Left -->
     <div class="xl:w-1/5 w-20 h-full flex flex-col xl:pr-4">
         <!-- Logo -->
-        <a href="" class="link-active my-2">
-            <i class="fa-brands fa-twitter text-4xl"></i>
+        <a href="{{ route('publicaciones.index') }}" class="link-active my-2">
+            <span class="relative inline-block text-blue-500 text-lg font-bold" style="font-size:40px">
+                <!-- Cambiado solo el nombre de la clase a 'iconT' -->
+                T
+            </span>
         </a>
         <!-- Nav -->
         <nav class="mt-5">
             <a href="{{ route('publicaciones.index') }}" class="link-active mb-8">
                 <i class="fa-solid fa-house text-xl"></i>
-                <span class="icon">Inicio</span>
+                <h2 class="icon">Inicio</h2>
             </a>
             <a href="{{route('notificaciones.index')}}" class="link mb-8">
                 <i class="fa-solid fa-bell text-xl"></i>
@@ -71,18 +121,65 @@
                 <i class="fa-solid fa-envelope text-xl"></i>
                 <span class="icon">Mensajeria</span>
             </a>
-            <a href="" class="link mb-8">
-                <i class="fa-solid fa-list-ul text-xl"></i>
+            <a href="{{route('grupos.create')}}" class="link mb-8">
+                <i class="fas fa-users text-xl"></i>
+
                 <span class="icon">Grupos</span>
             </a>
             <a href="{{route('perfil.show', ['id'=>Auth()->user()->id])}}" class="link mb-8">
                 <i class="fa-solid fa-user text-xl"></i>
                 <span class="icon">Perfil</span>
             </a>
-            <a href="{{ route('logout') }}" class="link mb-8">
-                <i class="fa-solid fa-ellipsis text-xl"></i>
-                <span class="icon">Salir</span>
+            @if(auth()->user()->ID_roles == 2)
+            <a href="{{ route('dashboard') }}" class="link mb-8">
+                <i class="fa-solid fa-tachometer-alt text-xl"></i>
+                <span class="icon">Dashboard</span>
             </a>
+        @endif 
+
+        
+        <a href="{{route('buscar.index')}}" class="link mb-8">
+            <i class="fa-solid fa-search text-xl"></i>
+
+            <span class="icon">Buscar en Tecmunity</span>
+        </a>
+        
+
+         
+           
+        <a href="#" class="link mb-8" onclick="confirmLogout(event)">
+            <i class="fa-solid fa-sign-out-alt text-xl"></i>
+            <span class="icon">Salir</span>
+        </a>
+        
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+        <script>
+            function confirmLogout(event) {
+                event.preventDefault();
+                Swal.fire({
+                    title: '¿Estás seguro?',
+                    text: "No podrás revertir esto.",
+                    icon: 'question',
+                    background: '#15202b',
+                    color: '#fff',
+                    showCancelButton: true,
+                    confirmButtonColor: '#1DA1F2', // Azul claro
+                    cancelButtonColor: '#FF4757', // Rojo claro
+                    confirmButtonText: 'Sí, salir',
+                    cancelButtonText: 'Cancelar'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        // Reemplaza con la URL de cierre de sesión
+                        window.location.href = '/logout';
+                    }
+                });
+            }
+        </script>
+        
+        
+        
+        
+
         </nav>
         <!-- Button -->
         <button id="openModal" class="mx-auto w-11 h-11 xl:w-full flex items-center justify-center bg-blue-400 rounded-full text-white font-bold">
@@ -151,70 +248,63 @@
     <!-- Right -->
     <div class="hidden w-[30%] xl:block ">
         <!-- Search -->
-        <div class="relative m-2">
-            <i class="fa-solid fa-magnifying-glass text-gray-600 absolute left-4 top-1/2 -translate-y-1/2"></i>
-            <input type="text" class="w-full bg-gray-200 dark:bg-dim-400 border-gray-200 dark:border-dim-400 text-gray-100 focus:outline-none font-normal h-9 pl-12 text-sm rounded-full" placeholder="Buscar en TecMunity"/>
-        </div>
+      
+        
         <div class="bg-gray-50 dark:bg-dim-700 rounded-2xl m-2">
             <h3 class="text-gray-900 dark:text-white font-bold p-3 border-b border-gray-200 dark:border-dim-200">
                 Noticias Tecsup
             </h3>
+            @foreach($noticias as $noticia)
             <div class="p-3 border-b border-gray-200 dark:border-dim-200">
                 <h4 class="font-bold text-gray-800 dark:text-white">
-                    Titulo de la noticia
+                    {{ $noticia->titulo }}
                 </h4>
-                <p class="text-xs text-gray-400">Lorem ipsum dolor sit amet consectetur adipisicing elit. Alias a facilis sit voluptas odio magni accusamus assumenda consequatur at atque aspernatur quam obcaecati debitis quaerat cum quisquam similique, corporis qui.</p>
-                <img class="w-30 h-40 rounded-media" src="https://pbs.twimg.com/profile_images/1444753598328496128/hCCopfyz_400x400.jpg" alt=""/>
+                <p class="text-xs text-gray-400">{{ $noticia->contenido }}</p>
+                @if ($noticia->imagen)
+                    <img class="w-30 h-40 rounded-media" src="{{ $noticia->imagen }}" alt=""/>
+                @endif
             </div>
-            <div class="p-3 border-b border-gray-200 dark:border-dim-200">
-                <h4 class="font-bold text-gray-800 dark:text-white">
-                    #Palestine
-                </h4>
-                <p class="text-xs text-gray-400">29.7K Tweets</p>
-            </div>
-            <div class="p-3 border-b border-gray-200 dark:border-dim-200">
-                <h4 class="font-bold text-gray-800 dark:text-white">
-                    #Palestine
-                </h4>
-                <p class="text-xs text-gray-400">29.7K Tweets</p>
-            </div>
-            <div class="text-blue-400 p-3 cursor-pointer">
-                Mostrar mas
-            </div>
+            @endforeach
+        
+          
         </div>
+        
         <!-- Who to follow  -->
         <div class="bg-gray-50 dark:bg-dim-700 rounded-2xl m-2">
             <h3 class="text-gray-900 dark:text-white font-bold p-3 border-b border-gray-200 dark:border-dim-200">
                 Solicitud de amistad
             </h3>
-            <div class="p-5 border-b border-gray-200 dark:border-dim-200 flex justify-between items-center">
-                <div class="flex ">
-                    <img class="w-10 h-10 rounded-full" src="https://pbs.twimg.com/profile_images/1444753598328496128/hCCopfyz_400x400.jpg" alt=""/>
-                    <div class="ml-2 text-sm">
-                        <h5 class="text-gray-900 dark:text-white font-bold">
-                            abdoelazizgamal
-                        </h5>
-                        <p class="text-gray-400">@abdoelazizgamal</p>
+            @foreach($solicitudes as $solicitud)
+                <div class="p-5 border-b border-gray-200 dark:border-dim-200 flex justify-between items-center">
+                    <div class="flex">
+                        <img class="w-10 h-10 rounded-full" 
+                        src="{{ $solicitud->usuario->avatar ? $solicitud->usuario->avatar : asset('img/default-avatar.jpg') }}" 
+                        alt=""/>
+                   
+                        <div class="ml-2 text-sm">
+                            <h5 class="text-gray-900 dark:text-white font-bold">
+                                {{ $solicitud->usuario->nombre}}
+                            </h5>
+                            <p class="text-gray-400">{{ '@' . $solicitud->usuario->username }}</p>
+                        </div>
                     </div>
+                    <form action="{{ route('perfil.seguirOtra', $solicitud->usuario->id) }}" method="POST" class="inline follow-form">
+                        @csrf
+                        <button type="submit" class="text-xs font-bold text-blue-400 px-4 py-1 rounded-full border-2 border-blue-400">
+                            Seguir
+                        </button>
+                    </form>
+                    
+                  
+                    
                 </div>
-                <a href="#" class="text-xs font-bold text-blue-400 px-4 py-1 rounded-full border-2 border-blue-400">Seguir</a>
-            </div>
-            <div class="p-5 border-b border-gray-200 dark:border-dim-200 flex justify-between items-center">
-                <div class="flex ">
-                    <img class="w-10 h-10 rounded-full" src="https://pbs.twimg.com/profile_images/1444753598328496128/hCCopfyz_400x400.jpg" alt=""/>
-                    <div class="ml-2 text-sm">
-                        <h5 class="text-gray-900 dark:text-white font-bold">
-                            abdoelazizgamal
-                        </h5>
-                        <p class="text-gray-400">@abdoelazizgamal</p>
-                    </div>
-                </div>
-                <a href="#" class="text-xs font-bold text-blue-400 px-4 py-1 rounded-full border-2 border-blue-400">Follow</a>
-            </div>
+            @endforeach
             <div class="text-blue-400 p-3 cursor-pointer">
-                Mostrar mas
+                Mostrar más
             </div>
         </div>
+        
+        
     </div>
 </div>
 

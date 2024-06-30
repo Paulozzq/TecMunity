@@ -43,7 +43,7 @@ class AmistadController extends Controller
         return response()->json(['success' => 'Ahora sigues a este usuario'], 200);
     }
 
-    public function SeguirDeVuelta($id)
+    public function seguirDeVuelta($id)
     {
         $mutuoSeguidor = Amistad::where('ID_usuario', $id)
                                 ->where('ID_amigo', Auth::id())
@@ -72,7 +72,6 @@ class AmistadController extends Controller
                   ->where('ID_amigo', Auth::id());
         })->first();
 
-                          
         if ($amistad) {
             $amistad->delete();
         }
@@ -110,4 +109,5 @@ class AmistadController extends Controller
             'amistadExistente' => $amistadExistente
         ]);
     }
-}
+
+    }

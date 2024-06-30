@@ -7,14 +7,26 @@ use App\Models\Grupo;
 use App\Models\PublicacionGrupo;
 use Illuminate\Support\Facades\Auth;
 use CloudinaryLabs\CloudinaryLaravel\Facades\Cloudinary;
+use App\Models\Usuario;
+use App\Models\Amistad;
 
 class PublicacionGrupoController extends Controller
 {
     public function index(Grupo $grupo)
     {
-        $publicaciones = $grupo->publicaciones()->latest()->get();
-        return view('Tecmunity.publicaciones_grupo', compact('grupo', 'publicaciones'));
+        $publicaciones = $grupo->publicaciones()->with('usuario')->latest()->get();
+        $usuarios = Usuario::whereHas('grupos', function ($query) use ($grupo) {
+            $query->where('ID_grupos', $grupo->ID_grupos);
+        })->get();
+        $solicitudes = Amistad::where('ID_amigo', Auth::id())
+        ->where('ID_estadoamistad', 1) 
+        ->with('usuario')
+        ->get();
+        
+        return view('Tecmunity.gruposVista', compact('solicitudes','grupo', 'publicaciones', 'usuarios'));
     }
+
+
 
     public function store(Request $request, Grupo $grupo)
     {

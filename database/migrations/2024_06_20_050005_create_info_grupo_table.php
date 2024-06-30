@@ -14,9 +14,9 @@ return new class extends Migration
         Schema::create('info_grupo', function (Blueprint $table) {
             $table->id('ID_info');
             $table->unsignedBigInteger('ID_grupo');
-            $table->text('descripcion');
-            $table->string('avatar')->nullable();
-            $table->string('portada')->nullable();
+            $table->text('descripcion')->nullable(); // Cambio a nullable
+            $table->string('avatar')->nullable(); // Cambio a nullable
+            $table->string('portada')->nullable(); // Cambio a nullable
             $table->string('tema');
             $table->boolean('privado');
             $table->timestamps();

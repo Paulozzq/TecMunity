@@ -26,11 +26,11 @@ class UpdateProfileRequest extends FormRequest
             'apellido' => 'required|string|max:255',
             'fecha_nacimiento' => 'nullable|date',
             'sexo' => 'nullable|string|max:255',
-            'privado' => 'required|boolean',
+            'privado' => 'nullable|boolean',
             'biografia' => 'nullable|string',
             'avatar' => 'nullable|image|max:2048',
             'portada' => 'nullable|image|max:2048',
-            'carrera_id' => 'nullable|exists:carreras,id',
+            'ID_carrera' => 'nullable|exists:carreras,ID_carrera',
             'username' => 'required|string|max:255'
         ];
     }

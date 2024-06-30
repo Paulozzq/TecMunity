@@ -68,7 +68,8 @@ class ComentarioGrupoController extends Controller
         // Obtener los comentarios asociados al grupo
         $comentarios = $grupo->comentarios()->whereNull('reply')->latest()->get();
 
-        return view('Tecmunity.comentarios', compact('grupo', 'comentarios'));
+
+        return view('Tecmunity.comentariosgrupos', compact('grupo', 'comentarios'));
     }
 
     public function showReply($id)
@@ -79,6 +80,6 @@ class ComentarioGrupoController extends Controller
         // Obtener las respuestas (subcomentarios) del comentario
         $respuestas = $comentario->respuestas()->latest()->get();
 
-        return view('Tecmunity.comentarios', compact('comentario', 'respuestas'));
+        return view('Tecmunity.comentariosgrupos', compact('comentario', 'respuestas'));
     }
 }

@@ -30,7 +30,7 @@ class CreateUsuariosTable extends Migration
             $table->unsignedBigInteger('ID_carrera')->nullable();//llave foranea de carreras
             $table->text('biografia')->nullable();
             $table->timestamps();
-
+            $tabla->string('remenber_token')->nullable();
             $table->foreign('ID_carrera')->references('ID_carrera')->on('carreras')->onDelete('cascade');
             $table->foreign('ID_estadousuario')->references('ID_estadousuario')->on('Estadosusuarios')->onDelete('cascade');
             $table->foreign('ID_roles')->references('ID_roles')->on('roles')->onDelete('cascade');
