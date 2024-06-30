@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\LikeGrupo;
+
 use Illuminate\Support\Facades\Auth;
 
 class LikeGrupoController extends Controller
@@ -20,7 +21,7 @@ class LikeGrupoController extends Controller
 
     public function likeComentario($comentarioId)
     {
-        $like = Like::create([
+        $like = LikeGrupo::create([
             'ID_usuario' => Auth::id(),
             'ID_comentario_grupo' => $comentarioId,
         ]);
@@ -30,14 +31,14 @@ class LikeGrupoController extends Controller
 
     public function unlikePublicacion($publicacionId)
     {
-        Like::where('ID_usuario', Auth::id())->where('ID_publicacion_grupo', $publicacionId)->delete();
+        LikeGrupo::where('ID_usuario', Auth::id())->where('ID_publicacion_grupo', $publicacionId)->delete();
 
         return redirect()->back();
     }
 
     public function unlikeComentario($comentarioId)
     {
-        Like::where('ID_usuario', Auth::id())->where('ID_comentario_grupo', $comentarioId)->delete();
+        LikeGrupo::where('ID_usuario', Auth::id())->where('ID_comentario_grupo', $comentarioId)->delete();
 
         return redirect()->back();
     }

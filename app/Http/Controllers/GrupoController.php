@@ -97,12 +97,9 @@ class GrupoController extends Controller
     public function index($id) {
         // Fetch the group details
         $grupo = Grupo::findOrFail($id);
-    
-        // Fetch additional information related to the group (assuming InfoGrupo is a related model)
         $infoGrupo = InfoGrupo::where('ID_grupo', $id)->first();
         $usuarios = Usuario::all();
-        // Fetch publications related to the group
-        $publicaciones = PublicacionGrupo::where('ID_grupo', $id)->get();
+        $publicaciones = PublicacionGrupo::where('ID_grupo', $id)->latest()->get();
         $noticias=Noticia::all();
         $solicitudes = Amistad::where('ID_amigo', Auth::id())
         ->where('ID_estadoamistad', 1) // Estado pendiente
@@ -113,40 +110,39 @@ class GrupoController extends Controller
     }
 
     public function guardarInfoGrupo(Request $request, $id)
-{
-    // Validación de los datos recibidos del formulario
-    $validated = $request->validate([
-        'descripcion' => 'nullable|string|max:255',
-        'avatar' => 'nullable|url',
-        'portada' => 'nullable|url',
-        'tema' => 'nullable|string|max:255',
-        'privado' => 'nullable|boolean',
-    ]);
-    
-    try {
-        DB::beginTransaction();
-    
-        // Buscar el grupo
-        $grupo = Grupo::findOrFail($id);
-    
-        // Verificar si ya existe una entrada de InfoGrupo para este grupo
-        $infoGrupo = InfoGrupo::where('ID_grupo', $id)->first();
-    
-        if ($infoGrupo) {
-            // Si existe, actualizar los datos
-            $infoGrupo->update($validated);
-        } else {
-            // Si no existe, crear una nueva entrada
-            InfoGrupo::create(array_merge($validated, ['ID_grupo' => $id]));
-        }
-    
-        DB::commit();
-    } catch (\Exception $e) {
-        DB::rollback();
-        return back()->with('error', 'Error al guardar la información del grupo. Por favor, inténtalo de nuevo más tarde.');
-    }
-    
+    {
+        // Validación de los datos recibidos del formulario
+        $validated = $request->validate([
+            'descripcion' => 'nullable|string|max:255',
+            'avatar' => 'nullable|url',
+            'portada' => 'nullable|url',
+            'tema' => 'nullable|string|max:255',
+            'privado' => 'nullable|boolean',
+        ]);
+        
+        try {
+            DB::beginTransaction();
+        
+            // Buscar el grupo
+            $grupo = Grupo::findOrFail($id);
+        
+            // Verificar si ya existe una entrada de InfoGrupo para este grupo
+            $infoGrupo = InfoGrupo::where('ID_grupo', $id)->first();
+        
+            if ($infoGrupo) {
+                // Si existe, actualizar los datos
+                $infoGrupo->update($validated);
+            } else {
+                // Si no existe, crear una nueva entrada
+                InfoGrupo::create(array_merge($validated, ['ID_grupo' => $id]));
+            }
+        
+            DB::commit();
 
-   
-}    
+            return redirect()->back();
+        } catch (\Exception $e) {
+            DB::rollback();
+            return redirect()->back();
+        }
+    }    
 }

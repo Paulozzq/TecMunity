@@ -55,7 +55,7 @@ class PublicacionGrupoController extends Controller
             'ID_grupo' => $grupo->ID_grupos,
         ]);
 
-        return redirect()->route('grupos.publicaciones.index', $grupo->ID_grupos)
+        return redirect()->back()
                          ->with('success', 'Publicación creada exitosamente.');
     }
 

@@ -154,7 +154,7 @@
             </div>
         </div>
     </form>
-    <h1>{{$grupo->usuario->username}}</h1>
+
 
     <!-- Usuarios Section -->
     

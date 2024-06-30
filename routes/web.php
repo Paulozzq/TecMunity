@@ -100,16 +100,16 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::prefix('grupos')->group(function () {
         Route::get('{grupo}/publicaciones', [PublicacionGrupoController::class, 'index'])
              ->name('grupos.publicaciones.index');
-    
+
         Route::post('{grupo}/publicaciones', [PublicacionGrupoController::class, 'store'])
              ->name('grupos.publicaciones.store');
-    
+
         Route::put('{grupo}/publicaciones/{publicacion}', [PublicacionGrupoController::class, 'update'])
              ->name('grupos.publicaciones.update');
-    
+
         Route::delete('{grupo}/publicaciones/{publicacion}', [PublicacionGrupoController::class, 'destroy'])
              ->name('grupos.publicaciones.destroy');
-    
+
     });
 
     Route::post('/grupo/publicaciones/{publicacionId}/like', [LikeGrupoController::class, 'likePublicacion'])->name('grupo.publicaciones.like');

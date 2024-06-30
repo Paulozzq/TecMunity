@@ -11,9 +11,7 @@ use CloudinaryLabs\CloudinaryLaravel\Facades\Cloudinary;
 use Illuminate\Support\Facades\Auth;
 use App\Models\TipoDenuncia;
 use App\Models\Noticia;
-use App\Models\Amistad;
 use App\Models\Like;
-use App\Models\Usuario;
 class PublicacionController extends Controller
 {   
     
