@@ -117,7 +117,7 @@
                 <i class="fa-solid fa-bell text-xl"></i>
                 <span class="icon">Notificaciones</span>
                 @if ($total > 0)
-                   <strong><span style="color:rgb(247, 244, 244);margin-top:-15px;font-size:12px;margin-left:1px" class="absolute -top-1 right-0 bg-red-500 text-red rounded-full px-2 py-1 text-xs">{{ $total }}</span> </strong> 
+                   <strong><span style="text-align: center;position: absolute;;width: 21px;height: 21px;background-color: #3b82f6;color:rgb(247, 244, 244);margin-top:-15px;font-size:12px;margin-left:1px;border-radius: 100%" class="absolute -top-1 right-0 bg-red-500 text-red rounded-full px-2 py-1 text-xs">{{ $total }}</span> </strong> 
                 @endif 
             </a>
             
