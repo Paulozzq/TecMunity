@@ -99,9 +99,9 @@
 <!-- Container -->
 <div class="container mx-auto h-screen flex xl:max-w-[1200px]">
     <!-- Left -->
-    <div class="xl:w-1/5 w-20 h-full flex flex-col xl:pr-4">
+    <div class="xl:w-1/5 w-20 h-full flex flex-col xl:pr-4 overflow-y-auto">
         <!-- Logo -->
-        <a href="{{ route('publicaciones.index') }}" class="link-active my-2">
+        <a href="{{ route('publicaciones.index') }}" class="link-active my-2" style="margin-left: 20px">
             <span class="relative inline-block text-blue-500 text-lg font-bold" style="font-size:40px">
                 <!-- Cambiado solo el nombre de la clase a 'iconT' -->
                 T
@@ -245,7 +245,6 @@
     <div class="hidden w-[30%] xl:block overflow-y-auto">
         <!-- Search -->
         <div class="flex items-center justify-center mt-8">
-            <i class="fa-solid fa-magnifying-glass text-gray-600 absolute left-4 top-1/2 -translate-y-1/2"></i>
             <div class="relative m-2">
                 @livewire('search-usuario')
             </div>
