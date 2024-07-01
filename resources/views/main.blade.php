@@ -245,7 +245,6 @@
     <div class="hidden w-[30%] xl:block overflow-y-auto">
         <!-- Search -->
         <div class="flex items-center justify-center mt-8">
-            <i class="fa-solid fa-magnifying-glass text-gray-600 absolute left-4 top-1/2 -translate-y-1/2"></i>
             <div class="relative m-2">
                 @livewire('search-usuario')
             </div>

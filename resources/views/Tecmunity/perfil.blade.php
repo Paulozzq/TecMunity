@@ -297,7 +297,7 @@
                 <img src="{{ $publicacion->url_media }}" alt="" />
             </a>
             @endif
-            <br><br><br>
+            <br>
             <div class="border-b border-gray-200 dark:border-dim-200"></div>
             <br>
             <div class="flex items-center w-full justify-between">
