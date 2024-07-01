@@ -69,42 +69,36 @@
             @csrf
             <div class="mb-4">
                 <label for="descripcion" class="text-white text-lg">Descripción del grupo</label>
-                <textarea name="descripcion" id="descripcion" rows="1" class="form-textarea mt-1 block w-full border-gray-300 dark:border-dim-500 focus:border-blue-400 focus:outline-none focus:ring dark:text-gray-300 rounded-md bg-transparent text-white">{{ old('descripcion', $infoGrupo ? $infoGrupo->descripcion : '') }}</textarea>
-                @error('descripcion')
-                    <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
-                @enderror
+                <textarea name="descripcion" id="descripcion" required   rows="1" class="form-textarea mt-1 block w-full border-gray-300 dark:border-dim-500 focus:border-blue-400 focus:outline-none focus:ring dark:text-gray-300 rounded-md bg-transparent text-white">{{ old('descripcion', $infoGrupo ? $infoGrupo->descripcion : '') }}</textarea>
+               
             </div>
             <div class="border-b border-gray-300"></div> <br>
             <div class="mb-4">
-                <label for="descripcion" class="text-white text-lg">Avatar del grupo</label>
-                <input type="text" name="avatar" id="avatar" value="{{ old('avatar', $infoGrupo ? $infoGrupo->avatar : '') }}" class="form-input mt-1 block w-full border-gray-300 dark:border-dim-500 focus:border-blue-400 focus:outline-none focus:ring dark:text-gray-300 rounded-md bg-transparent text-white">
+                <label for="avatar" class="text-white text-lg">Avatar del grupo</label>
+                <input type="file" name="avatar" id="avatar" class="form-input mt-1 block w-full border-gray-300 dark:border-dim-500 focus:border-blue-400 focus:outline-none focus:ring dark:text-gray-300 rounded-md bg-transparent text-white">
                 @error('avatar')
                     <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
                 @enderror
             </div> <div class="border-b border-gray-300"></div> <br>
             <div class="mb-4">
                 <label for="descripcion" class="text-white text-lg">Portada del grupo</label>
-                <input type="text" name="portada" id="portada" value="{{ old('portada', $infoGrupo ? $infoGrupo->portada : '') }}" class="form-input mt-1 block w-full border-gray-300 dark:border-dim-500 focus:border-blue-400 focus:outline-none focus:ring dark:text-gray-300 rounded-md bg-transparent text-white">
+                <input type="file" name="portada" id="portada" value="{{ old('portada', $infoGrupo ? $infoGrupo->portada : '') }}" class="form-input mt-1 block w-full border-gray-300 dark:border-dim-500 focus:border-blue-400 focus:outline-none focus:ring dark:text-gray-300 rounded-md bg-transparent text-white">
                 @error('portada')
                     <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
                 @enderror
             </div> <div class="border-b border-gray-300"></div><br>
             <div class="mb-4">
                 <label for="descripcion" class="text-white text-lg">Tema del grupo</label>
-                <input type="text" name="tema" id="tema" value="{{ old('tema', $infoGrupo ? $infoGrupo->tema : '') }}" class="form-input mt-1 block w-full border-gray-300 dark:border-dim-500 focus:border-blue-400 focus:outline-none focus:ring dark:text-gray-300 rounded-md bg-transparent text-white">
-                @error('tema')
-                    <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
-                @enderror
+                <input type="text" name="tema" id="tema"  required value="{{ old('tema', $infoGrupo ? $infoGrupo->tema : '') }}" class="form-input mt-1 block w-full border-gray-300 dark:border-dim-500 focus:border-blue-400 focus:outline-none focus:ring dark:text-gray-300 rounded-md bg-transparent text-white">
+               
             </div>  <div class="border-b border-gray-300"></div><br>
             <div class="mb-4">
                 <label for="descripcion" class="text-white text-lg">Privado</label>
-                <select name="privado" id="privado" class="form-select mt-1 block w-full border-gray-300 dark:border-dim-500 focus:border-blue-400 focus:outline-none focus:ring dark:text-gray-300 rounded-md bg-transparent text-white">
+                <select name="privado" id="privado" required  class="form-select mt-1 block w-full border-gray-300 dark:border-dim-500 focus:border-blue-400 focus:outline-none focus:ring dark:text-gray-300 rounded-md bg-transparent text-white">
                     <option style="color:black" value="1" {{ old('privado', $infoGrupo && $infoGrupo->privado ?  'selected' : '') }}    >Sí</option>
                     <option style="color:black" value="0" {{ old('privado', $infoGrupo && !$infoGrupo->privado ? 'selected' : '') }}>No</option>
                 </select>
-                @error('privado')
-                    <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
-                @enderror
+              
             </div> <div class="border-b border-gray-300"></div> <br>
             <div class="flex justify-end mt-4">
                 <button type="submit" class="bg-blue-500 text-white hover:bg-blue-600 font-bold py-2 px-4 rounded-lg shadow-lg transition duration-300 ease-in-out">

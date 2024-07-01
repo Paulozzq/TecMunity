@@ -11,6 +11,7 @@ use CloudinaryLabs\CloudinaryLaravel\Facades\Cloudinary;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Noticia;
 use App\Models\Amistad;
+use App\Models\TipoDenuncia;
 
 class ComentarioController extends Controller
 {
@@ -101,7 +102,13 @@ class ComentarioController extends Controller
             ->where('leido', false)
             ->count();
 
-        return view('Tecmunity.comentarios', compact('total', 'solicitudes', 'noticias', 'publicacion', 'comentarios'));
+            $usuarios=Usuario::all();
+           $publicaciones=Publicacion::all();
+
+           $tiposDenuncias = TipoDenuncia::all();
+
+
+        return view('Tecmunity.comentarios', compact('tiposDenuncias','publicaciones','usuarios','total', 'solicitudes', 'noticias', 'publicacion', 'comentarios'));
     }
 
     public function showReply($id)

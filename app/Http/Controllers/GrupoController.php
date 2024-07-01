@@ -14,6 +14,10 @@ use App\Models\Usuario;
 use App\Models\Noticia;
 use App\Models\Amistad;
 use App\Models\Notificacion;
+use CloudinaryLabs\CloudinaryLaravel\Facades\Cloudinary;
+
+
+
 
 class GrupoController extends Controller
 {
@@ -25,14 +29,15 @@ class GrupoController extends Controller
     public function create()
     {
         $carreras = Carrera::all(); 
-        $grupos = Grupo::all();
+        $grupos = Grupo::latest()->get();
+
         $noticias=Noticia::all();
         $solicitudes = Amistad::where('ID_amigo', Auth::id())
-        ->where('ID_estadoamistad', 1) // Estado pendiente
+        ->where('ID_estadoamistad', 1)
         ->with('usuario')
         ->get();
         $total= Notificacion::where('user2', Auth::user()->id)
-        ->where('leido', false) // Filtrar solo las no leídas
+        ->where('leido', false) 
         ->count();
         return view('Tecmunity.grupos', compact('total','solicitudes','noticias','carreras','grupos'));
     }
@@ -143,13 +148,26 @@ class GrupoController extends Controller
                 // Si no existe, crear una nueva entrada
                 InfoGrupo::create(array_merge($validated, ['ID_grupo' => $id]));
             }
+    
+            // Actualizar avatar si se proporciona una URL válida
+            if ($request->has('avatar') && filter_var($validated['avatar'], FILTER_VALIDATE_URL)) {
+                $grupo->avatar = $validated['avatar'];
+                $grupo->save();
+            }
+    
+            // Actualizar portada si se proporciona una URL válida
+            if ($request->has('portada') && filter_var($validated['portada'], FILTER_VALIDATE_URL)) {
+                $grupo->portada = $validated['portada'];
+                $grupo->save();
+            }
         
             DB::commit();
-
-            return redirect()->back();
+    
+            return redirect()->back()->with('success', 'Información del grupo actualizada exitosamente.');
         } catch (\Exception $e) {
             DB::rollback();
-            return redirect()->back();
+            return redirect()->back()->with('error', 'Error al actualizar la información del grupo. Por favor, inténtalo de nuevo más tarde.');
         }
-    }    
+    }  
+      
 }

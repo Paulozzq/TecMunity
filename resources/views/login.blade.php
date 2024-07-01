@@ -46,8 +46,8 @@
                     <input type="checkbox" name="ch" id="ch" class="mr-2" />
                     <label for="ch" class="text-md">Permanecer conectado</label>
                 </div>
-                
-                 <span class="font-bold text-md">Olvidé mi contraseña</span>
+             <a href=" {{route('password.request')}}">
+                 <span class="font-bold text-md">Olvidé mi contraseña</span></a>
                 </div>
                 <button class="w-full bg-black text-white p-2 rounded-lg mb-6 hover:bg-white hover:text-black hover:border hover:border-gray-300">
                     Iniciar Sesión

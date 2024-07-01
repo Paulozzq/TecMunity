@@ -6,7 +6,7 @@
        Mensajería
     </h4>
     <span class="relative inline-block text-blue-500 text-lg font-bold">
-        <!-- Cambiado solo el nombre de la clase a 'iconT' -->
+        
         Tecmunity
     </span>
 </div>
@@ -47,17 +47,34 @@
 </div>
 <div id="searchModal" class="modal">
     <div class="modal-content">
-        <span class="close" onclick="closeSearchModal()">&times;</span>
-        <h2>Buscar personas</h2>
-       
-        <form id="searchForm" onsubmit="return false;">
-            <input type="text" id="searchInput" placeholder="Buscar por nombre...">
-            <button onclick="searchPeople()" class="search-btn">Buscar</button>
-        </form>
-       <div id="searchResults">
-    </div>
+        <div class="flex justify-between items-center border-b border-gray-200 px-4 py-3">
+            <h2  style="color:white" class="text-xl font-bold">Buscar Usuarios en Tecmunity</h2>
+
+            <button id="closeModal" class="text-gray-600 hover:text-gray-800">
+                <span class="material-icons">X</span>
+            </button>
+        </div>
+        <div class="relative m-2">
+            @livewire('search-usuario')
+        </div>
+        <div id="searchResults">
+            
+        </div>
     </div>
 </div>
+
+<script>
+  
+    document.addEventListener('DOMContentLoaded', function() {
+        const closeModalBtn = document.getElementById('closeModal');
+        const searchModal = document.getElementById('searchModal');
+
+        closeModalBtn.addEventListener('click', function() {
+            searchModal.classList.remove('modal-open'); /
+        });
+    });
+</script>
+
 <script>
    
     function openSearchModal() {

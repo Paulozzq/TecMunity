@@ -36,7 +36,7 @@
                         <td>{{ $usuario->email }}</td>
                         <td>{{ $usuario->username }}</td>
                         <td>{{ $usuario->fecha_nacimiento }}</td>
-                        <td>{{ $usuario->carrera }}</td>
+                        <td>{{ $usuario->cId }}</td>
                         <td>{{ $usuario->status }}</td>
                         <td>{{ $usuario->privado }}</td>
                         <td>{{ $usuario->admin }}</td>

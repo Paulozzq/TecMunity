@@ -75,7 +75,12 @@ class AmistadController extends Controller
             'fecha' => now(),
         ]);
 
-        return response()->json(['success' => 'Ahora sigues a este usuario'], 200);
+        return response()->json([
+            'success' => true,
+            'message' => 'Ahora sigues a este usuario',
+             // Asegúrate de reemplazar $nombreUsuario con el nombre real del usuario seguido
+        ], 200);
+        
     }
 
     public function dejarDeSeguir($id)
