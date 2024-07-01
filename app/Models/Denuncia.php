@@ -14,16 +14,15 @@ class Denuncia extends Model
 
     public $incrementing =  true;
 
-
     protected $fillable = [
       'denunciado',
       'denunciante',
-      'publicaciones',
+      'publicacion',
       'contenido',
       'ID_tipodenuncia',
       'ID_estadodenuncia',
       'fecha_de_aprobacion',
-    ];
+  ];
 
     //relaciones
     public function denunciado(){

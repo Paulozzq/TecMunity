@@ -8,7 +8,7 @@ use App\Models\Usuario;
 class SearchUsuario extends Component
 {
     public $search = '';
- 
+    
     public function render()
     {
         $result = [];

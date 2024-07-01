@@ -9,6 +9,7 @@ use App\Models\Publicacion;
 use App\Models\Amistad;
 use App\Models\Noticia;
 use App\Models\Notificacion;
+use App\Models\Carrera;
 class PerfilController extends Controller
 {
     public function show($id)
@@ -88,6 +89,8 @@ class PerfilController extends Controller
         ->where('leido', false) // Filtrar solo las no leídas
         ->count();
 
-        return view('Tecmunity.perfil', compact('total','solicitudes','noticias','perfil','sinnada', 'publicaciones', 'amistadPendiente', 'amistadExistente', 'amigoUser', 'amigo', 'noHayRelacionEntreEllos'));
+        $carreras=Carrera::all();
+
+        return view('Tecmunity.perfil', compact('carreras','total','solicitudes','noticias','perfil','sinnada', 'publicaciones', 'amistadPendiente', 'amistadExistente', 'amigoUser', 'amigo', 'noHayRelacionEntreEllos'));
     }
 }

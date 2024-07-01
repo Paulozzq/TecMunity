@@ -99,10 +99,17 @@
 
                 </form>
                 <form action="{{ route('grupos.index', ['id' => $grupo->ID_grupos]) }}" method="get" class="mt-2">
-                    <button type="submit" class="button">
-                        Ver Grupo
-                    </button>
+                    @if (!Auth::user()->grupos->contains($grupo->ID_grupos))
+                        <button type="button" class="button" disabled>
+                            Grupo Bloqueado
+                        </button>
+                    @else
+                        <button type="submit" class="button">
+                            Ver Grupo
+                        </button>
+                    @endif
                 </form>
+                
 
                 
                 

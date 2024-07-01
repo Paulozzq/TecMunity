@@ -24,6 +24,7 @@ use App\Http\Controllers\{
     ComentarioGrupoController,
     NoticiaController,
     BuscadorController,
+    PasswordController,
 };
 
 // Rutas de autenticación y registro
@@ -32,6 +33,8 @@ Route::post('/register', [RegisterController::class, 'register'])->name('registe
 Route::get('/', [LoginController::class, 'index'])->name('login');
 Route::post('/login', [LoginController::class, 'login'])->name('loginpost');
 Route::get('/logout', [LogoutController::class, 'logout'])->name('logout');
+Route::get('password/reset-request', [PasswordController::class, 'index'])->name('password.request');
+Route::post('password/email', [PasswordController::class, 'sendResetLinkEmail'])->name('password.email');
 
 // Verificación de email
 Route::get('/espera', function () {

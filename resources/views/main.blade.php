@@ -245,6 +245,7 @@
     <div class="hidden w-[30%] xl:block overflow-y-auto">
         <!-- Search -->
         <div class="flex items-center justify-center mt-8">
+            <i class="fa-solid fa-magnifying-glass text-gray-600 absolute left-4 top-1/2 -translate-y-1/2"></i>
             <div class="relative m-2">
                 @livewire('search-usuario')
             </div>
@@ -288,20 +289,64 @@
                             <p class="text-gray-400">{{ '@' . $solicitud->usuario->username }}</p>
                         </div>
                     </div>
-                    <form action="{{ route('perfil.seguirOtra', $solicitud->usuario->id) }}" method="POST" class="inline follow-form">
+                    <form id="seguirForm{{ $solicitud->usuario->id }}" action="{{ route('perfil.seguirOtra', $solicitud->usuario->id) }}" method="POST" class="inline follow-form">
                         @csrf
                         <button type="submit" class="text-xs font-bold text-blue-400 px-4 py-1 rounded-full border-2 border-blue-400">
                             Seguir
                         </button>
                     </form>
                     
+                    
+               
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<script>
+    $(document).ready(function() {
+        $('.follow-form').submit(function(e) {
+            e.preventDefault(); 
+
+            var form = $(this);
+            var url = form.attr('action');
+            var formData = form.serialize();
+
+            $.ajax({
+                type: 'POST',
+                url: url,
+                data: formData,
+                dataType: 'json',
+                success: function(response) {
+                 
+                    var userId = form.attr('id').replace('seguirForm', '');
+                    $('#solicitudAmistad' + userId).remove();
+
                   
+                    Swal.fire({
+                        icon: 'success',
+                        title: '¡Enhorabuena!',
+                        text: 'Sigue aceptando Solcitudes',
+                    }).then((result) => {
+                      
+                        location.reload();
+                    });
+                },
+                error: function(xhr, status, error) {
+                    console.error('Error:', error);
+                    Swal.fire({
+                        icon: 'error',
+                        title: '¡Error!',
+                        text: 'Hubo un problema al procesar tu solicitud',
+                    });
+                }
+            });
+        });
+    });
+</script>
+
+
                     
                 </div>
             @endforeach
-            <div class="text-blue-400 p-3 cursor-pointer">
-                Mostrar más
-            </div>
+            
         </div>
         
         

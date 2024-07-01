@@ -122,8 +122,16 @@
                 
                 
             
-                <label for="carrera_id" style="color: aliceblue;">ID de Carrera:</label>
-                <input type="number" id="ID_carrera" name="ID_carrera" placeholder="ID de Carrera"style="background-color: transparent; margin: 0 !important; padding: 0.5rem;color:aliceblue" class=" mb-2 w-full" value="{{ $perfil->ID_carrera }}">
+                <label for="ID_carrera" style="color: aliceblue;">Carrera:</label>
+                <select id="ID_carrera" name="ID_carrera" class="mb-2 w-full" style="background-color: transparent; margin: 0 !important; padding: 0.5rem; color: aliceblue;" {{ $perfil->ID_carrera ? 'disabled' : '' }}>
+                    @foreach($carreras as $carrera)
+                        <option style="color:black" value="{{ $carrera->ID_carrera }}" {{ $perfil->ID_carrera == $carrera->ID_carrera ? 'selected' : '' }}>
+                            {{ $carrera->nombre }}
+                        </option>
+                    @endforeach
+                </select>
+                
+                
                 <div class="border-gray-300 border-t"></div><br>
                 <label for="username" style="color: aliceblue;">Nombre de Usuario:</label>
                 <input type="text" id="username" name="username" placeholder="Nombre de Usuario" style="background-color: transparent; margin: 0 !important; padding: 0.5rem;color:aliceblue" class=" mb-2 w-full"value="{{ $perfil->username }}" required>
